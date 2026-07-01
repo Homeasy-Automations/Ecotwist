@@ -92,7 +92,14 @@ const OCCASIONS = [
     accent: '#9c7bb5',
     tag: 'Farewell',
   },
-  
+  {
+    label: 'Diwali Gifting',
+    path: '/occasions/diwali-gifting',
+    icon: Sparkles,
+    desc: 'Celebrate the festival of lights with sustainable gifts.',
+    accent: '#c4735d',
+    tag: 'Seasonal',
+  },  
 ];
 
 /* How many occasions to show before "View All" overflow */
