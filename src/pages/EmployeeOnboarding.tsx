@@ -9,6 +9,16 @@ import {
   AnimatePresence,
 } from 'motion/react';
 import { ArrowRight, Sparkles, Package, Zap } from 'lucide-react';
+import notebook from '../assests/notebook.png';
+import tote from '../assests/jutetote.png';
+import mug from '../assests/ceramicmug.png';
+import bottle from '../assests/bottle.png';
+import hero from '../assests/onboardinghero.png';
+import philosophy from '../assests/onboardingphilosophy.png';
+import singnature from '../assests/onboardingsing.webp';
+import hamper from '../assests/hamper.webp';
+import essentials from '../assests/techessential.webp';
+import welcomekit from '../assests/welcomekit.webp';
 import type { Variants } from 'motion/react';
 
 /* ═══════════════════════════════════════════════════════
@@ -813,27 +823,27 @@ const CATEGORIES = [
     name: 'Welcome Kits',
     desc: 'Essential items to kickstart their journey with style and functionality.',
     tag: 'Day One', accent: '#b5a26a',
-    img: 'https://www.ugaoo.com/cdn/shop/files/3_dcbb5176-f98e-4295-b398-07109556f8b4.jpg?v=1684586261',
+    img: welcomekit,
   },
   {
     name: 'Premium Hampers',
     desc: 'Elevated selections featuring artisan snacks and luxury lifestyle goods.',
     tag: 'Luxury', accent: '#8a7db5',
-    img: 'https://myhealthytreat.in/cdn/shop/files/festivities_2_9a13a481-b68c-4926-ab5d-547c15b1f69f_5000x.jpg?v=1727003867',
+    img: hamper,
   },
   {
     name: 'Custom Tech Essentials',
     desc: 'Modern gadgets designed for the contemporary workspace experience.',
     tag: 'Tech', accent: '#5a8a6e',
-    img: 'https://thegiftingmarketplace.in/cdn/shop/files/JKSR181-Personalized-6in1-Gift-Set.png?v=1742564934',
+    img: essentials,
   },
 ] as const;
 
 const PRODUCTS = [
-  { name: 'Eco-leather Notebook',  sub: 'Sustainable Craftsmanship', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCB4x2s20AO7tMiRWDPKQARVbgyS12OsGuAAkQR-iOBoTYPdP94sX1Gh6q2hpwaPJo3-WAL4nCMMjjVuaa2walojmO_feJhhwPc76gNYYpYCeFp4eb8ZbZ_POHTz8XBGw96klGFRyCZFgfaViWAxCq6_gRAJhjbeZnTfsj5Vep9Uf9bJxbblz42MX94NMjw9UcYCL5I2aWCY-OdCW5wEUomehgyAeXwBQ6Ut056XFHL41LGpQgQbgxyZ7bstt90DQn_eg0S3o1pdG61' },
-  { name: 'Recycled Glass Bottle', sub: 'Mindful Hydration',         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBPuJm55DIUZR17cCt1ML2BbAzMfIBS3cmqac33GDUJFMb8urIgb4PTeUpatnzBf0-N7bsFNCChGcyvPgtdCDWyBUFFADQSu4oGc_irRo3Er0TNwPGOtN4o-H8j2eZe7Y9wnRh7bCpMAPEvOjkLAFAVVudNoc2vC06fjD6aKmLhKp5YERQqNCVAUNlQ8xHITC0hb7N7uEG659woF21VFXgvar7JI3V4hnSWdNvajHFJTai61s5ROHEd5Ly4wzLj8Sq_box686J4PW9B' },
-  { name: 'Sustainable Tote',      sub: 'Daily Versatility',         img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDCw732tbJ6qkJC4AHuCJ41muB5d6qR2Ht24GaHDVwz91Eb5KruhMzSo5g9IUqLGqdXTg9JhCADtNduzkg7wieuPIfDd0vH5x6PcPBnSIRCIPwudJ4dzGTDNX0tRG70zET2TOCVLVCpLmftNxrcRgYLLSBt2LyKcllQQK4sK9-P-RwHe6mRuPBC5skJi9Zbepk_M2fxvN4DYDxIzTh9HxPay0MYwSatMXW46-IprNyAHqIGYMUTJMXVNGdzkNN-83WU7L8890uddRKN' },
-  { name: 'Artisan Ceramic Mug',   sub: 'Morning Rituals',           img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_kWC8Nt5nrobZexBZc1RoAhT__0dTNHRCg0sIDJIavaCx3OBHtGd6ewgJnrKETxeEg4KqBPJ4UZUNwJw9vn3t-lahITo1ILrFssnvSoQjNhGi_dej5vkvRXcNhSU26nl4YLyl4HGdnoZSx9ga3ou8bWNC95ls6iivr1ey7ssRPYDjQqfjvlPUWsLPT5Aqq25LmyE_8reX1CnCzStV3sItMz-UcYb0nTUe9p_GU1krW1OetDDXdgjTQSV0y1nMSxEB_XGqdK1E_W6F' },
+  { name: 'Eco-leather Notebook',  sub: 'Sustainable Craftsmanship', img: notebook},
+  { name: 'Recycled Glass Bottle', sub: 'Mindful Hydration',         img: bottle },
+  { name: 'Sustainable Tote',      sub: 'Daily Versatility',         img: tote },
+  { name: 'Artisan Ceramic Mug',   sub: 'Morning Rituals',           img: mug },
 ] as const;
 
 const WHY = [
@@ -1229,7 +1239,7 @@ export default function EmployeeOnboarding() {
         {/* Parallax photo */}
         <motion.div style={{ y: springImg, willChange: 'transform' }} className="absolute inset-0">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv587IPQUwOmbBxvOooPii6SHfCauO832DoGvj99YWs6oInTYGIt2SH3Wuk-edj9oRSi1-iHtUvfbSY-9oUbia25sxgMSf-sVdK4sqm4f8SxEvW4Lx52WXFSuYKCjIuUIRmvK94ExXGX7dXQS0l8hwRBS6fX6mG6DOSMKi6_ALW6iani8fCFlaQCXh_RGhDkzub5apHvN9qpkmLcr_fWg-3AOgcLWtTVLQznl13GK0jHgbe-WwgIOo4sqfcaY1w84Al-p9AdTtplcR"
+            src={hero}
             alt="Hero" className="w-full h-full object-cover"
             style={{ minHeight: '120%', filter: 'brightness(0.44)' }} />
           <div className="absolute inset-0"
@@ -1348,7 +1358,7 @@ export default function EmployeeOnboarding() {
               style={{ rotateX: atX, rotateY: atY, transformStyle: 'preserve-3d', willChange: 'transform' }}
               className="relative">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlJGvWXIQotMLNkOrlg1A3YQUC-T_fiSWbx1OAMxv5PSrMk3RcFO-K-8qsycz_eVXHMJAEeyVbMpAgC_JKjM3nXAUuvGetaaTZ1v6svLo_eWLyd_3LPT6nEJ40fMfR6Nq_XwcxyedwXeP6QHW0XzOp5-hmwm0ssYqJpIdueNJ7Tm_fcTFcVfbhswkZ8hzpO5wz91FXQywZrYmugzYJ_wqc3LXrfoGexoFyplmMtufxlfU65fB7Ey8ie-aCP42idApzxtCjusNThD7M"
+                src={philosophy}
                 alt="Philosophy" className="w-full rounded-sm shadow-2xl"
                 style={{ aspectRatio: '4/5', objectFit: 'cover' }} />
 
@@ -1518,7 +1528,7 @@ export default function EmployeeOnboarding() {
             transition={{ duration: 0.95, ease: EASING.spring }}
             style={{ perspective: '1000px', position: 'relative' }}>
             <img
-              src="https://i.etsystatic.com/14175065/r/il/aabb82/3677422829/il_570xN.3677422829_quff.jpg"
+              src={singnature}
               alt="Custom branding" className="w-full shadow-2xl rounded-sm"
               style={{ aspectRatio: '1', objectFit: 'cover' }} />
 
