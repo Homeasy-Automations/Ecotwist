@@ -8,6 +8,16 @@ import {
   useInView,
 } from 'motion/react';
 import type { Variants } from 'motion/react';
+import philosophy from '../assests/wellnessphil.png';
+import workspace from '../assests/workspace.jpg';
+import rest from '../assests/restrecovery.png';
+import detox from '../assests/digitaldetox.png';
+import teaset from '../assests/teaset.png';
+import mat from '../assests/yogamat.png';
+import avatar1 from '../assests/avatar1.png';
+import avatar2 from '../assests/avatar2.png';
+import personalization from '../assests/wellnesspersonalization.webp';
+import combo from '../assests/combo.webp';
 import { ArrowRight } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
@@ -568,19 +578,19 @@ const vSlideRight: Variants = {
 ───────────────────────────────────────────── */
 const PRODUCTS = [
   { name: 'Corporate Wellness Saver Combo', sub: 'Starting at $125.00', tag: 'Eco-friendly',
-    img: 'https://thepalmera.in/cdn/shop/files/Corporate_Wellness_Kit_-_Energize_Nourish_and_Revitalize.png?v=1745705586' },
+    img: combo },
   { name: 'Artisanal Tea Press', sub: 'Starting at $85.00', tag: 'Customizable',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBFCZGTksYV5OHO-8JWNTChyqMaKrByVQ48yMzIkZ4uIG9hYs9Z9WpvWY09hVb9N9nmDYF_RSr_DhhUbI8mmPdJUNOzU56hVUulBAazqNnj_B4jIeDndfDglvKPF7czuemGm03h0awjoE4cONwV6vXAqMHvLAdet8brA_5z5EfbGIbZWlwAGVHtHaZQ0qKluRGQSqJU2fxcJXvnvdbMwL-ViAA50iZQLsX43i45UnvpkZMqAza6hv-se8fyCisqfyWjtZtFNcjLJRQu' },
+    img: teaset },
   { name: 'Recycled Yoga Mat', sub: 'Starting at $110.00', tag: 'Eco-friendly',
-    img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQKxR1F1t6R7FX-AvB9VSlXP8vqRywdnAHL2xINsrLbudl8d4xxatKX1U77c2KZO1Xr6JH_8k7ew7tOP94ZUEkvKoVi8NPavnVxRh1UB95gRQ-sL7ITh3AHTkQGephydPIVsgc-G2K-k8NhlFEA357jPvaCpeNTR_4qtN1JPVURA5dSGr5PMCGTn-TZLIDAeZ5S43IXXzXUjiRAhDJ_425eoEGyJ0eh-iUGnI3T7lfQydj2fL-f6fu829Syvra5BiSDN2sbaJJ9239' },
+    img: mat },
 ];
 const CATEGORIES = [
   { name: 'Mindful Workspace', desc: 'Eco-journals, desk plants, and ergonomic tools to create a sanctuary at work.', accent: '#2d4337', tag: 'Focus',
-    img: 'https://i.pinimg.com/736x/f6/ca/1c/f6ca1cc3464f72c165b9524a37827f0b.jpg' },
+    img: workspace },
   { name: 'Rest & Recovery', desc: 'Plush robes, silk eye masks, and artisanal teas for ultimate restoration.', accent: '#8a7db5', tag: 'Restore',
-    img: 'https://i.pinimg.com/736x/05/a9/41/05a94145c536490427f7a433cefb3679.jpg' },
+    img: rest },
   { name: 'Digital Detox', desc: 'Curated physical books, analog timers, and intricate puzzle sets to unplug.', accent: '#b5a26a', tag: 'Unplug',
-    img: 'https://i.pinimg.com/736x/6a/6b/85/6a6b8538f5da6555c220f63b176226d9.jpg' },
+    img: detox },
 ];
 const CUSTOM_ITEMS = [
   { icon: '◈', title: 'Logo Branding',             desc: 'Subtle, high-end placement of your corporate identity.' },
@@ -596,8 +606,8 @@ const WHY = [
   { icon: '◐',  title: 'Wellness Concierge', desc: 'Dedicated expert to design your program.' },
 ];
 const CLIENT_LOGOS = [
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuBJ8KCT9dlqgFJX-Ee3jdYqSbFEUbXuyN7yXPSEgBDe-flJ76G6oUVtV3XjxuLjdFESJBEwFJ2SVSVCuF0vCnxf93nyMZEHegrkrnznUi-lRVA-l4j0DgjLWXYM9Rj6Fwsn3iVPsh1nQ9qEyFuQO-H8z48RzKf7nQDaRaO24-xor7_a8-DzKHhP9VF69KlJRqd1_vEyvoYc1EPieLY5_bb4nlugenWU1bkKOMrgM-V1N9Rlh0ggs_tM3rJ6smV_5TVxMpMzHFT04fQW',
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuBXlx7hI7Sy7s9KAycqMkgqGlTx54R0WbSPxNDnzO6T8OQoqSAlLQUAvry77l4DPV0imlMDFWSwrfYyFSLFyPRp0ok3FNiZFoSlj1cPUkbJbhQkduD36YaZv3qWEYTI3_K2DTwVCh3I4a8BTXla9BKktmVEBwNJatu0kIR0vavB7jAYw61JeBBqdlKM1oBYsENMfFV0kB1hJOqmYy_krqxz7HSzHBDKMOvUWkF7_W1UWOo1BsnxsdvPpxYaJurceTL4yFbZwHVL--iv',
+  avatar1,
+  avatar2,
 ];
 
 /* ─────────────────────────────────────────────
@@ -850,7 +860,7 @@ export default function EmployeeWellness() {
             transition={{ duration:0.85, ease:EASE }} style={{ perspective:'1200px' }}>
             <motion.div ref={aRef} onMouseMove={aMM} onMouseLeave={aML}
               style={{ rotateX:aX, rotateY:aY, transformStyle:'preserve-3d', willChange:'transform' }}>
-              <img src="https://cdn.dribbble.com/userupload/47107366/file/803086a23e1f0beb00b837c8b9901ee3.webp?resize=400x0"
+              <img src={philosophy}
                 alt="Wellness" className="w-full rounded-2xl shadow-2xl"
                 style={{ aspectRatio:'4/5', objectFit:'cover' }}/>
             </motion.div>
@@ -926,7 +936,7 @@ export default function EmployeeWellness() {
             <div className="absolute inset-0 rounded-3xl opacity-50"
               style={{ background:'#2d4337', transform:'rotate(3deg) scale(0.95)' }}/>
             <div className="relative rounded-3xl overflow-hidden p-6" style={{ background:'#f1f1ef' }}>
-              <img src="https://brownliving.in/cdn/shop/files/sustainable-delight-essentials-kit-daily-self-care-must-haves-by-namaskar-lifestyle-at-brownliving-500926.png?v=1739965301"
+              <img src={personalization}
                 alt="Packaging" className="w-full rounded-2xl shadow-xl" style={{ aspectRatio:'1', objectFit:'cover' }}/>
             </div>
           </motion.div>
