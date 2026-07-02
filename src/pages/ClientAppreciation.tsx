@@ -8,6 +8,15 @@ import {
   useInView,
 } from "framer-motion";
 import type { Variants } from "framer-motion";
+import exebox from "../assests/exeboxes.png";
+import client from "../assests/client.png";
+import custom from "../assests/customtech.png";
+import catalyst from "../assests/catalyst.png";
+import grand from "../assests/celebration.png";
+import lenin from "../assests/lenin.jpg";
+import morning from "../assests/coffe.jpg";
+import clientperso from "../assests/clientperso.png";
+import madhubani from "../assests/madhubani.jpg";
 import { ArrowRight } from "lucide-react";
 
 function useTilt(strength = 10) {
@@ -58,15 +67,15 @@ const vSlideRight: Variants = {
 };
 
 const PRODUCTS = [
-  { name: "The Wellness Suite", sub: "Organic Linen & Essential Oils", price: "$145.00", img: "https://m.media-amazon.com/images/I/71B4GyjXnnL.jpg" },
-  { name: "Morning Ritual", sub: "Artisanal Coffee & Copper Press", price: "$120.00", img: "https://i.pinimg.com/474x/41/73/e4/4173e4efbdaf93fbf17adc1d32dc0111.jpg" },
-  { name: "The Catalyst", sub: "Recycled Leather & Brass Stylus", price: "$95.00", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBau4mGYfK9psoJHrysrWzFISlXvSoIgdJfNhBE-Lwje8S9oRaNfww3rxMYocMBBpb-iljnd_TbC6unC6t4VbHlr3UZIItnZoGPH1yh6xdiUUqScpIYYN_3DoEZY_6oRv1ROOEgGX7a5dYM9NkLfz_qL85CBV8YobDxLuuusn6jo6HHQ8gbSdu9s4LUy3Sb2wegRl2rlEBtsv_L319l_Z6OIKhTuKd-COgQm4e6kU_OWb-lZgbpN7y7vK0f7a-r3nNkaspjhm1fzjVe" },
-  { name: "Grand Celebration", sub: "Vintage Cuvee & Cocoa Nib Truffles", price: "$210.00", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDQfeCVI8WU7s7LtxYKupXcSYIRY0xeLJkgpRe7qA5RRQ5pojovxPqXIzLWc_mZct8uNlQswJBt6NudLFxW-xJpb11i1odnNd9orlMpR3powbBS4q0MqgUzvoxreJU5KRWzaF5ws6FX62XyRGesJCr8KaPyUogu04LCe7yAxZG9_EmDDYShJBVwSbLC4ui1_r8_S2qxS2LIJ2IMcwVzTfsTAYVgANrKFyqt2OXOmVkc3ZSohD_SvGMuC8fN2Y-eYS1X1V1Oq5CSiecX" },
+  { name: "The Wellness Suite", sub: "Organic Linen & Essential Oils", price: "$145.00", img: lenin },
+  { name: "Morning Ritual", sub: "Artisanal Coffee & Copper Press", price: "$120.00", img: morning },
+  { name: "The Catalyst", sub: "Recycled Leather & Brass Stylus", price: "$95.00", img: catalyst },
+  { name: "Grand Celebration", sub: "Vintage Cuvee & Cocoa Nib Truffles", price: "$210.00", img: grand },
 ];
 const CATEGORIES = [
-  { name: "Executive Boxes", desc: "Sophisticated essentials for the modern C-suite leader.", accent: "#b5a26a", tag: "Executive", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBZLh_df9ZWaGxUlYq9Fki4MeyWoD9bxHssh215J96Vp2aek9_VSHIl0Cz-WMI8u_ejEH0RMTrW64ZH32jFWqaVuBB9s3fXJfbBTQBFDbCTBoOyS1gwYOYSXOEUXmS8jScDQ1fvsMuum24mwye8NqEjW_Zh-9S1QlFsu-mYTEZJ05TzTAKlWrL8ZSFVaRZQBcO0BcKx0W3vSsESoY_X6IRReoAzt1Tb56NiylMkjV0OrkYsnHTpCQqSmEWpQdJl_q-uGX6u3Ls9UBnl" },
-  { name: "Artisanal Curations", desc: "Handmade ceramics and small-batch treats from local makers.", accent: "#c4735d", tag: "Artisan", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCr2V88w8yJO5M61sDG7tH_NyFGrLWpk_-dGYclkMOCh_z0ewpa2DAsBR2rYPWXKPjEUDvvvsNIZZx7BvD_-8OEZQB10USZtffkIxkMHuZgBX2xb0rXJn7hq9YdRxcQn_9mAWGt0GZho6xdt3EiaQ9x0Ikf6bLLgnNflbkJk5conNC8pxc4A0Hg5roUbsukUjahaqi7_fGhGjrGhSvMVwHLYJwGwK74GlPkOqIHpEaqf-raEP9TC_DiQmrtLKp6OBXfNLjKsJJ-4Td5" },
-  { name: "Custom Tech", desc: "Seamlessly integrated technology in eco-conscious housing.", accent: "#5a8a6e", tag: "Tech", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBg7eWQVoOh92uMj3uFCQdxzCQTevaIAtbeuyW-rXeg6MIGQkEQpEi_flaLf06XiUz4rA0DUboUnBdgNTUEH_1GpRy7uA8n6Ka9B1qOi40xZr8DqpdWaG0dTqRLiN5SMiMwS-_Bvn1dtz0oNtth7f9mn7QjyNPQh9uCwUc3zkcOzeEZvJWz_tho6yWbGBbyajSj2OZCdq0sDoo4yIgoaJvOtafIOS10uU_10lCk1psdXzy5SZzaET2byRGt_Y2_45ZRFUu7GvdsWvx9" },
+  { name: "Executive Boxes", desc: "Sophisticated essentials for the modern C-suite leader.", accent: "#b5a26a", tag: "Executive", img: exebox },
+  { name: "Artisanal Curations", desc: "Handmade ceramics and small-batch treats from local makers.", accent: "#c4735d", tag: "Artisan", img: client },
+  { name: "Custom Tech", desc: "Seamlessly integrated technology in eco-conscious housing.", accent: "#5a8a6e", tag: "Tech", img: custom },
 ];
 const FEATURES = [
   { icon: "🌿", title: "100% Plastic Free", desc: "Fully compostable materials" },
@@ -828,13 +837,13 @@ export default function ClientAppreciation() {
       </section>
 
       {/* ══ ABOUT ═════════════════════════════════════════════ */}
-      <section ref={aboutRef} className="py-32 px-8 md:px-20 lg:px-32 bg-white overflow-hidden">
+      <section ref={aboutRef} className="py-16 px-8 md:px-20 lg:px-32 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
           <motion.div initial={{opacity:0,scale:0.82}} animate={aboutInView?{opacity:1,scale:1}:{opacity:0,scale:0.82}}
             transition={{duration:0.85,ease:EASE}} style={{perspective:"1200px"}}>
             <motion.div ref={aboutTiltRef} onMouseMove={atMM} onMouseLeave={atML}
               style={{rotateX:atX,rotateY:atY,transformStyle:"preserve-3d",willChange:"transform"}}>
-              <img src="https://m.media-amazon.com/images/I/81hz1wn55mL.jpg" alt="About"
+              <img src={madhubani} alt="About"
                 className="w-full rounded-2xl shadow-2xl" style={{aspectRatio:"4/5",objectFit:"cover"}}/>
             </motion.div>
           </motion.div>
@@ -863,10 +872,10 @@ export default function ClientAppreciation() {
       </section>
 
       {/* ══ CATEGORIES ════════════════════════════════════════ */}
-      <section ref={catRef} className="py-32 px-8 md:px-20 lg:px-32 overflow-hidden" style={{background:"#f5f5f4"}}>
+      <section ref={catRef} className="py-16 px-8 md:px-20 lg:px-32 overflow-hidden" style={{background:"#f5f5f4"}}>
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{opacity:0,y:30}} animate={catInView?{opacity:1,y:0}:{opacity:0,y:30}}
-            transition={{duration:0.6}} className="text-center mb-16">
+            transition={{duration:0.6}} className="text-center mb-8">
             <h2 className="text-5xl font-serif text-gray-900 mb-4">Curated Collections</h2>
             <p className="text-gray-500 max-w-sm mx-auto text-sm">Discover the perfect alignment for your brand's aesthetic and values.</p>
           </motion.div>
@@ -878,7 +887,7 @@ export default function ClientAppreciation() {
       </section>
 
       {/* ══ PRODUCTS ══════════════════════════════════════════ */}
-      <section className="py-32 px-8 md:px-20 lg:px-32 bg-white overflow-hidden">
+      <section className="py-16 px-8 md:px-20 lg:px-32 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <motion.div initial={{opacity:0,y:24}} whileInView={{opacity:1,y:0}}
             viewport={{once:false,amount:0.3}} transition={{duration:0.6}}
@@ -897,7 +906,7 @@ export default function ClientAppreciation() {
       </section>
 
       {/* ══ CUSTOMIZATION ═════════════════════════════════════ */}
-      <section ref={custRef} className="py-32 px-8 md:px-20 lg:px-32 overflow-hidden" style={{background:"#1c1917"}}>
+      <section ref={custRef} className="py-16 px-8 md:px-20 lg:px-32 overflow-hidden" style={{background:"#1c1917"}}>
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
           <motion.div variants={vSlideLeft} initial="hidden" animate={custInView?"show":"hidden"}>
             <p className="text-[10px] uppercase tracking-[0.28em] font-bold mb-4" style={{color:"rgba(181,162,106,0.7)"}}>Personalization</p>
@@ -921,7 +930,7 @@ export default function ClientAppreciation() {
           <motion.div variants={vSlideRight} initial="hidden" animate={custInView?"show":"hidden"} style={{position:"relative"}}>
             <div className="absolute -inset-4 rounded-2xl" style={{background:"rgba(6,78,59,0.2)",filter:"blur(40px)"}}/>
             <div className="relative overflow-hidden rounded-2xl">
-              <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq14aVTHnFOap7-eQaO1Wp0-cYnBpRqmJeaUpYnrV39WqUDHJ_ZrPbGq3Wfr0Y0C3YSOldvoJR3gpqvN7L_ZQ0q4haEdh7-Xun9QKPZw8DiYM5qfxaSm9akDI6tvj21l5Dx-0O0vXTReRmmMi-GIlfm9Gw0iWvFbNICdWTR7Xbr14vEwiBTEVfFcxE2Qv5KziCQEJVS79LZA2gcAuddIT8k1Qzg-lNEAijMPsblQmlu-8nQjKH7FclDGKY_9FGuYWUiNkatymFWI5Q"
+              <img src={clientperso}
                 alt="Custom" className="w-full rounded-2xl" style={{filter:"grayscale(0.55)",transition:"filter 1s"}}
                 onMouseEnter={e=>{(e.currentTarget as HTMLImageElement).style.filter="grayscale(0)";}}
                 onMouseLeave={e=>{(e.currentTarget as HTMLImageElement).style.filter="grayscale(0.55)";}}/>
