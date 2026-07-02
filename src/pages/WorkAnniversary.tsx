@@ -3,6 +3,13 @@ import {
   motion, useScroll, useTransform, useSpring, useMotionValue, useInView,
 } from 'motion/react';
 import type { Variants } from 'motion/react';
+import award from '../assests/Award.png';
+import giftingset from '../assests/giftingset.png';
+import hamper from '../assests/journeyhamper.png';
+import milestone from '../assests/milestone.png';
+import folio from '../assests/leatherfolio.png';
+import planter from '../assests/deskplanter.png';
+import gift from '../assests/customizedgift.webp';
 import { ArrowRight } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
@@ -946,14 +953,14 @@ const ACCENT_DARK = '#0f1f11';
    DATA
 ───────────────────────────────────────────── */
 const PRODUCTS = [
-  { name: 'Milestone Memory Box',   sub: 'Starting at ₹1,799', tag: 'Premium',      img: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&q=80' },
-  { name: 'Heritage Leather Folio', sub: 'Starting at ₹2,499', tag: 'Customizable', img: 'https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=600&q=80' },
-  { name: 'Premium Desk Planter',   sub: 'Starting at ₹999',   tag: 'Eco-friendly', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80' },
+  { name: 'Milestone Memory Box',   sub: 'Starting at ₹1,799', tag: 'Premium',      img: milestone },
+  { name: 'Heritage Leather Folio', sub: 'Starting at ₹2,499', tag: 'Customizable', img: folio },
+  { name: 'Premium Desk Planter',   sub: 'Starting at ₹999',   tag: 'Eco-friendly', img: planter },
 ];
 const CATEGORIES = [
-  { name: 'Years of Service Awards', desc: 'Elegantly crafted plaques, trophies, and keepsakes marking 1, 5, 10, and 25-year milestones.', accent: ACCENT,   tag: 'Legacy',  img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=800&q=80' },
-  { name: 'Executive Gifting Sets',  desc: 'Premium leather goods, fine stationery, and desk accessories for senior milestones.',           accent: '#5a7a5e', tag: 'Premium', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80' },
-  { name: 'Growth Journey Hampers',  desc: 'Curated hampers celebrating professional growth — books, planners, and artisanal treats.',      accent: '#4a6e6e', tag: 'Growth',  img: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=800&q=80' },
+  { name: 'Years of Service Awards', desc: 'Elegantly crafted plaques, trophies, and keepsakes marking 1, 5, 10, and 25-year milestones.', accent: ACCENT,   tag: 'Legacy',  img: award },
+  { name: 'Executive Gifting Sets',  desc: 'Premium leather goods, fine stationery, and desk accessories for senior milestones.',           accent: '#5a7a5e', tag: 'Premium', img: giftingset },
+  { name: 'Growth Journey Hampers',  desc: 'Curated hampers celebrating professional growth — books, planners, and artisanal treats.',      accent: '#4a6e6e', tag: 'Growth',  img: hamper },
 ];
 const CUSTOM_ITEMS = [
   { icon: '🏅', title: 'Year Engraving',    desc: 'Milestone year and name laser-etched on premium products.' },
@@ -1320,7 +1327,7 @@ export default function WorkAnniversary() {
             <div className="absolute inset-0 rounded-3xl opacity-40"
               style={{ background: ACCENT, transform: 'rotate(3deg) scale(0.95)' }} />
             <div className="relative rounded-3xl overflow-hidden p-6" style={{ background: '#ebf3ec' }}>
-              <img src="https://verveet.com/cdn/shop/files/customized-office-gift-set.jpg?v=1740558823"
+              <img src={gift}
                 className="w-full rounded-2xl shadow-xl" style={{ aspectRatio: '1', objectFit: 'cover' }} />
             </div>
           </motion.div>
