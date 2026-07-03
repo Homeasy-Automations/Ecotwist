@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 /* ─────────────────────────────────────────────
    Only animation keyframes injected globally.
@@ -158,6 +159,9 @@ const STEPS = [
 ];
 
 export const Configurator = () => {
+
+  const navigate = useNavigate();
+
   const [step, setStep]           = React.useState(1);
   const [contentKey, setContentKey] = React.useState(0);   // drives re-mount of content only
   const [selected, setSelected]   = React.useState<Record<number,string>>({
@@ -297,10 +301,16 @@ export const Configurator = () => {
                 </button>
 
                 <button
-                  onClick={() => goToStep(Math.min(step + 1, 4))}
+                  onClick={() => {
+                    if (step === 4) {
+                      navigate("/product");
+                    } else {
+                      goToStep(step + 1);
+                    }
+                  }}
                   className="btn-sweep bg-brand-dark-olive text-brand-beige px-12 py-5 text-[10px] font-bold uppercase tracking-widest"
                 >
-                  <span>{step === 4 ? 'Finish' : 'Continue'}</span>
+                  <span>{step === 4 ? "Finish" : "Continue"}</span>
                 </button>
               </div>
             </div>

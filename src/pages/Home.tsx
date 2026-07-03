@@ -16,6 +16,9 @@ import conf from '../assests/confe.png';
 import emp from '../assests/empl.png';
 import heroVideo from '../assests/hero1.mp4';
 import OurClients from '../components/client';
+import curated1 from '../assests/homecure1.jpg'
+import curated2 from '../assests/contact2.jpeg'
+import impact from '../assests/homeimpact.avif'
 import EcotwistComingSoon from '../components/Coming';
 /* ─────────────────────────────────────────────
    TYPES
@@ -832,8 +835,8 @@ export const Home = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 lg:gap-10">
             {[
-              { title: 'Executive Gift Box', tier: 'Premium Tier', price: '₹4500', desc: 'Hand-pressed recycled paper journals, organic tea blends, and artisanal ceramics.', img: 'https://reanpackaging.com/wp-content/uploads/elementor/thumbs/1-1-qyl1mj7qhtcqwazuccldtnc4arxys4urhcy5zv9u74.jpg', x: -60 },
-              { title: 'Onboarding Kits', tier: 'Essentials Tier', price: '₹2500', desc: 'Everything a new hire needs: Bamboo water bottles, cork coasters, and upcycled bags.', img: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop', x: 60 },
+              { title: 'Executive Gift Box', tier: 'Premium Tier', price: '₹4500', desc: 'Hand-pressed recycled paper journals, organic tea blends, and artisanal ceramics.', img: curated1, x: -60 },
+              { title: 'Onboarding Kits', tier: 'Essentials Tier', price: '₹2500', desc: 'Everything a new hire needs: Bamboo water bottles, cork coasters, and upcycled bags.', img: curated2, x: 60 },
             ].map((bundle) => <BundleCard key={bundle.title} bundle={bundle} />)}
           </div>
         </div>
@@ -844,7 +847,7 @@ export const Home = () => {
         <div className="max-w-[1700px] mx-auto grid grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-10 sm:gap-14 lg:gap-20 items-center">
           <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.15 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="relative">
             <div className="aspect-square rounded-full overflow-hidden border-[6px] sm:border-[8px] lg:border-[10px] border-white shadow-2xl max-w-[220px] sm:max-w-xs md:max-w-sm lg:max-w-md mx-auto lg:mx-0">
-              <motion.img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop" alt="Artisan weaving" style={{ y: springImpactY, scale: 1.03, willChange: 'transform' }} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <motion.img src={impact} alt="Artisan weaving" style={{ y: springImpactY, scale: 1.03, willChange: 'transform' }} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
 
             <motion.div

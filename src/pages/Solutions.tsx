@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import conf from '../assests/confe.png';
+import hero from '../assests/contact2.jpeg';
 import emp from '../assests/empl.png';
 /* ================================================================
    HOOK: 3D TILT + GLOW FOLLOW
@@ -504,7 +505,7 @@ const cards = occasionData.map((item) => ({
                 transition={{ delay: 1.45, duration: 0.38 }}
               />
               <motion.img
-                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2040&auto=format&fit=crop"
+                src={hero}
                 className="w-full aspect-[4/5] object-cover"
                 animate={{
                   y: [0, -15, 0],

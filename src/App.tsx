@@ -9,6 +9,7 @@ import Contact      from './pages/Contact';
 import { Solutions } from "./pages/Solutions";
 import Configurator from './pages/Configurator';
 import Impact       from './pages/Impact';
+// import  ThankYou  from './pages/ThankYou';
 
 // ── Original 5 Occasion pages ─────────────────────────
 import ClientAppreciation from './pages/ClientAppreciation';
@@ -63,6 +64,7 @@ const AnimatedRoutes = () => {
         <Route path="/configurator" element={<PageWrapper><Configurator /></PageWrapper>} />
         <Route path="/impact"       element={<PageWrapper><Impact /></PageWrapper>} />
         <Route path="/product"      element={<PageWrapper><ProductList /></PageWrapper>} />
+        {/* <Route path="/thanks"      element={<PageWrapper><ThankYou /></PageWrapper>} /> */}
 
         {/* ── Original 5 occasion routes ── */}
         <Route path="/occasions/client-appreciation" element={<PageWrapper><ClientAppreciation /></PageWrapper>} />

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useNavigate } from "react-router-dom";
 import { motion, useSpring, useMotionValue, useAnimationFrame, useInView, useTransform, animate } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import contact1 from "../assests/contact1.jpeg"
@@ -116,6 +117,7 @@ type LandingImageCardProps = {
   tag: string;
   accent: string;
   fromLeft?: boolean;
+  onClick?: () => void;
 };
 
 function LandingImageCard({
@@ -123,7 +125,8 @@ function LandingImageCard({
   label,
   tag,
   accent,
-  fromLeft = true
+  fromLeft = true,
+  onClick,
 }: LandingImageCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.25 });
@@ -178,9 +181,26 @@ function LandingImageCard({
           <motion.div initial={{ opacity: 0 }} animate={isVisible ? { opacity: [0, 0.6, 0] } : { opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.25 }}
             style={{ position: 'absolute', inset: -24, borderRadius: 8, zIndex: -1, pointerEvents: 'none', background: 'radial-gradient(ellipse at center, rgba(181,162,106,0.45) 0%, transparent 70%)' }} />
-          <motion.div ref={tiltRef} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}
-            style={{ rotateX: springX, rotateY: springY, transformStyle: 'preserve-3d', willChange: 'transform' }}
-            whileHover={{ scale: 1.02, transition: { type: 'spring', stiffness: 200, damping: 22 } }}
+          <motion.div
+            ref={tiltRef}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            onClick={onClick}
+            style={{
+              rotateX: springX,
+              rotateY: springY,
+              transformStyle: "preserve-3d",
+              willChange: "transform",
+            }}
+            whileHover={{
+              scale: 1.02,
+              transition: {
+                type: "spring",
+                stiffness: 200,
+                damping: 22,
+              },
+            }}
+            whileTap={{ scale: 0.98 }}
             className="relative overflow-hidden rounded-sm shadow-lg bg-white border border-gray-100 group cursor-pointer"
           >
             <motion.div className="absolute inset-0 pointer-events-none z-10"
@@ -428,6 +448,8 @@ export const Contact = () => {
   const { y: floatY, rotateZ: floatRotZ } = useFloat(6, 0.0007);
   const glareStyle = useTransform([glareX, glareY], ([gx, gy]) => `radial-gradient(ellipse 60% 50% at ${gx}% ${gy}%, rgba(255,255,255,0.18) 0%, transparent 70%)`);
 
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM_DATA);
   const [errors, setErrors] = useState<ContactFormErrors>(EMPTY_ERRORS);
   const [touched, setTouched] = useState<ContactFormTouched>(EMPTY_TOUCHED);
@@ -587,14 +609,17 @@ export const Contact = () => {
                 label="Sustainable Gifting"
                 tag="Eco"
                 accent="#5a8a6e"
-                fromLeft={true}
+                fromLeft
+                onClick={() => navigate("/products")}
               />
+
               <LandingImageCard
                 src={contact2}
                 label="Eco Luxury Craft"
                 tag="Artisan"
                 accent="#b5a26a"
                 fromLeft={false}
+                onClick={() => navigate("/solutions")}
               />
             </div>
 
