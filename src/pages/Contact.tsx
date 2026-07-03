@@ -1,6 +1,36 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, useSpring, useMotionValue, useAnimationFrame, useInView, useTransform, animate } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import contact1 from "../assests/contact1.jpeg"
+import contact2 from "../assests/contact2.jpeg"
+import { IoSend } from 'react-icons/io5';
+
+/* ════════════════════════════════════════════
+   TYPES
+════════════════════════════════════════════ */
+type FieldId = 'name' | 'company' | 'email' | 'phone' | 'interest' | 'message';
+
+interface ContactFormData {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  interest: string;
+  message: string;
+}
+
+type ContactFormErrors = Record<FieldId, string>;
+type ContactFormTouched = Record<FieldId, boolean>;
+
+type SubmissionKind = 'consultation' | 'call';
+type SubmissionStatus =
+  | { state: 'idle' }
+  | { state: 'loading'; kind: SubmissionKind };
+
+interface ApiResponse {
+  success: boolean;
+  message?: string;
+}
 
 /* ── HOOKS (identical to Home) ── */
 function useTilt(strength = 12) {
@@ -12,7 +42,7 @@ function useTilt(strength = 12) {
   const springConfig = { stiffness: 200, damping: 22, mass: 0.6 };
   const springX = useSpring(rotateX, springConfig);
   const springY = useSpring(rotateY, springConfig);
-  const onMouseMove = useCallback((e) => {
+  const onMouseMove = useCallback((e: React.MouseEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const dx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
@@ -36,27 +66,11 @@ function useFloat(amplitude = 10, speed = 0.0008) {
   return { y, rotateZ };
 }
 
-function useMagnetic(strength = 0.35) {
-  const ref = useRef(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 350, damping: 28 });
-  const springY = useSpring(y, { stiffness: 350, damping: 28 });
-  const onMouseMove = useCallback((e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - (rect.left + rect.width / 2)) * strength);
-    y.set((e.clientY - (rect.top + rect.height / 2)) * strength);
-  }, [strength, x, y]);
-  const onMouseLeave = useCallback(() => { x.set(0); y.set(0); }, [x, y]);
-  return { ref, springX, springY, onMouseMove, onMouseLeave };
-}
-
 /* ── PARTICLE TRAIL (identical to Home) ── */
 function ParticleTrail() {
-  const [particles, setParticles] = useState([]);
+  const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
   const idRef = useRef(0);
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     const id = idRef.current++;
     setParticles(prev => [...prev.slice(-18), { id, x: e.clientX, y: e.clientY }]);
     setTimeout(() => setParticles(prev => prev.filter(p => p.id !== id)), 700);
@@ -80,13 +94,13 @@ function ParticleTrail() {
 }
 
 /* ── ANIMATED COUNTER (identical to Home) ── */
-function AnimatedCounter({ value }) {
-  const ref = useRef(null);
+function AnimatedCounter({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement | null>(null);
   const isInView = useInView(ref, { once: false, amount: 0.5 });
   const [displayed, setDisplayed] = useState(0);
   const numericValue = parseInt(value.replace(/[^0-9]/g, ''));
-  const prefix = value.match(/^[^0-9]*/)[0];
-  const postfix = value.match(/[^0-9]*$/)[0];
+  const prefix = value.match(/^[^0-9]*/)?.[0] ?? '';
+  const postfix = value.match(/[^0-9]*$/)?.[0] ?? '';
   useEffect(() => {
     if (!isInView) { setDisplayed(0); return; }
     const controls = animate(0, numericValue, { duration: 1.8, ease: [0.22, 1, 0.36, 1], onUpdate: v => setDisplayed(Math.floor(v)) });
@@ -110,10 +124,10 @@ function LandingImageCard({
   tag,
   accent,
   fromLeft = true
-}: LandingImageCardProps)  {
-  const cardRef = useRef(null);
+}: LandingImageCardProps) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(cardRef, { once: false, amount: 0.25 });
-  const [phase, setPhase] = useState('hidden');
+  const [phase, setPhase] = useState<'hidden' | 'warping' | 'landed' | 'settled'>('hidden');
   const [shockwave, setShockwave] = useState(false);
   const [scanLine, setScanLine] = useState(false);
   const { ref: tiltRef, springX, springY, onMouseMove, onMouseLeave } = useTilt(6);
@@ -207,16 +221,21 @@ function LandingImageCard({
   );
 }
 
-/* ── FORM FIELD — floating label + animated underline ── */
-/** @param {{ label: string, id: string, type?: string, placeholder?: string, children?: any, rows?: number }} props */
-type FormFieldProps = {
+/* ── FORM FIELD — floating label + animated underline + validation ── */
+interface FormFieldProps {
   label: string;
-  id: string;
+  id: FieldId;
   type?: string;
   placeholder?: string;
   children?: React.ReactNode;
   rows?: number | null;
-};
+  value: string;
+  onChange: (id: FieldId, value: string) => void;
+  onBlur: (id: FieldId) => void;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+}
 
 function FormField({
   label,
@@ -224,20 +243,47 @@ function FormField({
   type = 'text',
   placeholder = '',
   children = null,
-  rows = null
-}: FormFieldProps) {  const [focused, setFocused] = useState(false);
-  const [filled, setFilled] = useState(false);
-  const inputRef = useRef(null);
+  rows = null,
+  value,
+  onChange,
+  onBlur,
+  error = '',
+  required = false,
+  disabled = false,
+}: FormFieldProps) {
+  const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>(null);
+  const filled = !!value;
   const active = focused || filled;
+  const hasError = !!error;
+  const isValid = !hasError && filled;
 
-  const base = {
+  const base: any = {
     ref: inputRef,
     id,
+    value,
+    disabled,
     onFocus: () => setFocused(true),
-    onBlur: (e) => { setFocused(false); setFilled(!!e.target.value); },
-    className: 'w-full bg-transparent pt-7 pb-3 px-4 text-base focus:outline-none resize-none appearance-none',
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => onChange(id, e.target.value),
+    onBlur: () => { setFocused(false); onBlur(id); },
+    className: 'w-full bg-transparent pt-7 pb-3 px-4 text-base focus:outline-none resize-none appearance-none disabled:opacity-60 disabled:cursor-not-allowed',
     style: { fontFamily: 'inherit' },
+    'aria-invalid': hasError,
   };
+
+  const borderColor = hasError
+    ? '#dc2626'
+    : (focused || isValid)
+      ? '#22a355'
+      : filled
+        ? 'rgba(34,163,85,0.35)'
+        : 'rgba(0,0,0,0.15)';
+
+  const boxShadow = hasError
+    ? '0 0 0 3px rgba(220,38,38,0.12)'
+    : (focused || isValid)
+      ? '0 0 0 3px rgba(34,163,85,0.12)'
+      : '0 0 0 0px rgba(34,163,85,0)';
 
   return (
     <div className="relative" style={{ paddingTop: 20 }}>
@@ -247,7 +293,7 @@ function FormField({
         animate={{
           y: active ? 4 : 30,
           scale: active ? 1 : 1.15,
-          color: focused ? '#5c7a3e' : '#999',
+          color: hasError ? '#dc2626' : focused ? '#22a355' : '#999',
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 26 }}
         style={{
@@ -264,15 +310,12 @@ function FormField({
           userSelect: 'none',
           pointerEvents: active ? 'none' : 'all',
         }}
-      >{label}</motion.label>
+      >{label}{required ? ' *' : ''}</motion.label>
 
       <motion.div
-        animate={{
-          borderColor: focused ? '#5c7a3e' : filled ? 'rgba(92,122,62,0.4)' : 'rgba(0,0,0,0.15)',
-          boxShadow: focused ? '0 0 0 3px rgba(92,122,62,0.12)' : '0 0 0 0px rgba(92,122,62,0)',
-        }}
+        animate={{ borderColor, boxShadow }}
         transition={{ duration: 0.25 }}
-        style={{ borderWidth: 1, borderStyle: 'solid', borderRadius: 6, overflow: 'hidden', backgroundColor: focused ? 'rgba(92,122,62,0.02)' : 'transparent' }}
+        style={{ borderWidth: 1, borderStyle: 'solid', borderRadius: 6, overflow: 'hidden', backgroundColor: focused ? 'rgba(34,163,85,0.02)' : 'transparent' }}
       >
         {children
           ? <select {...base}>{children}</select>
@@ -281,26 +324,187 @@ function FormField({
             : <input {...base} type={type} placeholder={active ? placeholder : ''} />
         }
       </motion.div>
+
+      {hasError && (
+        <motion.p
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            fontSize: 10,
+            fontWeight: 700,
+            letterSpacing: '0.04em',
+            color: '#dc2626',
+            marginTop: 6,
+            marginLeft: 4,
+          }}
+        >{error}</motion.p>
+      )}
     </div>
   );
 }
 
+/* ── VALIDATION ── */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateField(id: FieldId, value: string): string {
+  const v = value.trim();
+  switch (id) {
+    case 'name':
+      if (!v) return 'Please enter your name';
+      if (v.length < 2) return 'Name looks too short';
+      return '';
+    case 'company':
+      if (!v) return 'Please enter your company name';
+      return '';
+    case 'email':
+      if (!v) return 'Please enter your work email';
+      if (!EMAIL_RE.test(v)) return 'Enter a valid email address';
+      return '';
+    case 'phone': {
+      if (!v) return 'Please enter your mobile number';
+      const digits = v.replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 13) return 'Enter a valid mobile number';
+      return '';
+    }
+    case 'interest':
+      if (!v) return 'Please select an area of interest';
+      return '';
+    case 'message':
+      if (!v) return 'Tell us a bit about your project';
+      if (v.length < 10) return 'Please add a few more details';
+      return '';
+    default:
+      return '';
+  }
+}
+
+const FIELD_IDS: FieldId[] = ['name', 'company', 'email', 'phone', 'interest', 'message'];
+
+const EMPTY_FORM_DATA: ContactFormData = { name: '', company: '', email: '', phone: '', interest: '', message: '' };
+const EMPTY_ERRORS: ContactFormErrors = { name: '', company: '', email: '', phone: '', interest: '', message: '' };
+const EMPTY_TOUCHED: ContactFormTouched = { name: false, company: false, email: false, phone: false, interest: false, message: false };
+
+/* ── API CALL — local persistence (unchanged) ── */
+async function submitContactForm(
+    data: ContactFormData,
+    kind: SubmissionKind
+  ): Promise<ApiResponse> {
+
+    const existing = JSON.parse(
+      localStorage.getItem("contactSubmissions") || "[]"
+    );
+
+    const newSubmission = {
+      id: Date.now(),
+      ...data,
+      type: kind,
+      submittedAt: new Date().toISOString(),
+    };
+
+    existing.push(newSubmission);
+
+    localStorage.setItem(
+      "contactSubmissions",
+      JSON.stringify(existing)
+    );
+
+    return {
+      success: true,
+      message: "Saved successfully."
+    };
+  }
+
 /* ════════════════════════════════════════════
    CONTACT — MAIN
+   Success/error messaging now matches Sumedha's form:
+     - Validation failure → inline field errors only, no alert
+     - Successful submission → alert(result.message) then reset form
+     - Network/server failure → alert("Something went wrong")
 ════════════════════════════════════════════ */
 export const Contact = () => {
-  const { ref: magnetRef, springX: magX, springY: magY, onMouseMove: magMove, onMouseLeave: magLeave } = useMagnetic(0.28);
   const { ref: tiltRef, springX, springY, glareX, glareY, onMouseMove, onMouseLeave } = useTilt(5);
-  const [submitted, setSubmitted] = useState(false);
   const { y: floatY, rotateZ: floatRotZ } = useFloat(6, 0.0007);
   const glareStyle = useTransform([glareX, glareY], ([gx, gy]) => `radial-gradient(ellipse 60% 50% at ${gx}% ${gy}%, rgba(255,255,255,0.18) 0%, transparent 70%)`);
-  const handleSubmit = (e) => { e.preventDefault(); setSubmitted(true); setTimeout(() => setSubmitted(false), 3000); };
+
+  const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM_DATA);
+  const [errors, setErrors] = useState<ContactFormErrors>(EMPTY_ERRORS);
+  const [touched, setTouched] = useState<ContactFormTouched>(EMPTY_TOUCHED);
+  const [status, setStatus] = useState<SubmissionStatus>({ state: 'idle' });
+
+  const handleFieldChange = (id: FieldId, value: string) => {
+    setFormData(prev => ({ ...prev, [id]: value }));
+    setTouched(prevTouched => {
+      if (prevTouched[id]) {
+        setErrors(prevErrors => ({ ...prevErrors, [id]: validateField(id, value) }));
+      }
+      return prevTouched;
+    });
+  };
+
+  const handleFieldBlur = (id: FieldId) => {
+    setTouched(prev => ({ ...prev, [id]: true }));
+    setErrors(prev => ({ ...prev, [id]: validateField(id, formData[id]) }));
+  };
+
+  const runValidation = (): boolean => {
+    const newErrors = { ...EMPTY_ERRORS };
+    let hasError = false;
+    FIELD_IDS.forEach((id) => {
+      const err = validateField(id, formData[id]);
+      newErrors[id] = err;
+      if (err) hasError = true;
+    });
+    setErrors(newErrors);
+    setTouched({ name: true, company: true, email: true, phone: true, interest: true, message: true });
+    return !hasError;
+  };
+
+  const resetForm = () => {
+    setFormData(EMPTY_FORM_DATA);
+    setTouched(EMPTY_TOUCHED);
+    setErrors(EMPTY_ERRORS);
+  };
+
+  // Sumedha-style flow: validate → stay silent on failure (inline errors show) → submit → alert
+  const submit = async (kind: SubmissionKind) => {
+    if (status.state === 'loading') return; // guard against double-submits
+
+    const ok = runValidation();
+    if (!ok) return;
+
+    setStatus({ state: 'loading', kind });
+    try {
+      const result = await submitContactForm(formData, kind);
+      setStatus({ state: 'idle' });
+      alert(result.message);
+      resetForm();
+    } catch (error) {
+      console.error('Error:', error);
+      setStatus({ state: 'idle' });
+      alert('Something went wrong');
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submit('consultation');
+  };
+
+  const handleScheduleCall = () => {
+    submit('call');
+  };
+
+  const isLoading = status.state === 'loading';
+  const isConsultationLoading = isLoading && status.kind === 'consultation';
+  const isCallLoading = isLoading && status.kind === 'call';
 
   return (
     <div className="bg-brand-off-white overflow-x-hidden">
       <ParticleTrail />
 
-      <section className="py-32 px-8 md:px-20 lg:px-15" style={{ perspective: '1400px' }}>
+      <section className="py-20 sm:py-24 lg:py-32 px-6 sm:px-8 md:px-20 lg:px-15" style={{ perspective: '1400px' }}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
           {/* ════ LEFT COLUMN ════ */}
@@ -317,9 +521,9 @@ export const Contact = () => {
             </motion.span>
 
             {/* HEADING */}
-            <h2 className="text-5xl md:text-7xl leading-[1.1] mb-6 font-serif">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl leading-[1.1] mb-6 font-serif">
               <div className="flex flex-wrap gap-x-4">
-                {['Start', 'the'].map((word, i) => (
+                {['Start', 'the'].map((word) => (
                   <motion.span key={word}>{word}</motion.span>
                 ))}
               </div>
@@ -329,9 +533,7 @@ export const Contact = () => {
             </h2>
 
             {/* DESCRIPTION */}
-            <motion.p
-              className="max-w-md text-lg text-gray-600 leading-relaxed mb-8"
-            >
+            <motion.p className="max-w-md text-base sm:text-lg text-gray-600 leading-relaxed mb-8">
               Partner with our design experts to create meaningful, sustainable brand experiences that leave a lasting impression.
             </motion.p>
 
@@ -341,7 +543,7 @@ export const Contact = () => {
                 { tag: 'Email Us', value: 'hello@ecotwist.in', icon: '✉' },
                 { tag: 'Direct Inquiry', value: '+91 70913 23777', icon: '◎' },
                 { tag: 'The Studio', value: 'Studio 22, Sector 18, Noida UP', icon: '◈' },
-              ].map((item, i) => (
+              ].map((item) => (
                 <motion.a
                   key={item.tag}
                   href="#"
@@ -354,7 +556,7 @@ export const Contact = () => {
                     <span className="text-[9px] uppercase font-bold text-brand-olive mb-1 block">
                       {item.tag}
                     </span>
-                    <p className="font-serif text-lg">{item.value}</p>
+                    <p className="font-serif text-base sm:text-lg">{item.value}</p>
                   </div>
                 </motion.a>
               ))}
@@ -368,7 +570,7 @@ export const Contact = () => {
                 { label: 'Satisfaction', value: '98%' },
               ].map((stat) => (
                 <motion.div key={stat.label}>
-                  <h4 className="text-xl font-bold font-serif text-brand-olive">
+                  <h4 className="text-lg sm:text-xl font-bold font-serif text-brand-olive">
                     {stat.value}
                   </h4>
                   <p className="text-[9px] uppercase tracking-widest text-gray-500 font-bold mt-1">
@@ -381,14 +583,14 @@ export const Contact = () => {
             {/* ✅ IMAGE SECTION — NO CHANGE */}
             <div className="grid grid-cols-2 gap-4">
               <LandingImageCard
-                src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80"
+                src={contact1}
                 label="Sustainable Gifting"
                 tag="Eco"
                 accent="#5a8a6e"
                 fromLeft={true}
               />
               <LandingImageCard
-                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=800"
+                src={contact2}
                 label="Eco Luxury Craft"
                 tag="Artisan"
                 accent="#b5a26a"
@@ -398,7 +600,7 @@ export const Contact = () => {
 
             {/* QUOTE */}
             <motion.div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="italic font-serif text-lg text-brand-dark-olive mb-3">
+              <p className="italic font-serif text-base sm:text-lg text-brand-dark-olive mb-3">
                 "Sustainability is the ultimate sophistication."
               </p>
               <div className="flex items-center gap-3">
@@ -444,7 +646,7 @@ export const Contact = () => {
                   transition={{ duration: 0.7, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
                   style={{ position: 'absolute', top: 0, left: 0, width: 3, height: '18%', background: '#b5a26a', transformOrigin: 'top', zIndex: 20 }} />
 
-                <div className="p-10 md:p-16">
+                <div className="p-6 sm:p-10 md:p-16">
                   <motion.span
                     initial={{ opacity: 0, y: 12, letterSpacing: '0.1em' }}
                     animate={{ opacity: 1, y: 0, letterSpacing: '0.22em' }}
@@ -455,20 +657,42 @@ export const Contact = () => {
                   <motion.h3
                     initial={{ opacity: 0, x: 18 }} animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.55, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="text-3xl font-serif mb-10"
+                    className="text-2xl sm:text-3xl font-serif mb-10"
                   >Tell Us Your Vision</motion.h3>
 
-                  <form className="space-y-8" onSubmit={handleSubmit}>
+                  <form className="space-y-8" onSubmit={handleSubmit} noValidate>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
                       className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <FormField label="Full Name" id="name" placeholder="Jane Doe" />
-                      <FormField label="Company Name" id="company" placeholder="Your Brand" />
+                      <FormField
+                        label="Full Name" id="name" placeholder="Jane Doe" required
+                        value={formData.name} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.name ? errors.name : ''} disabled={isLoading}
+                      />
+                      <FormField
+                        label="Company Name" id="company" placeholder="Your Brand" required
+                        value={formData.company} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.company ? errors.company : ''} disabled={isLoading}
+                      />
                     </motion.div>
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.28 }}>
-                      <FormField label="Work Email" id="email" type="email" placeholder="jane@company.com" />
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.28 }}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <FormField
+                        label="Work Email" id="email" type="email" placeholder="jane@company.com" required
+                        value={formData.email} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.email ? errors.email : ''} disabled={isLoading}
+                      />
+                      <FormField
+                        label="Mobile Number" id="phone" type="tel" placeholder="98765 43210" required
+                        value={formData.phone} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.phone ? errors.phone : ''} disabled={isLoading}
+                      />
                     </motion.div>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.35 }}>
-                      <FormField label="Area of Interest" id="interest">
+                      <FormField
+                        label="Area of Interest" id="interest" required
+                        value={formData.interest} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.interest ? errors.interest : ''} disabled={isLoading}
+                      >
                         <option value="">Select an area...</option>
                         <option value="corporate">Corporate Gifting (Bulk)</option>
                         <option value="event">Special Event / Launch</option>
@@ -477,31 +701,49 @@ export const Contact = () => {
                       </FormField>
                     </motion.div>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.42 }}>
-                      <FormField label="Project Overview" id="message" rows={4} placeholder="Tell us about your gifting goals..." />
+                      <FormField
+                        label="Project Overview" id="message" rows={4} placeholder="Tell us about your gifting goals..." required
+                        value={formData.message} onChange={handleFieldChange} onBlur={handleFieldBlur}
+                        error={touched.message ? errors.message : ''} disabled={isLoading}
+                      />
                     </motion.div>
 
-                    {/* Magnetic CTA — same as Hero */}
+                    {/* CTA row — submit button restyled to match Sumedha's exactly */}
                     <motion.div
                       initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.45, delay: 1.5 }}
                       className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6"
                     >
-                      <motion.div ref={magnetRef} style={{ x: magX, y: magY }} onMouseMove={magMove} onMouseLeave={magLeave}>
-                        <motion.button type="submit"
-                          whileHover={{ scale: 1.05, boxShadow: '0 12px 32px rgba(0,0,0,0.18)', y: -2 }}
-                          whileTap={{ scale: 0.95, y: 1 }}
-                          transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-                          style={{ willChange: 'transform' }}
-                          className="bg-brand-dark-olive text-white px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-xs hover:bg-brand-olive transition-all"
-                        >
-                          {submitted
-                            ? <motion.span key="sent" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>✓ Message Sent!</motion.span>
-                            : <motion.span key="cta" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Request Consultation</motion.span>}
-                        </motion.button>
-                      </motion.div>
-                      <motion.span whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                        className="text-brand-charcoal uppercase tracking-[0.2em] text-xs font-bold border-b-2 border-brand-charcoal/20 hover:border-brand-olive transition-all pb-1 cursor-pointer"
-                      >Schedule a Call</motion.span>
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full sm:w-auto px-8 py-4 bg-brand-olive text-white font-semibold rounded-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {isConsultationLoading ? (
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span>
+                            <span>Submitting...</span>
+                          </div>
+                        ) : (
+                          "Request Consultation"
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleScheduleCall}
+                        disabled={isLoading}
+                        className="px-8 py-4 border border-brand-olive text-brand-olive font-semibold rounded-md cursor-pointer bg-transparent disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {isCallLoading ? (
+                          <div className="flex items-center gap-2">
+                            <span className="w-4 h-4 rounded-full border-2 border-brand-olive/40 border-t-brand-olive animate-spin"></span>
+                            <span>Scheduling...</span>
+                          </div>
+                        ) : (
+                          "Schedule a Call"
+                        )}
+                      </button>
                     </motion.div>
                   </form>
                 </div>
@@ -517,12 +759,12 @@ export const Contact = () => {
                   <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#b5a26a', margin: 0 }}>Response Time</p>
                   <p style={{ fontSize: 13, fontWeight: 700, margin: '2px 0 0', color: '#333' }}>Within 24 hours</p>
                 </motion.div>
-                
+
               </motion.div>
             </motion.div>
 
             {/* Watermark — same as Hero "Studio Edition" */}
-            <div className="absolute -bottom-36 -left-4 overflow-visible lg:block pointer-events-none">
+            <div className="absolute -bottom-36 -left-4 overflow-visible hidden lg:block pointer-events-none">
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.5 }} transition={{ delay: 1.5, duration: 0.8 }}
                 className="font-serif italic text-6xl text-[#e5d3a1] opacity-50">Contact Us</motion.p>
             </div>
