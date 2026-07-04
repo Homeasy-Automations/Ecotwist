@@ -25,6 +25,7 @@ import festworkspace from "../assests/festworkspace.png"
 import gifthing from "../assests/empgifting.png"
 import packaging from "../assests/prepackaging.png"
 import luxhamper from "../assests/luxuryhamper.png"
+import catalogue from "../assests/DepawaliCatalogue2026.pdf"
 import {
   ArrowRight,
   Sparkles,
@@ -273,8 +274,8 @@ const navigate = useNavigate();
 
       {/* HERO SECTION */}
       <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-brand-off-white"
+        ref={heroRef}
+        className="relative min-h-screen flex items-center overflow-hidden bg-brand-off-white"
       >
           {/* FESTIVE BACKGROUND */}
 
@@ -547,6 +548,7 @@ const navigate = useNavigate();
                 variants={stagger}
                 initial="hidden"
                 animate="show"
+                className="relative z-50"
             >
 
                 {/* Badge */}
@@ -617,46 +619,36 @@ const navigate = useNavigate();
                 >
 
                 <motion.button
-
-                    whileHover={{
+                  whileHover={{
                     scale: 1.04,
                     y: -3,
-                    }}
-
-                    whileTap={{
-                    scale: .97,
-                    }}
-
-                    className="group w-full xs:w-auto px-8 py-4 rounded-full bg-brand-olive text-white flex items-center justify-center gap-3 font-medium shadow-xl"
-
+                  }}
+                  whileTap={{
+                    scale: 0.97,
+                  }}
+                  onClick={() => navigate("/products")}
+                  className="group w-full xs:w-auto px-8 py-4 rounded-full bg-brand-olive text-white flex items-center justify-center gap-3 font-medium shadow-xl cursor-pointer"
                 >
+                  Explore Collection
 
-                    Explore Collection
-
-                    <ArrowRight
+                  <ArrowRight
                     size={18}
                     className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-
+                  />
                 </motion.button>
 
                 <motion.button
-
-                    whileHover={{
+                  whileHover={{
                     scale: 1.04,
                     y: -3,
-                    }}
-
-                    whileTap={{
-                    scale: .97,
-                    }}
-
-                    className="w-full xs:w-auto px-8 py-4 rounded-full border border-brand-olive text-brand-olive font-medium backdrop-blur-sm text-center"
-
+                  }}
+                  whileTap={{
+                    scale: 0.97,
+                  }}
+                  onClick={() => window.open(catalogue, "_blank")}
+                  className="w-full xs:w-auto px-8 py-4 rounded-full border border-brand-olive text-brand-olive font-medium backdrop-blur-sm text-center cursor-pointer"
                 >
-
-                    Request Catalogue
-
+                  Request Catalogue
                 </motion.button>
 
                 </motion.div>
@@ -1483,6 +1475,7 @@ const navigate = useNavigate();
                     <motion.button
 
                       whileHover={{ x:6 }}
+                      onClick={() => navigate("/products")}
 
                       className="mt-8 flex items-center gap-3 text-brand-olive font-semibold"
 
@@ -1715,6 +1708,7 @@ const navigate = useNavigate();
                   whileTap={{
                     scale:.97,
                   }}
+                  onClick={() => window.open(catalogue, "_blank")}
 
                   className="px-8 py-4 rounded-full bg-brand-olive text-white font-medium shadow-lg flex items-center gap-3"
 
@@ -1731,6 +1725,8 @@ const navigate = useNavigate();
                   whileHover={{
                     scale:1.05,
                   }}
+
+                  onClick={() => navigate("/solutions")}
 
                   className="px-8 py-4 rounded-full border border-brand-olive text-brand-olive"
 
@@ -2328,6 +2324,7 @@ const navigate = useNavigate();
                 whileTap={{
                   scale: .97,
                 }}
+                onClick={() => navigate("/configurator")}
 
                 className="bg-brand-gold text-brand-charcoal px-8 py-4 rounded-full font-semibold flex items-center gap-3"
 
@@ -2854,6 +2851,7 @@ const navigate = useNavigate();
                 whileTap={{
                   scale: .97,
                 }}
+                onClick={() => navigate("/contact")}
                 className="bg-brand-gold text-brand-charcoal px-8 py-4 rounded-full font-semibold flex items-center gap-3"
               >
 
@@ -3079,6 +3077,7 @@ const navigate = useNavigate();
                 whileTap={{
                   scale: .97,
                 }}
+                onClick={() => navigate("/products")}
 
                 className="mt-10 bg-brand-gold text-brand-charcoal px-8 py-4 rounded-full font-semibold flex items-center gap-3 mx-auto"
 
@@ -3376,7 +3375,7 @@ const navigate = useNavigate();
               }}
               onClick={() =>
                 window.open(
-                  "/catalog/Ecotwist-Diwali-Catalogue.pdf",
+                  catalogue,
                   "_blank"
                 )
               }
@@ -3390,7 +3389,7 @@ const navigate = useNavigate();
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => navigate("/configurator")}
+              onClick={() => navigate("/contact")}
               className="border border-white px-10 py-5 rounded-full"
             >
               Talk to Our Team
