@@ -408,33 +408,57 @@ const EMPTY_TOUCHED: ContactFormTouched = { name: false, company: false, email: 
 
 /* ── API CALL — local persistence (unchanged) ── */
 async function submitContactForm(
-    data: ContactFormData,
-    kind: SubmissionKind
-  ): Promise<ApiResponse> {
+  data: ContactFormData,
+  kind: SubmissionKind
+): Promise<ApiResponse> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000); // 15s safety timeout
 
-    const existing = JSON.parse(
-      localStorage.getItem("contactSubmissions") || "[]"
-    );
+    const response = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        ...data,
+        type: kind,
+        submittedAt: new Date().toISOString(),
+        submissionId: `ECO-${Date.now()}`, // optional but recommended
+      }),
+    });
 
-    const newSubmission = {
-      id: Date.now(),
-      ...data,
-      type: kind,
-      submittedAt: new Date().toISOString(),
-    };
+    clearTimeout(timeout);
 
-    existing.push(newSubmission);
+    // handle non-200 responses
+    if (!response.ok) {
+      return {
+        success: false,
+        message: `Server Error: ${response.status}`,
+      };
+    }
 
-    localStorage.setItem(
-      "contactSubmissions",
-      JSON.stringify(existing)
-    );
+    // safe JSON parsing
+    const result = (await response.json()) as ApiResponse;
 
     return {
-      success: true,
-      message: "Saved successfully."
+      success: result?.success ?? false,
+      message: result?.message ?? "No response message from server",
+    };
+
+  } catch (error: any) {
+    console.error("submitContactForm error:", error);
+
+    return {
+      success: false,
+      message:
+        error.name === "AbortError"
+          ? "Request timed out. Please try again."
+          : "Network error. Please check your server.",
     };
   }
+}
 
 /* ════════════════════════════════════════════
    CONTACT — MAIN

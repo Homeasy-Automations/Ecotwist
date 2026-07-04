@@ -93,7 +93,6 @@ const submissionId = `ECO-${Date.now().toString().slice(-6)}`;
 
       {/* MAIN GRID */}
       <div className="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-10 items-center">
-
         {/* LEFT */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
