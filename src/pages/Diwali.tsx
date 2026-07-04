@@ -7,13 +7,13 @@ import {
 } from "motion/react";
 import type { Variants } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import hamper from "../assests/diwalihamper.png";
-import folio from "../assests/dewaliportfolio.png"
-import cxo from "../assests/cxogift.png"
-import delight from "../assests/delight.png"
-import celebration from "../assests/familyceleb.png"
-import hamper1 from "../assests/clienthamper.png"
-import wellnesshamper from "../assests/Wellnesshamper.png"
+import hamper from "../assests/dewali/diwalihamper.png";
+import folio from "../assests/dewali/dewaliportfolio.png"
+import cxo from "../assests/dewali/cxogift.png"
+import delight from "../assests/dewali/delight.png"
+import celebration from "../assests/dewali/familyceleb.png"
+import hamper1 from "../assests/dewali/clienthamper.png"
+import wellnesshamper from "../assests/dewali/Wellnesshamper.png"
 import gourmethamper from "../assests/gourmethamper.png"
 import signature from "../assests/signhamper.png"
 import curated from "../assests/curated.png"
@@ -25,7 +25,7 @@ import festworkspace from "../assests/festworkspace.png"
 import gifthing from "../assests/empgifting.png"
 import packaging from "../assests/prepackaging.png"
 import luxhamper from "../assests/luxuryhamper.png"
-import catalogue from "../assests/DepawaliCatalogue2026.pdf"
+import catalogue from "../assests/dewali/DepawaliCatalogue2026.pdf"
 import {
   ArrowRight,
   Sparkles,
