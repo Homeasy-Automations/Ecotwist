@@ -30,6 +30,10 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model("Contact", contactSchema);
 
+app.get("/", (req, res) => {
+  res.send("EcoTwist Backend Running 🚀");
+});
+
 // API Route
 app.post("/api/contact", async (req, res) => {
   try {
