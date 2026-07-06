@@ -243,8 +243,6 @@ export const Configurator = () => {
   const quote    = quotes[step];
 
   async function submitConfigurator(data: any) {
-    console.log("API URL:", import.meta.env.VITE_API_URL);
-
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/configurator`,
       {
@@ -260,13 +258,7 @@ export const Configurator = () => {
       }
     );
 
-    console.log("Status:", response.status);
-
-    const result = await response.json();
-
-    console.log("Response:", result);
-
-    return result;
+    return await response.json();
   }
   
 
@@ -502,7 +494,6 @@ export const Configurator = () => {
                       };
 
                       try {
-                        console.log(configurator);
                         const result = await submitConfigurator(configurator);
 
                         if (result.success) {
