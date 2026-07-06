@@ -1,7 +1,62 @@
-import React from 'react';
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import logo from '../assests/logo2.png'; // ✅ logo import
 export const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setMessage("");
+    setError("");
+
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
+
+    const emailRegex =
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/newsletter`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            subscribedAt: new Date().toISOString(),
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMessage("Subscribed successfully!");
+        setEmail("");
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError("Unable to connect to server.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <footer className="bg-brand-charcoal text-white pt-20 pb-10 px-6">
       <div className="max-w-7xl mx-auto mb-20">
@@ -10,38 +65,38 @@ export const Footer = () => {
 
 
           <div className="lg:col-span-4">
-  <Link to="/" className="flex flex-col items-start mb-8 group w-fit">
+            <Link to="/" className="flex flex-col items-start mb-8 group w-fit">
 
-    {/* LOGO */}
-    <img
-      src={logo}
-      alt="Ecotwist Logo"
-      className="h-16 sm:h-20 w-auto object-contain group-hover:scale-105 transition"
-    />
+              {/* LOGO */}
+              <img
+                src={logo}
+                alt="Ecotwist Logo"
+                className="h-16 sm:h-20 w-auto object-contain group-hover:scale-105 transition"
+              />
 
-    {/* TEXT BELOW LOGO */}
-    <span className="mt-2 font-bold tracking-widest text-xl sm:text-2xl font-serif text-white uppercase">
-      ECOTWIST
-    </span>
+              {/* TEXT BELOW LOGO */}
+              <span className="mt-2 font-bold tracking-widest text-xl sm:text-2xl font-serif text-white uppercase">
+                ECOTWIST
+              </span>
 
-  </Link>
+            </Link>
 
-  <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm">
-    Pioneering the future of corporate gifting through sustainable design, ethical sourcing, and circular economy principles.
-  </p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm">
+              Pioneering the future of corporate gifting through sustainable design, ethical sourcing, and circular economy principles.
+            </p>
 
-  <div className="flex gap-4">
-    {['Instagram', 'LinkedIn', 'Journal'].map((social) => (
-      <a
-        key={social}
-        href="#"
-        className="text-[10px] uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-colors"
-      >
-        {social}
-      </a>
-    ))}
-  </div>
-</div>
+            <div className="flex gap-4">
+              {['Instagram', 'LinkedIn', 'Journal'].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="text-[10px] uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-colors"
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
 
           {/* Links Grid */}
           <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-2 gap-8">
@@ -83,14 +138,44 @@ export const Footer = () => {
           <div className="lg:col-span-3">
             <h5 className="font-bold mb-6 uppercase tracking-widest text-[10px] text-brand-olive">Newsletter</h5>
             <p className="text-xs text-gray-400 mb-6 leading-relaxed">Receive sustainable gifting insights and new collection previews.</p>
-            <form className="flex flex-col gap-3">
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col gap-3"
+            >
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-brand-olive transition-colors text-white placeholder:text-gray-500"
+                className={`bg-white/5 border rounded-sm px-4 py-3 text-sm
+                focus:outline-none transition-colors text-white
+                placeholder:text-gray-500
+                ${
+                  error
+                    ? "border-red-500"
+                    : "border-white/10 focus:border-brand-olive"
+                }`}
               />
-              <button className="bg-brand-olive hover:bg-brand-dark-olive text-white font-bold py-3 rounded-sm text-sm transition-all uppercase tracking-widest">
-                Subscribe
+              {error && (
+                <p className="text-red-400 text-xs">
+                  {error}
+                </p>
+              )}
+
+              {message && (
+                <p className="text-green-400 text-xs">
+                  {message}
+                </p>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-brand-olive hover:bg-brand-dark-olive
+                text-white font-bold py-3 rounded-sm
+                text-sm uppercase tracking-widest
+                disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Subscribing..." : "Subscribe"}
               </button>
             </form>
           </div>

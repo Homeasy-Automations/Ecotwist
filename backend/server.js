@@ -43,6 +43,10 @@ app.listen(process.env.PORT || 5000, () => {
   console.log("Server running on port 5000");
 });
 
+// =============================
+// Configurator API
+// =============================
+
 const Configurator = require("./models/Configurator");
 
 app.post("/api/configurator", async (req, res) => {
@@ -62,6 +66,55 @@ app.post("/api/configurator", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to save response."
+    });
+  }
+});
+
+// =============================
+// Newsletter API
+// =============================
+
+const Newsletter = require("./models/Newsletter");
+app.post("/api/newsletter", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required.",
+      });
+    }
+
+    // Check if already subscribed
+    const existing = await Newsletter.findOne({ email });
+
+    if (existing) {
+      return res.json({
+        success: false,
+        message: "This email is already subscribed.",
+      });
+    }
+
+    // Save new subscriber
+    const subscriber = new Newsletter({
+      email,
+      subscribedAt: new Date(),
+    });
+
+    await subscriber.save();
+
+    res.json({
+      success: true,
+      message: "Subscribed successfully.",
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
     });
   }
 });
