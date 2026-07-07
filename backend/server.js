@@ -76,8 +76,14 @@ app.post("/api/configurator", async (req, res) => {
 // =============================
 
 app.post("/api/newsletter", async (req, res) => {
+
+  console.log("========== NEWSLETTER API ==========");
+  console.log("Request Body:", req.body);
+
   try {
     const { email } = req.body;
+
+    console.log("Email:", email);
 
     if (!email) {
       return res.status(400).json({
@@ -86,8 +92,9 @@ app.post("/api/newsletter", async (req, res) => {
       });
     }
 
-    // Check if already subscribed
     const existing = await Newsletter.findOne({ email });
+
+    console.log("Existing User:", existing);
 
     if (existing) {
       return res.json({
@@ -96,13 +103,16 @@ app.post("/api/newsletter", async (req, res) => {
       });
     }
 
-    // Save new subscriber
     const subscriber = new Newsletter({
       email,
       subscribedAt: new Date(),
     });
 
+    console.log("Saving to MongoDB...");
+
     await subscriber.save();
+
+    console.log("Saved Successfully!");
 
     res.json({
       success: true,
@@ -110,11 +120,11 @@ app.post("/api/newsletter", async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Newsletter Error:", err);
 
     res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: err.message,
     });
   }
 });
