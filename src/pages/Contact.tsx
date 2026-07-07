@@ -586,7 +586,7 @@ export const Contact = () => {
             {/* CONTACT INFO */}
             <div className="space-y-5 mb-10">
               {[
-                { tag: 'Email Us', value: 'hello@ecotwist.in', icon: '✉' },
+                { tag: 'Email Us', value: 'info@ecotwist.in', icon: '✉' },
                 { tag: 'Direct Inquiry', value: '+91 70913 23777', icon: '◎' },
                 { tag: 'The Studio', value: 'Studio 22, Sector 18, Noida UP', icon: '◈' },
               ].map((item) => (
