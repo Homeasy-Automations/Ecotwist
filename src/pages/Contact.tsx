@@ -380,12 +380,12 @@ function validateField(id: FieldId, value: string): string {
       return '';
     case 'email':
       if (!v) return 'Please enter your work email';
-      if (!EMAIL_RE.test(v)) return 'Enter a valid email address';
+      if (!EMAIL_RE.test(v)) return 'Please Enter a valid email address';
       return '';
     case 'phone': {
       if (!v) return 'Please enter your mobile number';
       const digits = v.replace(/\D/g, '');
-      if (digits.length < 10 || digits.length > 13) return 'Enter a valid mobile number';
+      if (digits.length < 10 || digits.length > 13) return 'Please Enter a valid mobile number';
       return '';
     }
     case 'interest':
