@@ -415,7 +415,7 @@ async function submitContactForm(
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000); // 15s safety timeout
 
-    const response = await fetch("http://localhost:5000/api/contact", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
