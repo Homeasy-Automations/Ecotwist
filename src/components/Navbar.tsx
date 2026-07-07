@@ -28,14 +28,14 @@ const OCCASIONS = [
     accent: '#5a8a6e',
     tag: 'HR',
   },
-  // {
-  //   label: 'Depawali Gifting',
-  //   path: '/occasions/diwali-gifting',
-  //   icon: Sparkles,
-  //   desc: 'Celebrate the festival of lights with sustainable gifts.',
-  //   accent: '#c4735d',
-  //   tag: 'Seasonal',
-  // },
+  {
+    label: 'Depawali Gifting',
+    path: '/occasions/diwali-gifting',
+    icon: Sparkles,
+    desc: 'Celebrate the festival of lights with sustainable gifts.',
+    accent: '#c4735d',
+    tag: 'Seasonal',
+  },
   {
     label: 'Festive Gifting',
     path: '/occasions/festive-gifting',
