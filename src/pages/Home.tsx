@@ -839,7 +839,7 @@ export const Home = () => {
               <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif mb-2 sm:mb-4">Curated Experiences</h2>
               <p className="text-gray-600 text-sm sm:text-base">Our signature collections designed for high-impact professional gifting.</p>
             </div>
-            <motion.a className="self-start sm:self-auto font-bold text-xs uppercase tracking-widest border-b-2 border-brand-olive pb-1 hover:text-brand-olive transition-all cursor-pointer flex-shrink-0" whileHover={{ y: -1 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>ndles</motion.a>
+            <motion.div className="self-start sm:self-auto font-bold text-xs uppercase tracking-widest border-b-2 border-brand-olive pb-1 hover:text-brand-olive transition-all cursor-pointer flex-shrink-0" whileHover={{ y: -1 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>View All Bundles</motion.div>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 lg:gap-10">
             {[
