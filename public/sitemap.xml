@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://ecotwist.in/</loc>
+        <priority>1.0</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/solutions</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/products</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/configurator</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/impact</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/contact</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/client-appreciation</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/employee-onboarding</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/festive-gifting</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/events-conferences</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/employee-wellness</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/birthday-gifting</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/work-anniversary</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/product-launch</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/award-recognition</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/retirement-gifting</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/occasions/depawali-gifting</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/privacy-policy</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/terms-of-service</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/refund-policy</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://ecotwist.in/shipping-policy</loc>
+        <priority>0.5</priority>
+        <changefreq>yearly</changefreq>
+    </url>
+
+</urlset>
