@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from "react-router-dom";
-import { motion, useSpring, useMotionValue, useAnimationFrame, useInView, useTransform, animate } from 'motion/react';
+import { motion, useSpring, useMotionValue, useAnimationFrame, useInView, useTransform, animate } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import contact1 from "../assests/contact1.jpeg"
 import contact2 from "../assests/contact2.jpeg"
@@ -588,7 +588,7 @@ export const Contact = () => {
               {[
                 { tag: 'Email Us', value: 'info@ecotwist.in', icon: '✉' },
                 { tag: 'Direct Inquiry', value: '+91 70913 23777', icon: '◎' },
-                { tag: 'The Studio', value: 'Studio 22, Sector 18, Noida UP', icon: '◈' },
+                { tag: 'The Studio', value: '5th Floor, Mauryalok Complex, A-Block, Patna 800001, Bihar', icon: '◈' },
               ].map((item) => (
                 <motion.a
                   key={item.tag}
