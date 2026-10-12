@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { AnalyticsTracker } from './lib/analytics';
 
 // ── Core pages (default exports) ──────────────────────
 import { Home } from "./pages/Home";
@@ -97,6 +98,7 @@ const AnimatedRoutes = () => {
 export default function App() {
   return (
     <Router>
+      <AnalyticsTracker />
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
