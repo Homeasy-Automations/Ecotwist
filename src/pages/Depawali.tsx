@@ -4,8 +4,8 @@ import {
   useScroll,
   useTransform,
   useSpring,
-} from "motion/react";
-import type { Variants } from "motion/react";
+} from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import hamper from "../assests/depawali/diwalihamper.png";
 import folio from "../assests/depawali/dewaliportfolio.png";
@@ -25,7 +25,7 @@ import festworkspace from "../assests/depawali/festworkspace.png"
 import gifthing from "../assests/depawali/empgifting.png"
 import packaging from "../assests/depawali/prepackaging.png"
 import luxhamper from "../assests/depawali/luxuryhamper.png"
-import catalogue from "../assests/depawali/DepawaliCatalogue2026.pdf"
+import catalogue from "../assests/depawali/Ecotwist Diwali Catalogue-2026.pdf"
 import {
   ArrowRight,
   Sparkles,
@@ -236,7 +236,7 @@ const DIWALI_COLLECTIONS = [
 
 export default function DiwaliGifting() {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   const heroRef = useRef<HTMLElement>(null);
@@ -277,309 +277,309 @@ const navigate = useNavigate();
         ref={heroRef}
         className="relative min-h-screen flex items-center overflow-hidden bg-brand-off-white"
       >
-          {/* FESTIVE BACKGROUND */}
+        {/* FESTIVE BACKGROUND */}
 
-          {/* Main Gradient */}
+        {/* Main Gradient */}
 
-          <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
 
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-off-white via-white to-brand-beige" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-off-white via-white to-brand-beige" />
 
-            {/* Golden Glow */}
-
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [.15, .25, .15],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-              }}
-              className="absolute -left-40 -top-32 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[650px] rounded-full bg-brand-gold blur-[90px] sm:blur-[120px] lg:blur-[140px]"
-            />
-
-            {/* Olive Glow */}
-
-            <motion.div
-              animate={{
-                scale: [1.1, 1, 1.1],
-                opacity: [.08, .18, .08],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-              }}
-              className="absolute bottom-0 right-0 w-[300px] h-[300px] sm:w-[420px] sm:h-[420px] lg:w-[550px] lg:h-[550px] rounded-full bg-brand-olive blur-[100px] sm:blur-[130px] lg:blur-[160px]"
-            />
-
-          </div>
-
-          {/* FLOATING DIYAS */}
+          {/* Golden Glow */}
 
           <motion.div
-
             animate={{
-              y: [-12, 12, -12],
-              rotate: [-2, 2, -2],
+              scale: [1, 1.2, 1],
+              opacity: [.15, .25, .15],
             }}
-
             transition={{
-              duration: 6,
+              duration: 8,
               repeat: Infinity,
             }}
+            className="absolute -left-40 -top-32 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[650px] rounded-full bg-brand-gold blur-[90px] sm:blur-[120px] lg:blur-[140px]"
+          />
 
-            className="absolute top-24 left-4 sm:left-10 text-3xl sm:text-4xl lg:text-5xl"
-
-          >
-
-          🪔
-
-          </motion.div>
+          {/* Olive Glow */}
 
           <motion.div
-
             animate={{
-              y: [-8, 8, -8],
-              rotate: [2, -2, 2],
+              scale: [1.1, 1, 1.1],
+              opacity: [.08, .18, .08],
             }}
-
             transition={{
-              duration: 7,
+              duration: 10,
               repeat: Infinity,
             }}
+            className="absolute bottom-0 right-0 w-[300px] h-[300px] sm:w-[420px] sm:h-[420px] lg:w-[550px] lg:h-[550px] rounded-full bg-brand-olive blur-[100px] sm:blur-[130px] lg:blur-[160px]"
+          />
 
-            className="absolute bottom-28 right-4 sm:right-12 text-3xl sm:text-4xl lg:text-5xl"
+        </div>
 
-          >
+        {/* FLOATING DIYAS */}
 
-          🪔
-
-          </motion.div>
-
-          {/* HANGING LANTERNS */}
-
-          {[
-            "12%",
-            "45%",
-            "82%",
-          ].map((left, i) => (
-
-          <motion.div
-
-          key={i}
+        <motion.div
 
           animate={{
-          rotate:[-4,4,-4],
+            y: [-12, 12, -12],
+            rotate: [-2, 2, -2],
           }}
 
           transition={{
-          duration:4+i,
-          repeat:Infinity,
+            duration: 6,
+            repeat: Infinity,
           }}
 
-          className="absolute top-0"
+          className="absolute top-24 left-4 sm:left-10 text-3xl sm:text-4xl lg:text-5xl"
 
-          style={{
-          left,
-          }}
+        >
 
-          >
+          🪔
 
-          <div className="w-px h-16 sm:h-20 lg:h-24 bg-brand-gold/40 mx-auto"/>
+        </motion.div>
 
-          <div className="text-3xl sm:text-4xl lg:text-5xl">
-
-          🏮
-
-          </div>
-
-          </motion.div>
-
-          ))}
-
-          {/* GOLD PARTICLES */}
-
-          {Array.from({ length: 30 }).map((_, i) => (
-
-          <motion.div
-
-          key={i}
+        <motion.div
 
           animate={{
-
-          y:[0,-40,0],
-
-          opacity:[0,.8,0],
-
-          scale:[0.5,1.3,0.5],
-
+            y: [-8, 8, -8],
+            rotate: [2, -2, 2],
           }}
 
           transition={{
-
-          duration:5+Math.random()*5,
-
-          delay:Math.random()*5,
-
-          repeat:Infinity,
-
+            duration: 7,
+            repeat: Infinity,
           }}
 
-          className="absolute rounded-full bg-brand-gold"
+          className="absolute bottom-28 right-4 sm:right-12 text-3xl sm:text-4xl lg:text-5xl"
 
-          style={{
+        >
 
-          width:4+Math.random()*6,
+          🪔
 
-          height:4+Math.random()*6,
+        </motion.div>
 
-          left:`${Math.random()*100}%`,
+        {/* HANGING LANTERNS */}
 
-          top:`${Math.random()*100}%`,
+        {[
+          "12%",
+          "45%",
+          "82%",
+        ].map((left, i) => (
 
-          }}
+          <motion.div
+
+            key={i}
+
+            animate={{
+              rotate: [-4, 4, -4],
+            }}
+
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+            }}
+
+            className="absolute top-0"
+
+            style={{
+              left,
+            }}
+
+          >
+
+            <div className="w-px h-16 sm:h-20 lg:h-24 bg-brand-gold/40 mx-auto" />
+
+            <div className="text-3xl sm:text-4xl lg:text-5xl">
+
+              🏮
+
+            </div>
+
+          </motion.div>
+
+        ))}
+
+        {/* GOLD PARTICLES */}
+
+        {Array.from({ length: 30 }).map((_, i) => (
+
+          <motion.div
+
+            key={i}
+
+            animate={{
+
+              y: [0, -40, 0],
+
+              opacity: [0, .8, 0],
+
+              scale: [0.5, 1.3, 0.5],
+
+            }}
+
+            transition={{
+
+              duration: 5 + Math.random() * 5,
+
+              delay: Math.random() * 5,
+
+              repeat: Infinity,
+
+            }}
+
+            className="absolute rounded-full bg-brand-gold"
+
+            style={{
+
+              width: 4 + Math.random() * 6,
+
+              height: 4 + Math.random() * 6,
+
+              left: `${Math.random() * 100}%`,
+
+              top: `${Math.random() * 100}%`,
+
+            }}
 
           />
 
-          ))}
+        ))}
 
-          {/* GOLD SPARKLES */}
+        {/* GOLD SPARKLES */}
 
-          <motion.div
+        <motion.div
 
           animate={{
-          rotate:[0,360],
-          scale:[1,1.3,1],
-          opacity:[.2,.8,.2],
+            rotate: [0, 360],
+            scale: [1, 1.3, 1],
+            opacity: [.2, .8, .2],
           }}
 
           transition={{
-          duration:8,
-          repeat:Infinity,
+            duration: 8,
+            repeat: Infinity,
           }}
 
           className="absolute left-6 sm:left-32 top-32 sm:top-40 text-brand-gold text-3xl sm:text-4xl lg:text-5xl"
 
-          >
+        >
 
           ✦
 
-          </motion.div>
+        </motion.div>
 
-          <motion.div
+        <motion.div
 
           animate={{
-          rotate:[360,0],
-          scale:[1,1.5,1],
-          opacity:[.3,.9,.3],
+            rotate: [360, 0],
+            scale: [1, 1.5, 1],
+            opacity: [.3, .9, .3],
           }}
 
           transition={{
-          duration:9,
-          repeat:Infinity,
+            duration: 9,
+            repeat: Infinity,
           }}
 
           className="absolute right-6 sm:right-28 bottom-32 sm:bottom-40 text-brand-gold text-3xl lg:text-4xl"
 
-          >
+        >
 
           ✧
 
-          </motion.div>
+        </motion.div>
 
-          {/* LIGHT RAYS */}
+        {/* LIGHT RAYS */}
 
-          <div
+        <div
 
           className="absolute inset-0 opacity-20"
 
           style={{
 
-          background:
-          "linear-gradient(120deg,transparent 20%,rgba(255,255,255,.6) 50%,transparent 80%)",
+            background:
+              "linear-gradient(120deg,transparent 20%,rgba(255,255,255,.6) 50%,transparent 80%)",
 
           }}
 
-          />
+        />
 
-          {/* BOTTOM FADE */}
+        {/* BOTTOM FADE */}
 
-          <div
+        <div
 
           className="absolute bottom-0 left-0 w-full h-32 sm:h-36 lg:h-44"
 
           style={{
 
-          background:
-          "linear-gradient(to top,#FAF9F6 0%,rgba(250,249,246,0) 100%)",
+            background:
+              "linear-gradient(to top,#FAF9F6 0%,rgba(250,249,246,0) 100%)",
 
           }}
 
-          />
-
-      {/* Background Glow */}
-
-      <div className="absolute inset-0 overflow-hidden">
-
-        <div className="absolute -top-40 -left-40 w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] rounded-full bg-brand-gold/10 blur-[90px] sm:blur-[140px]" />
-
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] rounded-full bg-brand-olive/10 blur-[80px] sm:blur-[120px]" />
-
-        <div
-        className="absolute inset-0"
-          style={{
-              background:
-              "radial-gradient(circle at center, rgba(197,160,89,.06), transparent 60%)",
-        }}
         />
 
-      </div>
+        {/* Background Glow */}
+
+        <div className="absolute inset-0 overflow-hidden">
+
+          <div className="absolute -top-40 -left-40 w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] rounded-full bg-brand-gold/10 blur-[90px] sm:blur-[140px]" />
+
+          <div className="absolute bottom-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] rounded-full bg-brand-olive/10 blur-[80px] sm:blur-[120px]" />
+
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(197,160,89,.06), transparent 60%)",
+            }}
+          />
+
+        </div>
 
         <motion.div
-            className="relative z-10 max-w-7xl mx-auto w-full px-5 sm:px-6 lg:px-12 flex items-center min-h-screen"
+          className="relative z-10 max-w-7xl mx-auto w-full px-5 sm:px-6 lg:px-12 flex items-center min-h-screen"
         >
 
-            <div className="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
 
             {/* LEFT */}
 
             <motion.div
-                variants={stagger}
-                initial="hidden"
-                animate="show"
-                className="relative z-50"
+              variants={stagger}
+              initial="hidden"
+              animate="show"
+              className="relative z-50"
             >
 
-                {/* Badge */}
+              {/* Badge */}
 
-                <motion.div
+              <motion.div
                 variants={fadeUp}
                 className="mt-18 inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-white px-4 sm:px-5 py-1 mb-2 sm:mb-2 shadow-sm"
-                >
+              >
 
                 <Sparkles
-                    size={16}
-                    className="text-brand-gold"
+                  size={16}
+                  className="text-brand-gold"
                 />
 
                 <span className="text-[10px] sm:text-xs tracking-[0.28em] uppercase font-semibold text-brand-olive">
 
-                    Festive Collection 2026
+                  Festive Collection 2026
 
                 </span>
 
-                </motion.div>
+              </motion.div>
 
-                {/* Heading */}
+              {/* Heading */}
 
-                <motion.h1
+              <motion.h1
                 variants={fadeUp}
                 className="font-serif leading-[1.05] text-brand-charcoal"
                 style={{
-                    fontSize: "clamp(2.05rem,8vw,5.5rem)",
+                  fontSize: "clamp(2.05rem,8vw,5.5rem)",
                 }}
-                >
+              >
 
                 Celebrate
 
@@ -591,32 +591,32 @@ const navigate = useNavigate();
 
                 <span className="italic text-brand-gold">
 
-                    Sustainably.
+                  Sustainably.
 
                 </span>
 
-                </motion.h1>
+              </motion.h1>
 
-                {/* Description */}
+              {/* Description */}
 
-                <motion.p
+              <motion.p
                 variants={fadeUp}
                 className="mt-2 sm:mt-4 text-base sm:text-lg leading-7 sm:leading-8 text-gray-600 max-w-xl"
-                >
+              >
 
                 Celebrate the Festival of Lights with thoughtfully curated
                 corporate gifting experiences crafted using premium
                 sustainable materials, luxury packaging and timeless
                 craftsmanship that strengthens every relationship.
 
-                </motion.p>
+              </motion.p>
 
-                {/* CTA */}
+              {/* CTA */}
 
-                <motion.div
-                  variants={fadeUp}
-                  className="flex flex-col sm:flex-row gap-4 mt-4 sm:mt-6"
-                >
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-col sm:flex-row gap-4 mt-4 sm:mt-6"
+              >
 
                 <motion.button
                   whileHover={{
@@ -651,57 +651,57 @@ const navigate = useNavigate();
                   Request Catalogue
                 </motion.button>
 
-                </motion.div>
+              </motion.div>
 
-                {/* Small Features */}
+              {/* Small Features */}
 
-                <motion.div
+              <motion.div
                 variants={fadeUp}
                 className="flex flex-row gap-x-6 gap-y-4 sm:gap-8 mt-4 sm:mt-6"
-                >
+              >
 
                 <div className="flex items-center gap-3">
 
-                    <Leaf
+                  <Leaf
                     size={18}
                     className="text-brand-gold"
-                    />
+                  />
 
-                    <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600">
 
                     Sustainable Materials
 
-                    </span>
+                  </span>
 
                 </div>
 
                 <div className="flex items-center gap-3">
 
-                    <Gift
+                  <Gift
                     size={18}
                     className="text-brand-gold"
-                    />
+                  />
 
-                    <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600">
 
                     Luxury Packaging
 
-                    </span>
+                  </span>
 
                 </div>
 
                 <div className="flex items-center gap-3">
 
-                    <Building2
+                  <Building2
                     size={18}
                     className="text-brand-gold"
-                    />
+                  />
 
-                    <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-600">
 
                     Corporate Bulk Orders
 
-                    </span>
+                  </span>
 
                 </div>
 
@@ -722,220 +722,219 @@ const navigate = useNavigate();
 
               {/* Background Circle */}
 
-                <div className="absolute w-[280px] h-[280px] sm:w-[420px] sm:h-[420px] lg:w-[520px] lg:h-[520px] rounded-full bg-brand-gold/10 blur-2xl sm:blur-3xl" />
+              <div className="absolute w-[280px] h-[280px] sm:w-[420px] sm:h-[420px] lg:w-[520px] lg:h-[520px] rounded-full bg-brand-gold/10 blur-2xl sm:blur-3xl" />
 
-                <div className="absolute w-[230px] h-[230px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] rounded-full border border-brand-gold/20" />
+              <div className="absolute w-[230px] h-[230px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] rounded-full border border-brand-gold/20" />
 
-                <div className="absolute w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full border border-brand-olive/10" />
+              <div className="absolute w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full border border-brand-olive/10" />
 
-                {/* Floating Image */}
+              {/* Floating Image */}
+
+              <motion.div
+
+                animate={{
+                  y: [-12, 12, -12],
+                  rotate: [-1.5, 1.5, -1.5],
+                }}
+
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+
+                whileHover={{
+                  scale: 1.04,
+                  rotate: 0,
+                }}
+
+                className="relative z-20 right-20 top-26"
+
+              >
+
+                <div className="bg-white rounded-[24px] sm:rounded-[32px] shadow-2xl overflow-hidden p-3 sm:p-5 border border-gray-200">
+
+                  <img
+                    src={hamper}
+                    alt="Luxury Diwali Hamper"
+                    className="w-[120px] sm:w-[220px] lg:w-[260px] object-cover rounded-2xl"
+                  />
+
+                </div>
+
+              </motion.div>
+
+              {/* Floating Card */}
+
+              <motion.div
+
+                animate={{
+                  y: [-8, 8, -8],
+                }}
+
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                }}
+
+                className="absolute left-0 top-10 sm:top-20 lg:top-24"
+
+              >
+
+                <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl px-3 sm:px-5 py-3 sm:py-4 border border-white">
+
+                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-gold mb-1 sm:mb-2">
+
+                    Premium
+
+                  </p>
+
+                  <h4 className="font-serif text-base sm:text-xl">
+
+                    Eco Luxury
+
+                  </h4>
+
+                </div>
+
+              </motion.div>
+
+              {/* Floating Card */}
+
+              <motion.div
+
+                animate={{
+                  y: [8, -8, 8],
+                }}
+
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                }}
+
+                className="absolute right-0 bottom-14 sm:bottom-24 lg:bottom-28"
+
+              >
+
+                <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl px-3 sm:px-5 py-3 sm:py-4 border border-white">
+
+                  <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-gold mb-1 sm:mb-2">
+
+                    Handmade
+
+                  </p>
+
+                  <h4 className="font-serif text-base sm:text-xl">
+
+                    Sustainable
+
+                  </h4>
+
+                </div>
+
+              </motion.div>
+
+              {/* Floating Badges */}
+
+              {BADGES.map((badge, index) => (
 
                 <motion.div
 
-                    animate={{
-                    y: [-12, 12, -12],
-                    rotate: [-1.5, 1.5, -1.5],
-                    }}
+                  key={badge.title}
 
-                    transition={{
-                    duration: 8,
+                  initial={{
+                    opacity: 0,
+                    scale: 0.8,
+                  }}
+
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    y: [0, -12, 0],
+                  }}
+
+                  transition={{
+                    delay: index * 0.25,
+                    duration: 4 + index,
                     repeat: Infinity,
-                    ease: "easeInOut",
-                    }}
+                  }}
 
-                    whileHover={{
-                    scale: 1.04,
-                    rotate: 0,
-                    }}
-
-                    className="relative z-20 right-20 top-26"
-
-                >
-
-                    <div className="bg-white rounded-[24px] sm:rounded-[32px] shadow-2xl overflow-hidden p-3 sm:p-5 border border-gray-200">
-
-                    <img
-                        src={hamper}
-                        alt="Luxury Diwali Hamper"
-                        className="w-[120px] sm:w-[220px] lg:w-[260px] object-cover rounded-2xl"
-                    />
-
-                    </div>
-
-                </motion.div>
-
-                {/* Floating Card */}
-
-                <motion.div
-
-                    animate={{
-                    y: [-8, 8, -8],
-                    }}
-
-                    transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    }}
-
-                    className="absolute left-0 top-10 sm:top-20 lg:top-24"
-
-                >
-
-                    <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl px-3 sm:px-5 py-3 sm:py-4 border border-white">
-
-                    <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-gold mb-1 sm:mb-2">
-
-                        Premium
-
-                    </p>
-
-                    <h4 className="font-serif text-base sm:text-xl">
-
-                        Eco Luxury
-
-                    </h4>
-
-                    </div>
-
-                </motion.div>
-
-                {/* Floating Card */}
-
-                <motion.div
-
-                    animate={{
-                    y: [8, -8, 8],
-                    }}
-
-                    transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    }}
-
-                    className="absolute right-0 bottom-14 sm:bottom-24 lg:bottom-28"
-
-                >
-
-                    <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl px-3 sm:px-5 py-3 sm:py-4 border border-white">
-
-                    <p className="text-[10px] sm:text-xs uppercase tracking-widest text-brand-gold mb-1 sm:mb-2">
-
-                        Handmade
-
-                    </p>
-
-                    <h4 className="font-serif text-base sm:text-xl">
-
-                        Sustainable
-
-                    </h4>
-
-                    </div>
-
-                </motion.div>
-
-                {/* Floating Badges */}
-
-                {BADGES.map((badge, index) => (
-
-                    <motion.div
-
-                    key={badge.title}
-
-                    initial={{
-                        opacity: 0,
-                        scale: 0.8,
-                    }}
-
-                    animate={{
-                        opacity: 1,
-                        scale: 1,
-                        y: [0, -12, 0],
-                    }}
-
-                    transition={{
-                        delay: index * 0.25,
-                        duration: 4 + index,
-                        repeat: Infinity,
-                    }}
-
-                    className={`absolute ${
-                        index === 0
-                        ? "top-10 right-2 sm:top-20 sm:right-10"
-                        : index === 1
-                        ? "top-32 left-4 sm:top-54 sm:left-20"
-                        : index === 2
+                  className={`absolute ${index === 0
+                    ? "top-10 right-2 sm:top-20 sm:right-10"
+                    : index === 1
+                      ? "top-32 left-4 sm:top-54 sm:left-20"
+                      : index === 2
                         ? "bottom-0 left-2 sm:bottom-2 sm:left-10"
                         : "bottom-10 right-1 sm:bottom-20 sm:right-6"
                     }`}
 
-                    >
-
-                    <div className="bg-white rounded-full shadow-lg px-2.5 sm:px-4 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2 border border-gray-100">
-
-                        <span className="text-sm sm:text-lg">
-
-                        {badge.icon}
-
-                        </span>
-
-                        <span className="text-[10px] sm:text-xs font-medium text-brand-charcoal whitespace-nowrap">
-
-                        {badge.title}
-
-                        </span>
-
-                    </div>
-
-                    </motion.div>
-
-                ))}
-
-                {/* Decorative Sparkles */}
-
-                <motion.div
-
-                    animate={{
-                    scale: [1, 1.4, 1],
-                    rotate: [0, 180, 360],
-                    opacity: [.3, 1, .3],
-                    }}
-
-                    transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    }}
-
-                    className="absolute top-6 left-8 sm:top-12 sm:left-28 text-brand-gold text-xl sm:text-3xl"
-
                 >
 
-                    ✦
+                  <div className="bg-white rounded-full shadow-lg px-2.5 sm:px-4 py-1.5 sm:py-2 flex items-center gap-1.5 sm:gap-2 border border-gray-100">
+
+                    <span className="text-sm sm:text-lg">
+
+                      {badge.icon}
+
+                    </span>
+
+                    <span className="text-[10px] sm:text-xs font-medium text-brand-charcoal whitespace-nowrap">
+
+                      {badge.title}
+
+                    </span>
+
+                  </div>
 
                 </motion.div>
 
-                <motion.div
+              ))}
 
-                    animate={{
-                    scale: [1, 1.5, 1],
-                    rotate: [360, 0],
-                    opacity: [.3, .9, .3],
-                    }}
+              {/* Decorative Sparkles */}
 
-                    transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    }}
+              <motion.div
 
-                    className="absolute bottom-4 right-8 sm:bottom-10 sm:right-24 text-brand-gold text-lg sm:text-2xl"
+                animate={{
+                  scale: [1, 1.4, 1],
+                  rotate: [0, 180, 360],
+                  opacity: [.3, 1, .3],
+                }}
 
-                >
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                }}
 
-                    ✧
+                className="absolute top-6 left-8 sm:top-12 sm:left-28 text-brand-gold text-xl sm:text-3xl"
 
-                </motion.div>
+              >
+
+                ✦
 
               </motion.div>
+
+              <motion.div
+
+                animate={{
+                  scale: [1, 1.5, 1],
+                  rotate: [360, 0],
+                  opacity: [.3, .9, .3],
+                }}
+
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                }}
+
+                className="absolute bottom-4 right-8 sm:bottom-10 sm:right-24 text-brand-gold text-lg sm:text-2xl"
+
+              >
+
+                ✧
+
+              </motion.div>
+
+            </motion.div>
 
             {/* SCROLL INDICATOR 
             <motion.div
@@ -974,74 +973,74 @@ const navigate = useNavigate();
             {/* DECORATIVE BLOBS */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
 
-            <div className="absolute -left-24 top-24 w-40 h-40 sm:w-72 sm:h-72 rounded-full bg-brand-gold/5 blur-[80px] sm:blur-[120px]" />
+              <div className="absolute -left-24 top-24 w-40 h-40 sm:w-72 sm:h-72 rounded-full bg-brand-gold/5 blur-[80px] sm:blur-[120px]" />
 
-            <div className="absolute right-0 bottom-0 w-48 h-48 sm:w-80 sm:h-80 rounded-full bg-brand-olive/10 blur-[90px] sm:blur-[150px]" />
+              <div className="absolute right-0 bottom-0 w-48 h-48 sm:w-80 sm:h-80 rounded-full bg-brand-olive/10 blur-[90px] sm:blur-[150px]" />
 
             </div>
 
             {/* GOLDEN SPARKLES */}
             <motion.div
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [1, 1.4, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 8,
-            }}
-            className="absolute left-6 sm:left-16 top-32 sm:top-40 text-brand-gold text-3xl sm:text-5xl"
+              animate={{
+                opacity: [0.2, 1, 0.2],
+                scale: [1, 1.4, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 8,
+              }}
+              className="absolute left-6 sm:left-16 top-32 sm:top-40 text-brand-gold text-3xl sm:text-5xl"
             >
 
-            ✦
+              ✦
 
             </motion.div>
 
             <motion.div
-            animate={{
-              opacity: [0.3, 1, 0.3],
-              scale: [1, 1.3, 1],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 6,
-            }}
-            className="absolute right-8 sm:right-20 top-20 sm:top-24 text-brand-gold text-xl sm:text-3xl"
+              animate={{
+                opacity: [0.3, 1, 0.3],
+                scale: [1, 1.3, 1],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 6,
+              }}
+              className="absolute right-8 sm:right-20 top-20 sm:top-24 text-brand-gold text-xl sm:text-3xl"
             >
 
-            ✧
+              ✧
 
             </motion.div>
 
             <motion.div
-            animate={{
-              opacity: [0.3, 0.9, 0.3],
-              y: [0, -10, 0],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 5,
-            }}
-            className="absolute left-1/3 bottom-20 sm:bottom-24 text-brand-gold text-lg sm:text-2xl"
+              animate={{
+                opacity: [0.3, 0.9, 0.3],
+                y: [0, -10, 0],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 5,
+              }}
+              className="absolute left-1/3 bottom-20 sm:bottom-24 text-brand-gold text-lg sm:text-2xl"
             >
 
-            ✦
+              ✦
 
             </motion.div>
 
             {/* BOTTOM FADE */}
             <div
-            className="absolute bottom-0 left-0 w-full h-32 sm:h-36 lg:h-44"
-            style={{
-              background:
-                "linear-gradient(to top,#FAF9F6 0%,rgba(250,249,246,0) 100%)",
-            }}
-            />    
+              className="absolute bottom-0 left-0 w-full h-32 sm:h-36 lg:h-44"
+              style={{
+                background:
+                  "linear-gradient(to top,#FAF9F6 0%,rgba(250,249,246,0) 100%)",
+              }}
+            />
 
-            </div>
+          </div>
 
-          </motion.div>
+        </motion.div>
 
       </section>
 
@@ -1097,13 +1096,13 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0, x:-60 }}
+              initial={{ opacity: 0, x: -60 }}
 
-              whileInView={{ opacity:1, x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
-              transition={{ duration:.8 }}
+              transition={{ duration: .8 }}
 
             >
 
@@ -1117,7 +1116,7 @@ const navigate = useNavigate();
 
                 Gifts that
 
-                <br/>
+                <br />
 
                 illuminate
 
@@ -1167,13 +1166,13 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0, x:60 }}
+              initial={{ opacity: 0, x: 60 }}
 
-              whileInView={{ opacity:1, x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
-              transition={{ duration:.8 }}
+              transition={{ duration: .8 }}
 
               className="relative mt-4 lg:mt-0"
 
@@ -1187,9 +1186,9 @@ const navigate = useNavigate();
 
                 <motion.img
 
-                  whileHover={{ scale:1.05 }}
+                  whileHover={{ scale: 1.05 }}
 
-                  transition={{ duration:.8 }}
+                  transition={{ duration: .8 }}
 
                   src={folio}
 
@@ -1207,15 +1206,15 @@ const navigate = useNavigate();
 
                 animate={{
 
-                  y:[-10,10,-10],
+                  y: [-10, 10, -10],
 
                 }}
 
                 transition={{
 
-                  duration:5,
+                  duration: 5,
 
-                  repeat:Infinity,
+                  repeat: Infinity,
 
                 }}
 
@@ -1259,51 +1258,51 @@ const navigate = useNavigate();
 
               {
 
-                value:"500+",
+                value: "500+",
 
-                title:"Corporate Clients",
-
-              },
-
-              {
-
-                value:"25000+",
-
-                title:"Gift Boxes",
+                title: "Corporate Clients",
 
               },
 
               {
 
-                value:"98%",
+                value: "25000+",
 
-                title:"Happy Customers",
+                title: "Gift Boxes",
 
               },
 
               {
 
-                value:"100%",
+                value: "98%",
 
-                title:"Eco Packaging",
+                title: "Happy Customers",
 
               },
 
-            ].map((item,index)=>(
+              {
+
+                value: "100%",
+
+                title: "Eco Packaging",
+
+              },
+
+            ].map((item, index) => (
 
               <motion.div
 
                 key={index}
 
-                initial={{ opacity:0, y:40 }}
+                initial={{ opacity: 0, y: 40 }}
 
-                whileInView={{ opacity:1, y:0 }}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{ once:true }}
+                viewport={{ once: true }}
 
                 transition={{
 
-                  delay:index*.15,
+                  delay: index * .15,
 
                 }}
 
@@ -1351,11 +1350,11 @@ const navigate = useNavigate();
 
           <motion.div
 
-            initial={{ opacity:0,y:40 }}
+            initial={{ opacity: 0, y: 40 }}
 
-            whileInView={{ opacity:1,y:0 }}
+            whileInView={{ opacity: 1, y: 0 }}
 
-            viewport={{ once:true }}
+            viewport={{ once: true }}
 
             className="text-center mb-20"
 
@@ -1392,21 +1391,21 @@ const navigate = useNavigate();
 
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10">
 
-            {DIWALI_COLLECTIONS.map((item,index)=>(
+            {DIWALI_COLLECTIONS.map((item, index) => (
 
               <motion.div
 
                 key={item.title}
 
-                initial={{ opacity:0,y:50 }}
+                initial={{ opacity: 0, y: 50 }}
 
-                whileInView={{ opacity:1,y:0 }}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{ once:true }}
+                viewport={{ once: true }}
 
-                transition={{ delay:index*.12 }}
+                transition={{ delay: index * .12 }}
 
-                whileHover={{ y:-12 }}
+                whileHover={{ y: -12 }}
 
                 className="group"
 
@@ -1420,9 +1419,9 @@ const navigate = useNavigate();
 
                     <motion.img
 
-                      whileHover={{ scale:1.08 }}
+                      whileHover={{ scale: 1.08 }}
 
-                      transition={{ duration:.7 }}
+                      transition={{ duration: .7 }}
 
                       src={item.image}
 
@@ -1438,7 +1437,7 @@ const navigate = useNavigate();
 
                       style={{
 
-                        background:item.color,
+                        background: item.color,
 
                       }}
 
@@ -1450,7 +1449,7 @@ const navigate = useNavigate();
 
                     {/* Gradient */}
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"/>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
                   </div>
 
@@ -1474,7 +1473,7 @@ const navigate = useNavigate();
 
                     <motion.button
 
-                      whileHover={{ x:6 }}
+                      whileHover={{ x: 6 }}
                       onClick={() => navigate("/products")}
 
                       className="mt-8 flex items-center gap-3 text-brand-olive font-semibold"
@@ -1483,7 +1482,7 @@ const navigate = useNavigate();
 
                       Explore Collection
 
-                      <ArrowRight size={18}/>
+                      <ArrowRight size={18} />
 
                     </motion.button>
 
@@ -1522,13 +1521,13 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0,x:-60 }}
+              initial={{ opacity: 0, x: -60 }}
 
-              whileInView={{ opacity:1,x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
-              transition={{ duration:.8 }}
+              transition={{ duration: .8 }}
 
               className="relative"
 
@@ -1536,17 +1535,17 @@ const navigate = useNavigate();
 
               {/* Gold Border */}
 
-              <div className="absolute inset-0 rounded-[40px] border border-brand-gold/30 rotate-2"/>
+              <div className="absolute inset-0 rounded-[40px] border border-brand-gold/30 rotate-2" />
 
               <motion.div
 
                 whileHover={{
-                  scale:1.03,
-                  rotate:-1,
+                  scale: 1.03,
+                  rotate: -1,
                 }}
 
                 transition={{
-                  duration:.6,
+                  duration: .6,
                 }}
 
                 className="relative rounded-[40px] overflow-hidden shadow-2xl"
@@ -1570,12 +1569,12 @@ const navigate = useNavigate();
               <motion.div
 
                 animate={{
-                  y:[-10,10,-10],
+                  y: [-10, 10, -10],
                 }}
 
                 transition={{
-                  duration:5,
-                  repeat:Infinity,
+                  duration: 5,
+                  repeat: Infinity,
                 }}
 
                 className="absolute -right-8 top-10"
@@ -1606,13 +1605,13 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0,x:60 }}
+              initial={{ opacity: 0, x: 60 }}
 
-              whileInView={{ opacity:1,x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
-              transition={{ duration:.8 }}
+              transition={{ duration: .8 }}
 
             >
 
@@ -1632,7 +1631,7 @@ const navigate = useNavigate();
 
                 </span>
 
-                <br/>
+                <br />
 
                 Diwali Hamper
 
@@ -1660,20 +1659,20 @@ const navigate = useNavigate();
                   "Eco Friendly Packaging",
                   "Reusable Gift Box",
                   "Corporate Branding",
-                ].map((item,index)=>(
+                ].map((item, index) => (
 
                   <motion.div
 
                     key={item}
 
-                    initial={{ opacity:0,y:20 }}
+                    initial={{ opacity: 0, y: 20 }}
 
-                    whileInView={{ opacity:1,y:0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
 
-                    viewport={{ once:true }}
+                    viewport={{ once: true }}
 
                     transition={{
-                      delay:index*.08,
+                      delay: index * .08,
                     }}
 
                     className="flex items-center gap-3"
@@ -1701,12 +1700,12 @@ const navigate = useNavigate();
                 <motion.button
 
                   whileHover={{
-                    scale:1.05,
-                    y:-3,
+                    scale: 1.05,
+                    y: -3,
                   }}
 
                   whileTap={{
-                    scale:.97,
+                    scale: .97,
                   }}
                   onClick={() => window.open(catalogue, "_blank")}
 
@@ -1716,14 +1715,14 @@ const navigate = useNavigate();
 
                   Request Catalogue
 
-                  <ArrowRight size={18}/>
+                  <ArrowRight size={18} />
 
                 </motion.button>
 
                 <motion.button
 
                   whileHover={{
-                    scale:1.05,
+                    scale: 1.05,
                   }}
 
                   onClick={() => navigate("/solutions")}
@@ -1748,35 +1747,35 @@ const navigate = useNavigate();
 
             {[
               {
-                title:"Handcrafted",
-                desc:"Every hamper is assembled with meticulous attention to detail.",
+                title: "Handcrafted",
+                desc: "Every hamper is assembled with meticulous attention to detail.",
               },
               {
-                title:"Eco Conscious",
-                desc:"Plastic-free packaging using premium sustainable materials.",
+                title: "Eco Conscious",
+                desc: "Plastic-free packaging using premium sustainable materials.",
               },
               {
-                title:"Fully Customisable",
-                desc:"Add branding, personalised cards and bespoke gift sleeves.",
+                title: "Fully Customisable",
+                desc: "Add branding, personalised cards and bespoke gift sleeves.",
               },
-            ].map((item,index)=>(
+            ].map((item, index) => (
 
               <motion.div
 
                 key={item.title}
 
-                initial={{ opacity:0,y:40 }}
+                initial={{ opacity: 0, y: 40 }}
 
-                whileInView={{ opacity:1,y:0 }}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{ once:true }}
+                viewport={{ once: true }}
 
                 transition={{
-                  delay:index*.12,
+                  delay: index * .12,
                 }}
 
                 whileHover={{
-                  y:-8,
+                  y: -8,
                 }}
 
                 className="bg-white rounded-[30px] p-10 shadow-lg"
@@ -2404,11 +2403,11 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0, x:-50 }}
+              initial={{ opacity: 0, x: -50 }}
 
-              whileInView={{ opacity:1, x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
             >
 
@@ -2428,11 +2427,11 @@ const navigate = useNavigate();
 
             <motion.div
 
-              initial={{ opacity:0, x:50 }}
+              initial={{ opacity: 0, x: 50 }}
 
-              whileInView={{ opacity:1, x:0 }}
+              whileInView={{ opacity: 1, x: 0 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
               className="space-y-6"
 
@@ -2440,43 +2439,43 @@ const navigate = useNavigate();
 
               {[
                 {
-                  title:"Plastic-Free Packaging",
-                  desc:"Beautiful recyclable packaging crafted with premium paper and reusable materials.",
-                  icon:"🌿",
+                  title: "Plastic-Free Packaging",
+                  desc: "Beautiful recyclable packaging crafted with premium paper and reusable materials.",
+                  icon: "🌿",
                 },
                 {
-                  title:"Handcrafted by Artisans",
-                  desc:"Supporting local communities and preserving traditional craftsmanship.",
-                  icon:"🤝",
+                  title: "Handcrafted by Artisans",
+                  desc: "Supporting local communities and preserving traditional craftsmanship.",
+                  icon: "🤝",
                 },
                 {
-                  title:"Responsibly Sourced",
-                  desc:"Curated products sourced from trusted sustainable partners.",
-                  icon:"🌱",
+                  title: "Responsibly Sourced",
+                  desc: "Curated products sourced from trusted sustainable partners.",
+                  icon: "🌱",
                 },
                 {
-                  title:"Reusable Gift Boxes",
-                  desc:"Designed to be repurposed long after the celebration ends.",
-                  icon:"♻️",
+                  title: "Reusable Gift Boxes",
+                  desc: "Designed to be repurposed long after the celebration ends.",
+                  icon: "♻️",
                 },
-              ].map((item,index)=>(
+              ].map((item, index) => (
 
                 <motion.div
 
                   key={item.title}
 
-                  initial={{ opacity:0,y:20 }}
+                  initial={{ opacity: 0, y: 20 }}
 
-                  whileInView={{ opacity:1,y:0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
 
-                  viewport={{ once:true }}
+                  viewport={{ once: true }}
 
                   transition={{
-                    delay:index*.08,
+                    delay: index * .08,
                   }}
 
                   whileHover={{
-                    y:-6,
+                    y: -6,
                   }}
 
                   className="bg-white rounded-3xl shadow-lg p-6"
@@ -2523,39 +2522,39 @@ const navigate = useNavigate();
 
             {[
               {
-                value:"100%",
-                title:"Plastic-Free",
+                value: "100%",
+                title: "Plastic-Free",
               },
               {
-                value:"5000+",
-                title:"Eco Gift Boxes",
+                value: "5000+",
+                title: "Eco Gift Boxes",
               },
               {
-                value:"200+",
-                title:"Artisans Supported",
+                value: "200+",
+                title: "Artisans Supported",
               },
               {
-                value:"98%",
-                title:"Reusable Packaging",
+                value: "98%",
+                title: "Reusable Packaging",
               },
-            ].map((item,index)=>(
+            ].map((item, index) => (
 
               <motion.div
 
                 key={item.title}
 
-                initial={{ opacity:0,y:40 }}
+                initial={{ opacity: 0, y: 40 }}
 
-                whileInView={{ opacity:1,y:0 }}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{ once:true }}
+                viewport={{ once: true }}
 
                 transition={{
-                  delay:index*.1,
+                  delay: index * .1,
                 }}
 
                 whileHover={{
-                  y:-6,
+                  y: -6,
                 }}
 
                 className="bg-white rounded-[30px] shadow-lg p-8 text-center"
@@ -2586,11 +2585,11 @@ const navigate = useNavigate();
 
             <motion.h3
 
-              initial={{ opacity:0 }}
+              initial={{ opacity: 0 }}
 
-              whileInView={{ opacity:1 }}
+              whileInView={{ opacity: 1 }}
 
-              viewport={{ once:true }}
+              viewport={{ once: true }}
 
               className="font-serif text-4xl text-center mb-20"
 
@@ -2608,20 +2607,20 @@ const navigate = useNavigate();
                 "Eco Packaging",
                 "Quality Inspection",
                 "Carbon Conscious Delivery",
-              ].map((step,index)=>(
+              ].map((step, index) => (
 
                 <motion.div
 
                   key={step}
 
-                  initial={{ opacity:0,y:30 }}
+                  initial={{ opacity: 0, y: 30 }}
 
-                  whileInView={{ opacity:1,y:0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
 
-                  viewport={{ once:true }}
+                  viewport={{ once: true }}
 
                   transition={{
-                    delay:index*.08,
+                    delay: index * .08,
                   }}
 
                   className="relative text-center"
@@ -2630,7 +2629,7 @@ const navigate = useNavigate();
 
                   <div className="w-20 h-20 mx-auto rounded-full bg-brand-olive text-white flex items-center justify-center text-2xl font-bold shadow-lg">
 
-                    {index+1}
+                    {index + 1}
 
                   </div>
 
@@ -2746,9 +2745,8 @@ const navigate = useNavigate();
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.12 }}
-                className={`relative flex items-center mb-20 ${
-                  index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
-                }`}
+                className={`relative flex items-center mb-20 ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                  }`}
               >
 
                 {/* Card */}
@@ -3105,9 +3103,9 @@ const navigate = useNavigate();
           {/* Heading */}
 
           <motion.div
-            initial={{ opacity:0,y:40 }}
-            whileInView={{ opacity:1,y:0 }}
-            viewport={{ once:true }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-center mb-20"
           >
 
@@ -3142,35 +3140,35 @@ const navigate = useNavigate();
 
             {[
               {
-                name:"Ananya Sharma",
-                company:"HR Head • TechNova",
-                review:"Our employees absolutely loved the Diwali hampers. The presentation, sustainability and premium quality exceeded expectations."
+                name: "Ananya Sharma",
+                company: "HR Head • TechNova",
+                review: "Our employees absolutely loved the Diwali hampers. The presentation, sustainability and premium quality exceeded expectations."
               },
               {
-                name:"Rahul Mehta",
-                company:"Procurement Lead • FinEdge",
-                review:"Ecotwist handled over 2,000 customised hampers flawlessly. The branding and delivery were exceptional."
+                name: "Rahul Mehta",
+                company: "Procurement Lead • FinEdge",
+                review: "Ecotwist handled over 2,000 customised hampers flawlessly. The branding and delivery were exceptional."
               },
               {
-                name:"Priya Kapoor",
-                company:"Marketing Director • Zenith",
-                review:"Elegant packaging, thoughtful curation and sustainable products made our festive campaign memorable."
+                name: "Priya Kapoor",
+                company: "Marketing Director • Zenith",
+                review: "Elegant packaging, thoughtful curation and sustainable products made our festive campaign memorable."
               }
-            ].map((item,index)=>(
+            ].map((item, index) => (
 
               <motion.div
 
                 key={item.name}
 
-                initial={{opacity:0,y:40}}
+                initial={{ opacity: 0, y: 40 }}
 
-                whileInView={{opacity:1,y:0}}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{once:true}}
+                viewport={{ once: true }}
 
-                transition={{delay:index*.12}}
+                transition={{ delay: index * .12 }}
 
-                whileHover={{y:-8}}
+                whileHover={{ y: -8 }}
 
                 className="bg-white rounded-[30px] p-8 shadow-xl"
 
@@ -3221,11 +3219,11 @@ const navigate = useNavigate();
 
           <motion.div
 
-            initial={{opacity:0,y:40}}
+            initial={{ opacity: 0, y: 40 }}
 
-            whileInView={{opacity:1,y:0}}
+            whileInView={{ opacity: 1, y: 0 }}
 
-            viewport={{once:true}}
+            viewport={{ once: true }}
 
             className="text-center mb-20"
 
@@ -3249,34 +3247,34 @@ const navigate = useNavigate();
 
             {[
               {
-                q:"What is the minimum order quantity?",
-                a:"We typically cater to corporate orders starting from 25 hampers, with flexible options based on your requirements."
+                q: "What is the minimum order quantity?",
+                a: "We typically cater to corporate orders starting from 25 hampers, with flexible options based on your requirements."
               },
               {
-                q:"Can we customise the packaging?",
-                a:"Yes. We offer logo printing, personalised greeting cards, branded sleeves and fully customised gift boxes."
+                q: "Can we customise the packaging?",
+                a: "Yes. We offer logo printing, personalised greeting cards, branded sleeves and fully customised gift boxes."
               },
               {
-                q:"Do you deliver across India?",
-                a:"Yes. We provide safe and timely delivery to offices, homes and multiple locations nationwide."
+                q: "Do you deliver across India?",
+                a: "Yes. We provide safe and timely delivery to offices, homes and multiple locations nationwide."
               },
               {
-                q:"Can we request product samples?",
-                a:"Absolutely. Sample hampers are available before placing large corporate orders."
+                q: "Can we request product samples?",
+                a: "Absolutely. Sample hampers are available before placing large corporate orders."
               }
-            ].map((item,index)=>(
+            ].map((item, index) => (
 
               <motion.details
 
                 key={index}
 
-                initial={{opacity:0,y:20}}
+                initial={{ opacity: 0, y: 20 }}
 
-                whileInView={{opacity:1,y:0}}
+                whileInView={{ opacity: 1, y: 0 }}
 
-                viewport={{once:true}}
+                viewport={{ once: true }}
 
-                transition={{delay:index*.08}}
+                transition={{ delay: index * .08 }}
 
                 className="group bg-brand-beige rounded-[24px] p-6 cursor-pointer"
 
@@ -3317,21 +3315,21 @@ const navigate = useNavigate();
 
         <div className="absolute inset-0">
 
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-dark-olive via-brand-olive to-brand-dark-olive"/>
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-dark-olive via-brand-olive to-brand-dark-olive" />
 
-          <div className="absolute left-0 top-0 w-[600px] h-[600px] rounded-full bg-brand-gold/10 blur-[180px]"/>
+          <div className="absolute left-0 top-0 w-[600px] h-[600px] rounded-full bg-brand-gold/10 blur-[180px]" />
 
-          <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-brand-gold/10 blur-[180px]"/>
+          <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-brand-gold/10 blur-[180px]" />
 
         </div>
 
         <motion.div
 
-          initial={{opacity:0,y:40}}
+          initial={{ opacity: 0, y: 40 }}
 
-          whileInView={{opacity:1,y:0}}
+          whileInView={{ opacity: 1, y: 0 }}
 
-          viewport={{once:true}}
+          viewport={{ once: true }}
 
           className="relative max-w-5xl mx-auto text-center px-6"
 

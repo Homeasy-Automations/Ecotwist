@@ -86,13 +86,20 @@ export const Footer = () => {
             </p>
 
             <div className="flex gap-4">
-              {['Instagram', 'LinkedIn', 'Facebook', 'Youtube'].map((social) => (
+              {[
+                { name: 'Instagram', href: 'https://www.instagram.com/ecotwiststores' },
+                { name: 'LinkedIn', href: 'https://www.linkedin.com/company/ecotwiststores/' },
+                { name: 'Facebook', href: 'https://www.facebook.com/ecotwiststore' },
+                { name: 'Youtube', href: 'https://www.youtube.com/@ecotwiststores' },
+              ].map((social) => (
                 <a
-                  key={social}
-                  href="#"
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[10px] uppercase tracking-widest font-bold text-gray-400 hover:text-white transition-colors"
                 >
-                  {social}
+                  {social.name}
                 </a>
               ))}
             </div>
