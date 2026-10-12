@@ -86,7 +86,7 @@ export const Footer = () => {
             </p>
 
             <div className="flex gap-4">
-              {['Instagram', 'LinkedIn', 'Journal'].map((social) => (
+              {['Instagram', 'LinkedIn', 'Facebook', 'Youtube'].map((social) => (
                 <a
                   key={social}
                   href="#"
@@ -150,11 +150,10 @@ export const Footer = () => {
                 className={`bg-white/5 border rounded-sm px-4 py-3 text-sm
                 focus:outline-none transition-colors text-white
                 placeholder:text-gray-500
-                ${
-                  error
+                ${error
                     ? "border-red-500"
                     : "border-white/10 focus:border-brand-olive"
-                }`}
+                  }`}
               />
               {error && (
                 <p className="text-red-400 text-xs">
@@ -183,7 +182,7 @@ export const Footer = () => {
       </div>
       <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 flex flex-wrap justify-center gap-x-8 gap-y-2">
-          <span>© 2024 ECOTWIST INC.</span>
+          <span>© 2024 ECOTWIST.</span>
           <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           <Link to="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
           <Link to="/refund-policy" className="hover:text-white transition-colors">Refund Policy</Link>
