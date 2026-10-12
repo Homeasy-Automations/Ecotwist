@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow confirmation / private routes
+Disallow: /thanks
+
+# Host
+Host: https://ecotwist.in
+
+# Sitemap location
+Sitemap: https://ecotwist.in/sitemap.xml
