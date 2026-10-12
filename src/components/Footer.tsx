@@ -120,7 +120,7 @@ export const Footer = () => {
               <h5 className="font-bold mb-6 uppercase tracking-widest text-[10px] text-brand-olive">Company</h5>
               <ul className="space-y-4 text-sm text-gray-400">
                 <li><Link to="/impact" className="hover:text-white transition-colors">Our Artisans</Link></li>
-                <li><Link to="/impact" className="hover:text-white transition-colors">Impact 2024</Link></li>
+                <li><Link to="/impact" className="hover:text-white transition-colors">Impact 2026</Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Press Kit</a></li>
               </ul>
