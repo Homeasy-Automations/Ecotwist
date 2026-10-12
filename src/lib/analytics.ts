@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const GA_MEASUREMENT_ID = 'G-5CPVWVZ880';
-export const META_PIXEL_ID = '4461432844121458';
+export const META_PIXEL_ID = '32107059305609240';
 
 declare global {
   interface Window {
