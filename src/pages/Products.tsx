@@ -36,6 +36,7 @@ interface SignatureItem {
 // File names contain spaces, so encode them for the URL. encodeURI leaves "+" as is:
 // it is literal in a path, and an encoded %2B is not decoded by every static server.
 const productPhoto = (file: string) => encodeURI(`/Products/${file}`);
+const cataloguePhoto = (file: string) => encodeURI(`/catalogue/${file}`);
 
 // Several photos of one design share a name, so count names rather than photos
 const designCount = (designs: Design[]) => new Set(designs.map(d => d.name)).size;
@@ -81,10 +82,10 @@ const threeJarBoxes: Design[] = [
 ];
 
 const fourJarBoxes: Design[] = [
-  { sku: "9003", name: "Nandi 4 Jar Box", src: "/catalogue/21_9003_Nandi-4-Jar-Box.jpg" },
-  { sku: "9003A", name: "White MGI 4 Jar Box", src: "/catalogue/22_9003A_White-MGI-4-Jar-Box.jpg" },
-  { sku: "9003B", name: "Blue Mystic Scodix 4 Jar Box", src: "/catalogue/23_9003B_Blue-Mystic-Scodix-4-Jar-Box.jpg" },
-  { sku: "9003C", name: "Rajasthan Theme 4 Jar Box", src: "/catalogue/24_9003C_Rajasthan-Theme-4-Jar-Box.jpg" },
+  { sku: "9003", name: "Ornate Rajasthani Gift Box Collection", src: cataloguePhoto("Ornate Rajasthani Gift Box Collection.png") },
+  { sku: "9003A", name: "Ornate Peacock Gift Box Collection", src: cataloguePhoto("Ornate Peacock Gift Box Collection.png") },
+  { sku: "9003B", name: "Blue Mystic Scodix 4 Jar Box", src: cataloguePhoto("blue-mystic-4-jar-box-enhanced.png") },
+  { sku: "9003C", name: "Rajasthan Theme 4 Jar Box", src: cataloguePhoto("rajasthan-theme-4-jar-box-enhanced.png") },
   { sku: "7002", name: "Orange Theme 4 Jar Box", src: "/catalogue/25_7002_Orange-Theme-4-Jar-Box.jpg" },
   { sku: "4002", name: "Mahal Theme 4 Jar Box", src: "/catalogue/26_4002_Mahal-Theme-4-Jar-Box.jpg" },
   { sku: "7202", name: "Blue Peacock 4 Jar Box", src: "/catalogue/27_7202_Blue-Peacock-4-Jar-Box.jpg" },
@@ -223,7 +224,7 @@ const signatureRange: SignatureItem[] = [
     id: "gift-box-4-jar", category: "Gift Boxes", name: "4 Jar Gift Boxes",
     description: "Our widest range — lift-open, carry-bag, cavity and pinewood boxes holding four jars.",
     tags: [`${designCount(fourJarBoxes)} designs`, "Jars included"],
-    image: "/catalogue/21_9003_Nandi-4-Jar-Box.jpg", icon: Gift, tint: "#e3d3c4", designs: fourJarBoxes,
+    image: fourJarBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: fourJarBoxes,
   },
   {
     id: "soy-wax-candles", category: "Candles", name: "Scented Candles",
