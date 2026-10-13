@@ -120,7 +120,7 @@ export const DiwaliFooter = () => {
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/configurator"
+              to="/configurator?occasion=festival"
               className="inline-flex items-center justify-center rounded-full border border-[#E9C46A]/60 px-7 py-3.5 text-sm font-medium text-[#F6D27A] transition-colors hover:bg-white/5"
             >
               Get Proposal
@@ -173,7 +173,7 @@ export const DiwaliFooter = () => {
                 <li><Link to="/occasions/depawali-gifting" className={linkClass}>Diwali Collection</Link></li>
                 <li><a href={catalogue} target="_blank" rel="noopener noreferrer" className={linkClass}>Diwali Catalogue</a></li>
                 <li><Link to="/products?category=Gift%20Boxes" className={linkClass}>Gift Boxes</Link></li>
-                <li><Link to="/configurator" className={linkClass}>Get Proposal</Link></li>
+                <li><Link to="/configurator?occasion=festival" className={linkClass}>Get Proposal</Link></li>
               </ul>
             </div>
             <div>

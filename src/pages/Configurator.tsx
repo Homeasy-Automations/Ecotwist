@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle } from 'lucide-react';
 import { useNavigate, useLocation } from "react-router-dom";
+import { activeFestival } from "../config/festival";
+import type { Festival } from "../config/festival";
 
 /* ─────────────────────────────────────────────
    Only animation keyframes injected globally.
@@ -67,6 +69,7 @@ const ANIM_STYLES = `
   .anim-card:nth-child(2) { animation-delay:.11s; }
   .anim-card:nth-child(3) { animation-delay:.18s; }
   .anim-card:nth-child(4) { animation-delay:.25s; }
+  .anim-card:nth-child(5) { animation-delay:.32s; }
 
   /* Gold bottom line on selected card */
   .card-selected-line::after {
@@ -193,8 +196,11 @@ export const Configurator = () => {
   // In-page links (e.g. a product's "Order Now") keep the previous page's scroll position
   React.useEffect(() => { window.scrollTo(0, 0); }, []);
   const [contentKey, setContentKey] = React.useState(0);   // drives re-mount of content only
+
+  // /configurator?occasion=festival opens with the festival option (src/config/festival.ts) selected
+  const festivalLinked = !!activeFestival && new URLSearchParams(location.search).get('occasion') === 'festival';
   const [selected, setSelected]   = React.useState<Record<number,string>>({
-    1: 'Employee Appreciation', 2: '₹100 - ₹500', 3: '50 - 100', 4: 'Logo Print',
+    1: festivalLinked ? activeFestival!.title : 'Employee Appreciation', 2: '₹100 - ₹500', 3: '50 - 100', 4: 'Logo Print',
   });
 
   const goToStep = (s: number) => {
@@ -258,6 +264,10 @@ export const Configurator = () => {
   };
 
   const content  = step === 1 && product ? productStepContent : stepContent[step];
+  // The active festival leads the Occasion options
+  const options  = step === 1 && activeFestival
+    ? [{ title: activeFestival.title, desc: activeFestival.desc, festival: activeFestival }, ...content.data]
+    : content?.data;
   const [img1, img2] = images[step];
   const quote    = quotes[step];
 
@@ -289,10 +299,11 @@ export const Configurator = () => {
         <main className="max-w-7xl mx-auto px-6 lg:px-10 py-6 grid lg:grid-cols-12 gap-10 lg:gap-20 items-start">
 
           {/* ── LEFT ── */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 min-w-0">
 
             {/* ── STEPPER — outside contentKey, NEVER re-animates ── */}
-            <div className="mb-8">
+            {/* scrolls sideways on narrow screens instead of widening the page */}
+            <div className="mb-8 overflow-x-auto">
               <div className="flex items-center gap-1 w-fit border border-brand-dark-olive/10 bg-brand-dark-olive/[0.03] p-1">
                 {steps.map((s, i) => (
                   <React.Fragment key={s.id}>
@@ -476,8 +487,9 @@ export const Configurator = () => {
                     STEP 1–4 → OPTION CARDS
                   ───────────────────────────── */
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {content?.data?.map((item: any) => {
+                    {options?.map((item: any) => {
                       const isSel = selected[step] === item.title;
+                      const fest: Festival | undefined = item.festival;
 
                       let ref: HTMLDivElement | null = null;
 
@@ -491,11 +503,18 @@ export const Configurator = () => {
                           onMouseMove={(e) => onTilt(e, ref)}
                           onMouseLeave={() => onTiltLeave(ref, isSel)}
                           className={`anim-card card-3d group relative p-8 border-2 cursor-pointer transition-colors
+                            ${fest ? "md:col-span-2" : ""}
                             ${
                               isSel
                                 ? "border-brand-dark-olive bg-white card-selected-line"
                                 : "border-brand-dark-olive/10 bg-white/50 hover:bg-white hover:border-brand-dark-olive/30"
                             }`}
+                          style={fest ? {
+                            // festive gradient border around a tinted card
+                            borderColor: 'transparent',
+                            background: `linear-gradient(${fest.tint}, ${fest.tint}) padding-box, linear-gradient(120deg, ${fest.accent[0]}, ${fest.accent[1]}) border-box`,
+                            boxShadow: isSel ? `0 18px 40px -22px ${fest.accent[1]}` : undefined,
+                          } : undefined}
                         >
                           {isSel && (
                             <div className="absolute top-6 right-6 anim-check">
@@ -506,7 +525,25 @@ export const Configurator = () => {
                             </div>
                           )}
 
+                          {fest && (
+                            <div className="flex flex-wrap items-center gap-3 mb-4 pr-8">
+                              <span
+                                className="text-[9px] uppercase tracking-widest font-bold text-white px-3 py-1.5"
+                                style={{ background: `linear-gradient(90deg, ${fest.accent[0]}, ${fest.accent[1]})` }}
+                              >
+                                Festive Special
+                              </span>
+                              <span
+                                className="text-base"
+                                style={{ color: fest.accent[1], fontFamily: '"Tiro Devanagari Hindi", "Nirmala UI", serif' }}
+                              >
+                                {fest.greeting}
+                              </span>
+                            </div>
+                          )}
+
                           <h3 className="font-serif text-2xl mb-3">
+                            {fest && <span className="mr-2" aria-hidden>{fest.icon}</span>}
                             {item.title}
                           </h3>
 
