@@ -42,19 +42,19 @@ const cataloguePhoto = (file: string) => encodeURI(`/catalogue/${file}`);
 const designCount = (designs: Design[]) => new Set(designs.map(d => d.name)).size;
 
 const twoJarBoxes: Design[] = [
-  { name: "Printed 2 Jar Suitcase Box", src: productPhoto("2 jar gift Box.JPG") },
-  { name: "Printed 2 Jar Suitcase Box", src: productPhoto("2 jar Gift Box 2.JPG") },
+  { name: "Printed 2 Jar Gift Box", src: productPhoto("2 jar gift Box.JPG") },
+  { name: "Printed 2 Jar Gift Box", src: productPhoto("2 jar Gift Box 2.JPG") },
   { sku: "9065", name: "Nandi MGI 2 Jar Box", src: cataloguePhoto("nandi-mgi-2-jar-box-enhanced.webp") },
   { sku: "9065A", name: "White MGI 2 Jar Box", src: cataloguePhoto("white-mgi-2-jar-box-enhanced.webp") },
-  { sku: "9065B", name: "Blue Mystic 2 Jar Box", src: "/catalogue/03_9065B_Blue-Mystic-2-Jar-Box.jpg" },
-  { sku: "9065C", name: "Rajasthan 2 Jar Box", src: "/catalogue/04_9065C_Rajasthan-2-Jar-Box.jpg" },
-  { sku: "7201-R", name: "Rajasthani Theme 2 Jar Box", src: "/catalogue/05_7201-R_Rajasthani-Theme-2-Jar-Box.jpg" },
-  { sku: "7201-P", name: "Peacock Theme 2 Jar Box", src: "/catalogue/06_7201-P_Peacock-Theme-2-Jar-Box.jpg" },
-  { sku: "7201-F", name: "Flower Theme 2 Jar Box", src: "/catalogue/07_7201-F_Flower-Theme-2-Jar-Box.jpg" },
-  { sku: "7201-M", name: "Mahal Theme 2 Jar Box", src: "/catalogue/08_7201-M_Mahal-Theme-2-Jar-Box.jpg" },
-  { sku: "7203", name: "Green Suede 2 Jar Box", src: "/catalogue/09_7203_Green-Suede-2-Jar-Box.jpg" },
-  { sku: "7200", name: "White Majestic 2 Jar Box", src: "/catalogue/10_7200_White-Majestic-2-Jar-Box.jpg" },
-  { sku: "7009", name: "Blue Diamond 2 Jar Carry Bag Box", src: "/catalogue/11_7009_Blue-Diamond-2-Jar-Carry-Bag-Box.jpg" },
+  { sku: "9065B", name: "Blue Mystic 2 Jar Box", src: cataloguePhoto("blue-mystic-2-jar-box-enhanced.webp") },
+  { sku: "9065C", name: "Rajasthan 2 Jar Box", src: cataloguePhoto("rajasthan-2-jar-box-enhanced.webp") },
+  { sku: "7201-R", name: "Rajasthani Theme 2 Jar Box", src: cataloguePhoto("rajasthani-theme-2-jar-box-enhanced.webp") },
+  { sku: "7201-P", name: "Peacock Theme 2 Jar Box", src: cataloguePhoto("peacock-theme-2-jar-box-enhanced.webp") },
+  { sku: "7201-F", name: "Flower Theme 2 Jar Box", src: cataloguePhoto("flower-theme-2-jar-box-enhanced.webp") },
+  { sku: "7201-M", name: "Mahal Theme 2 Jar Box", src: cataloguePhoto("mahal-theme-2-jar-box-enhanced.webp") },
+  { sku: "7203", name: "Green Suede 2 Jar Box", src: cataloguePhoto("green-suede-2-jar-box-enhanced.webp") },
+  { sku: "7200", name: "White Majestic 2 Jar Box", src: cataloguePhoto("white-majestic-2-jar-box-enhanced.webp") },
+  { sku: "7009", name: "Blue Diamond 2 Jar Carry Bag Box", src: cataloguePhoto("blue-diamond-2-jar-carry-bag-box-enhanced.webp") },
   { sku: "9079", name: "Wooden Rotating 2 Jar Tray", src: "/catalogue/12_9079_Wooden-Rotating-2-Jar-Tray.jpg" },
   { sku: "9501", name: "MGI 2 Tin Jar Bag", src: "/catalogue/52_9501_MGI-2-Tin-Jar-Bag.jpg" },
   { sku: "9026", name: "2 Jar 2 Chocolate Box", src: "/catalogue/58_9026_2-Jar-2-Chocolate-Box.jpg" },
@@ -379,7 +379,7 @@ function ParticleCanvas() {
     canvas.width = W; canvas.height = H;
 
     type Particle = { x: number; y: number; vx: number; vy: number; size: number; alpha: number; color: string; };
-    const colors = ["#c8a96e","#7a9e7e","#e8e4dd","#b87355"];
+    const colors = ["#c8a96e", "#7a9e7e", "#e8e4dd", "#b87355"];
     const particles: Particle[] = Array.from({ length: 55 }, () => ({
       x: Math.random() * W, y: Math.random() * H,
       vx: (Math.random() - 0.5) * 0.3, vy: -Math.random() * 0.4 - 0.1,
@@ -502,7 +502,7 @@ function RippleBtn({ children, className, onClick }: { children: React.ReactNode
     const x = e.clientX - rect.left, y = e.clientY - rect.top;
     const ripple = document.createElement("span");
     const size = Math.max(rect.width, rect.height) * 2;
-    ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.25);left:${x - size/2}px;top:${y - size/2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
+    ripple.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,0.25);left:${x - size / 2}px;top:${y - size / 2}px;transform:scale(0);animation:rippleAnim 0.6s ease-out forwards;pointer-events:none;`;
     btn.appendChild(ripple);
     setTimeout(() => ripple.remove(), 700);
     onClick?.();
@@ -657,88 +657,88 @@ function DesignGallery({ item, onClose, onOrder }: {
 
   return (
     <BodyPortal>
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-6 bg-black/60 backdrop-blur-sm"
-      style={{ animation: "heroFade 0.25s ease both" }}
-      onClick={onClose}>
-      <div className="scale-in bg-[#faf8f4] max-w-5xl w-full rounded-sm shadow-2xl overflow-hidden flex flex-col max-h-[94vh]"
-        onClick={e => e.stopPropagation()}>
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 px-5 md:px-7 pt-5 pb-4 border-b border-[#e8e4dd]">
-          <div>
-            <p className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e] mb-1">{item.category}</p>
-            <h3 className="font-display text-2xl md:text-3xl font-light text-[#1c2b1e] leading-tight">{item.name}</h3>
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-6 bg-black/60 backdrop-blur-sm"
+        style={{ animation: "heroFade 0.25s ease both" }}
+        onClick={onClose}>
+        <div className="scale-in bg-[#faf8f4] max-w-5xl w-full rounded-sm shadow-2xl overflow-hidden flex flex-col max-h-[94vh]"
+          onClick={e => e.stopPropagation()}>
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 px-5 md:px-7 pt-5 pb-4 border-b border-[#e8e4dd]">
+            <div>
+              <p className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e] mb-1">{item.category}</p>
+              <h3 className="font-display text-2xl md:text-3xl font-light text-[#1c2b1e] leading-tight">{item.name}</h3>
+            </div>
+            <div className="flex items-center gap-4">
+              {designs.length > 1 && (
+                <span className="font-body text-xs text-[#8c8880] whitespace-nowrap">{active + 1} / {designs.length}</span>
+              )}
+              <button onClick={onClose} aria-label="Close gallery"
+                className="text-[#8c8880] hover:text-[#1c2b1e] text-3xl leading-none"
+                style={{ transition: "transform 0.25s ease, color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.transform = "rotate(90deg) scale(1.2)")}
+                onMouseLeave={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1)")}>×</button>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            {designs.length > 1 && (
-              <span className="font-body text-xs text-[#8c8880] whitespace-nowrap">{active + 1} / {designs.length}</span>
-            )}
-            <button onClick={onClose} aria-label="Close gallery"
-              className="text-[#8c8880] hover:text-[#1c2b1e] text-3xl leading-none"
-              style={{ transition: "transform 0.25s ease, color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.transform = "rotate(90deg) scale(1.2)")}
-              onMouseLeave={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1)")}>×</button>
-          </div>
-        </div>
 
-        {/* Main image */}
-        <div className="relative bg-[#ebe6e0] flex items-center justify-center min-h-0 flex-1">
-          <img key={current.src} src={current.src} alt={current.name}
-            className="w-full h-full object-contain max-h-[58vh]"
-            style={{ animation: "heroFade 0.35s ease both" }} />
+          {/* Main image */}
+          <div className="relative bg-[#ebe6e0] flex items-center justify-center min-h-0 flex-1">
+            <img key={current.src} src={current.src} alt={current.name}
+              className="w-full h-full object-contain max-h-[58vh]"
+              style={{ animation: "heroFade 0.35s ease both" }} />
+            {designs.length > 1 && (
+              <>
+                <button onClick={() => go(-1)} aria-label="Previous design"
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
+                  <ChevronLeft size={20} strokeWidth={1.5} />
+                </button>
+                <button onClick={() => go(1)} aria-label="Next design"
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
+                  <ChevronRight size={20} strokeWidth={1.5} />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Caption */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 md:px-7 py-4 border-t border-[#e8e4dd]">
+            <div>
+              {item.designs ? (
+                <>
+                  <p className="font-display text-xl font-light text-[#1c2b1e] leading-snug">{current.name}</p>
+                  {current.sku && <p className="font-body text-[10px] tracking-widest uppercase text-[#8c8880] mt-0.5">SKU {current.sku}</p>}
+                </>
+              ) : (
+                <>
+                  <p className="font-body text-sm text-[#555] leading-relaxed max-w-xl">{item.description}</p>
+                  <p className="font-body text-[10px] tracking-widest uppercase text-[#c8a96e] mt-1">{item.tags.join(" · ")}</p>
+                </>
+              )}
+            </div>
+            <RippleBtn onClick={() => onOrder(current)}
+              className="font-body text-[10px] tracking-widest uppercase bg-[#1c2b1e] text-white px-6 py-3 hover:bg-[#c8a96e] whitespace-nowrap">
+              {item.designs ? "Order This Design" : "Order Now"}
+            </RippleBtn>
+          </div>
+
+          {/* Thumbnails */}
           {designs.length > 1 && (
-            <>
-              <button onClick={() => go(-1)} aria-label="Previous design"
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
-                <ChevronLeft size={20} strokeWidth={1.5} />
-              </button>
-              <button onClick={() => go(1)} aria-label="Next design"
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
-                <ChevronRight size={20} strokeWidth={1.5} />
-              </button>
-            </>
+            <div ref={thumbsRef} className="flex gap-2 overflow-x-auto px-5 md:px-7 pt-1.5 pb-5 relative">
+              {designs.map((d, i) => (
+                <button key={d.src} onClick={() => setActive(i)} aria-label={d.name}
+                  className="flex-shrink-0 w-20 h-[62px] overflow-hidden rounded-sm bg-[#ebe6e0]"
+                  style={{
+                    outline: i === active ? "2px solid #c8a96e" : "1px solid #e8e4dd",
+                    outlineOffset: i === active ? "2px" : "0",
+                    opacity: i === active ? 1 : 0.6,
+                    transition: "opacity 0.2s, outline-color 0.2s",
+                  }}>
+                  <img src={d.src} alt="" loading="lazy" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
           )}
         </div>
-
-        {/* Caption */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 md:px-7 py-4 border-t border-[#e8e4dd]">
-          <div>
-            {item.designs ? (
-              <>
-                <p className="font-display text-xl font-light text-[#1c2b1e] leading-snug">{current.name}</p>
-                {current.sku && <p className="font-body text-[10px] tracking-widest uppercase text-[#8c8880] mt-0.5">SKU {current.sku}</p>}
-              </>
-            ) : (
-              <>
-                <p className="font-body text-sm text-[#555] leading-relaxed max-w-xl">{item.description}</p>
-                <p className="font-body text-[10px] tracking-widest uppercase text-[#c8a96e] mt-1">{item.tags.join(" · ")}</p>
-              </>
-            )}
-          </div>
-          <RippleBtn onClick={() => onOrder(current)}
-            className="font-body text-[10px] tracking-widest uppercase bg-[#1c2b1e] text-white px-6 py-3 hover:bg-[#c8a96e] whitespace-nowrap">
-            {item.designs ? "Order This Design" : "Order Now"}
-          </RippleBtn>
-        </div>
-
-        {/* Thumbnails */}
-        {designs.length > 1 && (
-        <div ref={thumbsRef} className="flex gap-2 overflow-x-auto px-5 md:px-7 pt-1.5 pb-5 relative">
-          {designs.map((d, i) => (
-            <button key={d.src} onClick={() => setActive(i)} aria-label={d.name}
-              className="flex-shrink-0 w-20 h-[62px] overflow-hidden rounded-sm bg-[#ebe6e0]"
-              style={{
-                outline: i === active ? "2px solid #c8a96e" : "1px solid #e8e4dd",
-                outlineOffset: i === active ? "2px" : "0",
-                opacity: i === active ? 1 : 0.6,
-                transition: "opacity 0.2s, outline-color 0.2s",
-              }}>
-              <img src={d.src} alt="" loading="lazy" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-        )}
       </div>
-    </div>
     </BodyPortal>
   );
 }
@@ -1195,7 +1195,7 @@ export default function ExecutiveGiftPage() {
         {/* Stats bar */}
         <div ref={statsRef} className="relative border-t border-white/10" style={{ zIndex: 3 }}>
           <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {[["20","+","Curated Products"],["100","%","Organic & Recycled"],["40","+","Artisan Makers"],["12","k+","Happy Recipients"]].map(([n,s,l], i) => (
+            {[["20", "+", "Curated Products"], ["100", "%", "Organic & Recycled"], ["40", "+", "Artisan Makers"], ["12", "k+", "Happy Recipients"]].map(([n, s, l], i) => (
               <div key={l} style={{
                 opacity: statsVisible ? 1 : 0,
                 transform: statsVisible ? "translateY(0) scale(1)" : "translateY(20px) scale(0.9)",
@@ -1220,9 +1220,9 @@ export default function ExecutiveGiftPage() {
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
             <span style={{ fontFamily: "'Jost', sans-serif", fontSize: "9px", letterSpacing: "0.4em", color: "rgba(255,255,255,0.4)", textTransform: "uppercase" }}>Scroll</span>
             <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-              <rect x="5.5" y="0.5" width="5" height="10" rx="2.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-              <rect x="7" y="2" width="2" height="3" rx="1" fill="rgba(200,169,110,0.7)" style={{ animation: "scrollBounce 2s ease-in-out infinite" }}/>
-              <path d="M8 16l-3 4h6l-3-4z" fill="rgba(255,255,255,0.3)"/>
+              <rect x="5.5" y="0.5" width="5" height="10" rx="2.5" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+              <rect x="7" y="2" width="2" height="3" rx="1" fill="rgba(200,169,110,0.7)" style={{ animation: "scrollBounce 2s ease-in-out infinite" }} />
+              <path d="M8 16l-3 4h6l-3-4z" fill="rgba(255,255,255,0.3)" />
             </svg>
           </div>
         </div>
@@ -1248,7 +1248,7 @@ export default function ExecutiveGiftPage() {
             style={{ animation: "navCascade 0.5s ease 0.9s both", transition: "border-color 0.2s, box-shadow 0.2s" }}
             onFocus={e => (e.currentTarget.style.boxShadow = "0 0 0 2px rgba(200,169,110,0.25)")}
             onBlur={e => (e.currentTarget.style.boxShadow = "none")}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
             <input type="text" placeholder="Search gifts..." value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="flex-1 font-body text-xs text-[#1c2b1e] bg-transparent outline-none placeholder-[#8c8880]" />
@@ -1311,9 +1311,8 @@ export default function ExecutiveGiftPage() {
           <div className="flex flex-wrap gap-2">
             {categories.map((cat, i) => (
               <button key={cat} onClick={() => setActiveCategory(cat)}
-                className={`cat-btn font-body text-[10px] tracking-widest uppercase px-4 py-2 border transition-colors duration-200 ${
-                  activeCategory === cat ? "active bg-[#1c2b1e] text-white border-[#1c2b1e]" : "text-[#8c8880] border-[#e8e4dd] hover:text-white"
-                }`}
+                className={`cat-btn font-body text-[10px] tracking-widest uppercase px-4 py-2 border transition-colors duration-200 ${activeCategory === cat ? "active bg-[#1c2b1e] text-white border-[#1c2b1e]" : "text-[#8c8880] border-[#e8e4dd] hover:text-white"
+                  }`}
                 style={{ transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)", transitionDelay: `${i * 30}ms` }}>
                 <span>{cat}</span>
               </button>
@@ -1326,7 +1325,7 @@ export default function ExecutiveGiftPage() {
 
         {/* Mobile Search */}
         <div className="flex md:hidden items-center border border-[#e8e4dd] bg-white px-4 py-2.5 gap-2 mb-6">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
           <input type="text" placeholder="Search gifts..." value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="flex-1 font-body text-xs text-[#1c2b1e] bg-transparent outline-none placeholder-[#8c8880]" />
