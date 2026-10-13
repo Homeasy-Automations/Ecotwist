@@ -33,6 +33,15 @@ import {
   Leaf,
   Building2,
 } from "lucide-react";
+import {
+  DiyaLedge,
+  Fireworks,
+  LightCurtain,
+  MarigoldToran,
+  Rangoli,
+  SeriesLights,
+  ToranGreeting,
+} from "../components/DiwaliDecor";
 
 /* ============================
    Animation Variants
@@ -315,6 +324,18 @@ export default function DiwaliGifting() {
 
         </div>
 
+        {/* SERIES LIGHT CURTAINS */}
+
+        <LightCurtain side="left" />
+
+        <LightCurtain side="right" />
+
+        {/* MARIGOLD TORAN + GREETING */}
+
+        <MarigoldToran />
+
+        <ToranGreeting />
+
         {/* FLOATING DIYAS */}
 
         <motion.div
@@ -536,6 +557,10 @@ export default function DiwaliGifting() {
 
         </div>
 
+        {/* FIREWORKS */}
+
+        <Fireworks className="absolute inset-0 w-full h-full" favourRight />
+
         <motion.div
           className="relative z-10 max-w-7xl mx-auto w-full px-5 sm:px-6 lg:px-12 flex items-center min-h-screen"
         >
@@ -727,6 +752,12 @@ export default function DiwaliGifting() {
               <div className="absolute w-[230px] h-[230px] sm:w-[340px] sm:h-[340px] lg:w-[420px] lg:h-[420px] rounded-full border border-brand-gold/20" />
 
               <div className="absolute w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full border border-brand-olive/10" />
+
+              {/* Rangoli */}
+
+              <div className="absolute -translate-x-20 translate-y-26">
+                <Rangoli className="w-[250px] sm:w-[400px] lg:w-[480px] opacity-45" />
+              </div>
 
               {/* Floating Image */}
 
@@ -1044,6 +1075,9 @@ export default function DiwaliGifting() {
 
       </section>
 
+      {/* DIYA LEDGE */}
+      <DiyaLedge />
+
       <section className="relative z-20 bg-white border-y border-brand-gold/10">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
@@ -1076,6 +1110,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* FESTIVAL STORY */}
+      <SeriesLights variant="multi" />
       <section className="relative py-16 sm:py-24 lg:py-32 overflow-hidden bg-white">
 
         {/* Decorative Background */}
@@ -1334,6 +1369,7 @@ export default function DiwaliGifting() {
 
 
       {/* CURATED COLLECTIONS */}
+      <SeriesLights variant="warm" />
       <section className="relative py-32 bg-brand-beige overflow-hidden">
 
         <div className="absolute inset-0 pointer-events-none">
@@ -1501,6 +1537,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* FEATURED SIGNATURE HAMPER */}
+      <SeriesLights variant="multi" />
       <section className="relative py-36 overflow-hidden bg-brand-off-white">
 
         {/* Decorative Background */}
@@ -1805,6 +1842,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* WHAT'S INSIDE */}
+      <SeriesLights variant="warm" />
       <section className="relative py-36 bg-brand-beige overflow-hidden">
 
         {/* Background Glow */}
@@ -2052,6 +2090,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* PERSONALISATION */}
+      <SeriesLights variant="multi" />
       <section className="relative py-36 overflow-hidden bg-white">
 
         {/* Background */}
@@ -2344,6 +2383,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* SUSTAINABILITY PROMISE */}
+      <SeriesLights variant="warm" />
       <section className="relative py-36 bg-brand-beige overflow-hidden">
 
         {/* Decorative Background */}
@@ -2652,6 +2692,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* CORPORATE ORDERING PROCESS */}
+      <SeriesLights variant="multi" />
       <section className="relative py-36 overflow-hidden bg-brand-off-white">
 
         {/* Background Decoration */}
@@ -2868,6 +2909,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* LUXURY SHOWCASE GALLERY */}
+      <SeriesLights variant="warm" />
       <section className="relative py-36 bg-white overflow-hidden">
 
         {/* Decorative Background */}
@@ -3096,6 +3138,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* TESTIMONIALS */}
+      <SeriesLights variant="multi" />
       <section className="relative py-36 bg-brand-off-white overflow-hidden">
 
         <div className="max-w-7xl mx-auto px-6">
@@ -3213,6 +3256,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* FAQ */}
+      <SeriesLights variant="warm" />
       <section className="py-36 bg-white">
 
         <div className="max-w-5xl mx-auto px-6">
@@ -3309,6 +3353,7 @@ export default function DiwaliGifting() {
       </section>
 
       {/* FINAL CTA*/}
+      <SeriesLights variant="multi" />
       <section className="relative py-40 overflow-hidden bg-brand-olive text-white">
 
         {/* Background */}
@@ -3322,6 +3367,10 @@ export default function DiwaliGifting() {
           <div className="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-brand-gold/10 blur-[180px]" />
 
         </div>
+
+        {/* Fireworks */}
+
+        <Fireworks className="absolute inset-0 w-full h-full" onDark />
 
         <motion.div
 

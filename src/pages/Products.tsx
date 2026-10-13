@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import { createPortal } from "react-dom";
 import type { OrderProduct } from "./Configurator";
-import { BookOpen, PenLine, KeyRound, CalendarDays, NotebookPen, Flame, Gift, ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, PenLine, KeyRound, CalendarDays, NotebookPen, Flame, Gift, Package, ShoppingBasket, ChevronLeft, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 const testimonials = [
@@ -63,6 +63,7 @@ const twoJarBoxes: Design[] = [
   { sku: "9015", name: "Orange Flower 2 Jar Dome Box", src: "/catalogue/63_9015_Orange-Flower-2-Jar-Dome-Box.jpg" },
   { sku: "9072", name: "Green Theme 2 Jar Box with Stand", src: "/catalogue/64_9072_Green-Theme-Box-with-Stand.jpg" },
   { sku: "9010", name: "Floral 2 Jar Cavity Box", src: "/catalogue/67_9010_Floral-2-Jar-Cavity-Box.jpg" },
+  { sku: "9010A", name: "RBG Nandi Fancy Jar Box", src: cataloguePhoto("fancy-jar-box-red-palace.png") },
 ];
 
 const threeJarBoxes: Design[] = [
@@ -114,6 +115,49 @@ const fourJarBoxes: Design[] = [
   { sku: "9046", name: "Blue 4 Jar Cavity Lift Box", src: "/catalogue/59_9046_Blue-4-Jar-Cavity-Lift-Box.jpg" },
   { sku: "9005", name: "Purple 4 Jar Cavity Box", src: "/catalogue/60_9005_Purple-4-Jar-Cavity-Box.jpg" },
   { sku: "1010", name: "Pinewood 4 Jar Box Classic", src: "/catalogue/69_1010_Pinewood-4-Jar-Box-Classic.jpg" },
+];
+
+const fiveSixJarBoxes: Design[] = [
+  { sku: "7606", name: "Pink Leather 5 Jar Box", src: cataloguePhoto("pink-leather-5-jar-box.png") },
+  { sku: "7605", name: "Leather 5 Jar Box", src: cataloguePhoto("leather-5-jar-box.png") },
+  { sku: "7607", name: "Velvet 6 Jar Box with Chocolate Cavity", src: cataloguePhoto("velvet-6-jar-cavity-box.png") },
+  { sku: "7602", name: "Laser Cut Velvet 6 Jar Box", src: cataloguePhoto("laser-velvet-6-jar-box.png") },
+  { sku: "9001", name: "Blue Wrinkle 6 Jar Box", src: cataloguePhoto("blue-wrinkle-6-jar-box.png") },
+];
+
+const dryFruitBoxes: Design[] = [
+  { sku: "3401", name: "Regular 4 Compartment Dry Fruit Box", src: cataloguePhoto("regular-4-compartment-dry-fruit-box.png") },
+  { sku: "8103", name: "Brown 4 Compartment Dry Fruit Box", src: cataloguePhoto("brown-mdf-4-compartment-box.png") },
+  { sku: "3106", name: "Nandi 5 Compartment Platter Box", src: cataloguePhoto("5-platter-box.png") },
+  { sku: "8101", name: "Dry Fruit Tray", src: cataloguePhoto("dry-fruit-tray.png") },
+];
+
+const chocolateBoxes: Design[] = [
+  { sku: "CH8004", name: "5 Cavity Chocolate Box", src: cataloguePhoto("5-cavity-chocolate-box.png") },
+  { sku: "CH8001", name: "8 Cavity Slider Chocolate Box", src: cataloguePhoto("8-cavity-yellow-chocolate-box.png") },
+  { name: "Hamper Paper Box", src: cataloguePhoto("hamper-paper-box.png") },
+  { sku: "CH8000", name: "Hamper Paper Basket", src: cataloguePhoto("hamper-paper-basket.png") },
+];
+
+const hamperBaskets: Design[] = [
+  { sku: "1002", name: "Pinewood Jar Basket", src: cataloguePhoto("pinewood-jar-basket.png") },
+  { sku: "1001", name: "Pinewood Basket", src: cataloguePhoto("pinewood-slatted-basket.png") },
+  { sku: "1001", name: "Pinewood Basket", src: cataloguePhoto("pinewood-basket.png") },
+  { sku: "5014", name: "White Jute Bag with Tin Jars", src: cataloguePhoto("white-jute-bag.png") },
+  { sku: "1906", name: "Net Basket", src: cataloguePhoto("net-basket-regular.png") },
+  { sku: "1915", name: "Golden Lace Jute Basket", src: cataloguePhoto("golden-lace-jute-basket.png") },
+  { sku: "1920", name: "White Jute Basket", src: cataloguePhoto("white-jute-basket.png") },
+  { sku: "1902", name: "Brown MDF Jute Basket", src: cataloguePhoto("brown-mdf-jute-basket.png") },
+  { sku: "2001", name: "Hexagon Blue Premium Basket", src: cataloguePhoto("hexagon-blue-premium-basket.png") },
+];
+
+const emptyGiftBoxes: Design[] = [
+  { sku: "6010", name: "Ribbon Box 9x7", src: cataloguePhoto("ribbon-box-9x7.png") },
+  { sku: "6013", name: "Ribbon Box 12x9", src: cataloguePhoto("ribbon-box-12x9.png") },
+  { sku: "6009", name: "Ribbon Box 9x7x3", src: cataloguePhoto("ribbon-box-9x7x3.png") },
+  { sku: "6011", name: "8x8 Magnetic Gift Box", src: cataloguePhoto("8x8-magnetic-gift-box.png") },
+  { sku: "6012", name: "12x9 Top-Bottom Gift Box", src: cataloguePhoto("12x9-top-bottom-gift-box.png") },
+  { sku: "6006", name: "6x7 Gift Box", src: cataloguePhoto("6x7-gift-box-empty.png") },
 ];
 
 const corkComboDesigns: Design[] = [
@@ -227,6 +271,24 @@ const signatureRange: SignatureItem[] = [
     image: fourJarBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: fourJarBoxes,
   },
   {
+    id: "gift-box-5-6-jar", category: "Gift Boxes", name: "5 & 6 Jar Gift Boxes",
+    description: "Leather and velvet suitcase boxes holding five or six jars — our grandest jar hampers.",
+    tags: [`${designCount(fiveSixJarBoxes)} designs`, "Jars included"],
+    image: fiveSixJarBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: fiveSixJarBoxes,
+  },
+  {
+    id: "dry-fruit-boxes", category: "Gift Boxes", name: "Dry Fruit Boxes & Trays",
+    description: "Compartment boxes, platters and trays with golden cavities for dry fruits and sweets.",
+    tags: [`${designCount(dryFruitBoxes)} designs`, "Golden cavities"],
+    image: dryFruitBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: dryFruitBoxes,
+  },
+  {
+    id: "chocolate-boxes", category: "Gift Boxes", name: "Chocolate & Hamper Boxes",
+    description: "Cavity chocolate boxes and printed paper hamper boxes for chocolates, sweets and treats.",
+    tags: [`${designCount(chocolateBoxes)} designs`, "Chocolates & sweets"],
+    image: chocolateBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: chocolateBoxes,
+  },
+  {
     id: "soy-wax-candles", category: "Candles", name: "Scented Candles",
     description: "Soya wax candles in round and heart shapes, gift-boxed in sets of 3, 4 and 6.",
     tags: ["Soya wax", "Gift boxed"],
@@ -237,6 +299,25 @@ const signatureRange: SignatureItem[] = [
     description: "Terracotta and hand-painted diyas filled with soya wax — made for Diwali gifting.",
     tags: ["Soya wax", "Hand-painted"],
     image: diyaDesigns[0].src, icon: Flame, tint: "#ead9c0", designs: diyaDesigns,
+  },
+  {
+    id: "hamper-baskets", category: "Baskets & Packaging", name: "Hamper Baskets",
+    description: "Pinewood, jute and net baskets lined with satin and organza — the base for a hand-packed hamper.",
+    tags: [`${designCount(hamperBaskets)} designs`, "Pinewood & jute"],
+    image: hamperBaskets[0].src, icon: ShoppingBasket, tint: "#dccfb4", designs: hamperBaskets,
+  },
+  {
+    id: "empty-gift-boxes", category: "Baskets & Packaging", name: "Ribbon & Magnetic Gift Boxes",
+    description: "Rigid ribbon, magnetic and lid-and-base gift boxes, supplied empty to fill with your own selection.",
+    tags: [`${designCount(emptyGiftBoxes)} designs`, "Supplied empty"],
+    image: emptyGiftBoxes[0].src, icon: Package, tint: "#e3d3c4", designs: emptyGiftBoxes,
+  },
+  {
+    id: "tin-jars", category: "Baskets & Packaging", name: "Tin Jars",
+    description: "Printed tin jars with lids — pack them into a hamper or gift them on their own.",
+    tags: ["Printed tin", "Reusable"],
+    image: cataloguePhoto("tin-jars.png"), icon: Package, tint: "#dccfb4",
+    photos: [cataloguePhoto("tin-jars.png")],
   },
 ];
 
