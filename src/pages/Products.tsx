@@ -55,7 +55,7 @@ const twoJarBoxes: Design[] = [
   { sku: "7203", name: "Green Suede 2 Jar Box", src: cataloguePhoto("green-suede-2-jar-box-enhanced.webp") },
   { sku: "7200", name: "White Majestic 2 Jar Box", src: cataloguePhoto("white-majestic-2-jar-box-enhanced.webp") },
   { sku: "7009", name: "Blue Diamond 2 Jar Carry Bag Box", src: cataloguePhoto("blue-diamond-2-jar-carry-bag-box-enhanced.webp") },
-  { sku: "9079", name: "Wooden Rotating 2 Jar Tray", src: "/catalogue/12_9079_Wooden-Rotating-2-Jar-Tray.jpg" },
+  { sku: "9079", name: "Wooden Rotating 2 Jar Tray", src: cataloguePhoto("wooden-rotating-2-jar-tray-enhanced.webp") },
   { sku: "9501", name: "MGI 2 Tin Jar Bag", src: "/catalogue/52_9501_MGI-2-Tin-Jar-Bag.jpg" },
   { sku: "9026", name: "2 Jar 2 Chocolate Box", src: "/catalogue/58_9026_2-Jar-2-Chocolate-Box.jpg" },
   { sku: "9022", name: "Peacock 2 Jar Tin Cavity Box", src: "/catalogue/61_9022_Peacock-2-Jar-Tin-Cavity-Box.jpg" },
