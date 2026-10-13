@@ -166,13 +166,32 @@ const STEPS = [
   { id: 5, label: "05. Your Details" },
 ];
 
+/* Passed in router state by a product's "Order Now" button on the Products page.
+   When present, it replaces the Occasion step and the form opens on Budget. */
+export interface OrderProduct {
+  name: string;
+  category: string;
+  image?: string;
+  sku?: string;
+}
+
+const productStepContent = {
+  title: 'Product', subtitle: 'Your selected',
+  desc: 'Your proposal will be prepared for this product. Continue to choose your budget, quantity and branding.',
+};
 
 
 export const Configurator = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const product  = (location.state as { product?: OrderProduct } | null)?.product;
+  const steps    = product ? STEPS.map(s => s.id === 1 ? { ...s, label: "01. Product" } : s) : STEPS;
 
-  const [step, setStep]           = React.useState(1);
+  const [step, setStep]           = React.useState(product ? 2 : 1);
+
+  // In-page links (e.g. a product's "Order Now") keep the previous page's scroll position
+  React.useEffect(() => { window.scrollTo(0, 0); }, []);
   const [contentKey, setContentKey] = React.useState(0);   // drives re-mount of content only
   const [selected, setSelected]   = React.useState<Record<number,string>>({
     1: 'Employee Appreciation', 2: '₹100 - ₹500', 3: '50 - 100', 4: 'Logo Print',
@@ -238,7 +257,7 @@ export const Configurator = () => {
     el.style.transform = isSel ? 'translateY(-3px) scale(1.01)' : '';
   };
 
-  const content  = stepContent[step];
+  const content  = step === 1 && product ? productStepContent : stepContent[step];
   const [img1, img2] = images[step];
   const quote    = quotes[step];
 
@@ -275,7 +294,7 @@ export const Configurator = () => {
             {/* ── STEPPER — outside contentKey, NEVER re-animates ── */}
             <div className="mb-8">
               <div className="flex items-center gap-1 w-fit border border-brand-dark-olive/10 bg-brand-dark-olive/[0.03] p-1">
-                {STEPS.map((s, i) => (
+                {steps.map((s, i) => (
                   <React.Fragment key={s.id}>
                     {i > 0 && <div style={{ width:1, height:20, background:'rgba(44,45,30,.13)' }} />}
                     <div
@@ -305,6 +324,27 @@ export const Configurator = () => {
                 ))}
               </div>
             </div>
+
+            {/* ── SELECTED PRODUCT — reminder on steps 2–5 when ordering a product ── */}
+            {product && step !== 1 && (
+              <div className="mb-8 flex items-center gap-4 border border-brand-dark-olive/10 bg-white p-3 pr-5 w-fit max-w-full">
+                {product.image && (
+                  <img src={product.image} alt="" className="w-12 h-12 object-cover flex-shrink-0"
+                    onError={e => (e.currentTarget.style.display = 'none')} />
+                )}
+                <div className="min-w-0">
+                  <p className="text-[9px] uppercase tracking-widest font-bold text-brand-dark-olive/50">Proposal for</p>
+                  <p className="font-serif text-lg leading-tight truncate">
+                    {product.name}
+                    {product.sku && <span className="text-sm text-brand-dark-olive/50"> · SKU {product.sku}</span>}
+                  </p>
+                </div>
+                <button onClick={() => navigate('/products')}
+                  className="ml-2 flex-shrink-0 text-[9px] uppercase tracking-widest font-bold opacity-40 hover:opacity-100 transition-opacity">
+                  Change
+                </button>
+              </div>
+            )}
 
             {/* ── CONTENT — keyed so it re-mounts + re-animates each step ── */}
             <div key={contentKey} className="max-w-2xl" style={{ perspective:'900px' }}>
@@ -408,6 +448,29 @@ export const Configurator = () => {
                     </div>
 
                   </div>
+                ) : step === 1 && product ? (
+                  /* ─────────────────────────────
+                    STEP 1 → SELECTED PRODUCT
+                    (replaces Occasion when ordering a product)
+                  ───────────────────────────── */
+                  <div className="anim-card relative p-6 md:p-8 border-2 border-brand-dark-olive bg-white card-selected-line flex items-center gap-6">
+                    <div className="absolute top-6 right-6 anim-check">
+                      <CheckCircle className="text-brand-dark-olive" size={20} />
+                    </div>
+                    {product.image && (
+                      <img src={product.image} alt={product.name} className="w-24 h-24 md:w-32 md:h-32 object-cover flex-shrink-0"
+                        onError={e => (e.currentTarget.style.display = 'none')} />
+                    )}
+                    <div className="min-w-0 pr-8">
+                      <p className="text-[9px] uppercase tracking-widest font-bold text-brand-dark-olive/50 mb-2">{product.category}</p>
+                      <h3 className="font-serif text-2xl mb-1">{product.name}</h3>
+                      {product.sku && <p className="text-sm text-brand-dark-olive/60">SKU {product.sku}</p>}
+                      <button onClick={() => navigate('/products')}
+                        className="mt-4 text-[10px] uppercase tracking-widest font-bold opacity-50 hover:opacity-100 transition-opacity">
+                        Choose a different product →
+                      </button>
+                    </div>
+                  </div>
                 ) : (
                   /* ─────────────────────────────
                     STEP 1–4 → OPTION CARDS
@@ -482,7 +545,11 @@ export const Configurator = () => {
                       if (!validateStep5()) return;
 
                       const configurator = {
-                        occasion: selected[1],
+                        // A product order skips the Occasion step, so send the product instead
+                        occasion: product ? undefined : selected[1],
+                        product: product
+                          ? (product.sku ? `${product.name} (SKU ${product.sku})` : product.name)
+                          : undefined,
                         budget: selected[2],
                         quantity: selected[3],
                         branding: selected[4],

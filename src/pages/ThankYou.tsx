@@ -293,10 +293,10 @@ const submissionId = `ECO-${Date.now().toString().slice(-6)}`;
                   Configuration
                 </p>
 
-                {/* Occasion */}
+                {/* Occasion — or the product, when ordered from the Products page */}
                 <div className="flex items-center justify-between border-b border-[#B8974A]/20 pb-3">
                   <p className="text-lg font-semibold text-[#2C2D1E]">
-                    {configurator?.occasion || "Not Selected"}
+                    {configurator?.product || configurator?.occasion || "Not Selected"}
                   </p>
                   <CheckCircle size={18} className="text-green-600" />
                 </div>

@@ -1,172 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-
-// ── Types ──────────────────────────────────────────────────────────────────
-interface Product {
-  id: number;
-  category: string;
-  name: string;
-  subtitle: string;
-  price: number;
-  originalPrice?: number;
-  description: string;
-  details: string[];
-  badge?: string;
-  image: string;
-  rating: number;
-  reviews: number;
-}
-
-interface CartItem extends Product {
-  quantity: number;
-}
-
-// ── Product Data ───────────────────────────────────────────────────────────
-const products: Product[] = [
-  {
-    id: 1, category: "Journals", name: "Hand-Pressed Recycled Journal",
-    subtitle: "Deckle Edge · Linen Bound", price: 68, originalPrice: 85,
-    description: "Individually pressed from 100% post-consumer recycled pulp with deckle edges and 220 unlined cream pages.",
-    details: ["220 cream recycled pages","Linen spine handbound","Lay-flat Smyth-sewn","Ribbon bookmark included","Kraft gift sleeve"],
-    badge: "Best Seller", image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=600&q=80", rating: 4.9, reviews: 312,
-  },
-  {
-    id: 2, category: "Journals", name: "Leather Executive Notebook",
-    subtitle: "Full-Grain Leather · A5 Format", price: 95,
-    description: "Full-grain vegetable-tanned leather cover that develops a rich patina over time.",
-    details: ["Full-grain leather cover","180 gsm ruled ivory paper","Pen loop & card pocket","Gold foil page edges","Personalisation available"],
-    badge: "Premium", image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&q=80", rating: 4.8, reviews: 198,
-  },
-  {
-    id: 3, category: "Journals", name: "Botanical Print Journal Set",
-    subtitle: "Set of 3 · Floral Press", price: 54, originalPrice: 72,
-    description: "A trio of soft-cover journals featuring unique hand-drawn botanical illustrations.",
-    details: ["Set of 3 A6 journals","Cotton-press floral covers","100 dotted pages each","Elastic closure band","Vegan materials"],
-    image: "https://images.unsplash.com/photo-1518893494013-481c1d8ed3fd?w=600&q=80", rating: 4.7, reviews: 145,
-  },
-  {
-    id: 4, category: "Journals", name: "Stone Paper Sketchbook",
-    subtitle: "Waterproof · Tear-Resistant", price: 48,
-    description: "Made from calcium carbonate stone — no trees, no water used in production.",
-    details: ["160 stone-paper pages","Waterproof & tear-resistant","Smooth for all media","Recycled polypropylene cover","Zero water in production"],
-    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&q=80", rating: 4.6, reviews: 89,
-  },
-  {
-    id: 5, category: "Organic Teas", name: "Single-Origin Tea Flight",
-    subtitle: "6 Varieties · Matte Tins", price: 54,
-    description: "Six rare organic teas sourced directly from family estates.",
-    details: ["6 × 30g loose-leaf tins","Magnetic matte-black lids","Origin cards included","Certified organic & fair-trade","Caffeine-free option"],
-    badge: "New Arrival", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80", rating: 4.9, reviews: 276,
-  },
-  {
-    id: 6, category: "Organic Teas", name: "Ceremony Matcha Set",
-    subtitle: "Ceremonial Grade · Hand-Whisked", price: 78,
-    description: "Stone-ground shade-grown matcha from Uji, Japan.",
-    details: ["30g ceremonial matcha tin","Handmade bamboo chasen whisk","Authentic ceramic chawan","Bamboo chashaku scoop","Whisk holder & guide"],
-    badge: "Staff Pick", image: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=600&q=80", rating: 5.0, reviews: 204,
-  },
-  {
-    id: 7, category: "Organic Teas", name: "Wellness Herbal Blend Collection",
-    subtitle: "Caffeine-Free · 8 Blends", price: 62, originalPrice: 76,
-    description: "Eight hand-blended herbal infusions crafted by an in-house herbalist.",
-    details: ["8 × 20g pyramid sachets","Zero caffeine all blends","Adaptogen & floral range","Printed recipe booklet","Reusable tin canister"],
-    image: "https://images.unsplash.com/photo-1563822249548-9a72b6353cd1?w=600&q=80", rating: 4.7, reviews: 132,
-  },
-  {
-    id: 8, category: "Organic Teas", name: "Rare Oolong Collector's Set",
-    subtitle: "Taiwan High Mountain · Limited", price: 110,
-    description: "High-mountain oolong from 1,500m elevation farms in Alishan, Taiwan.",
-    details: ["3 × 25g vacuum-sealed","Alishan & Li Shan cultivars","Tasting notes & brew chart","Wooden presentation box","Limited annual harvest"],
-    badge: "Limited", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", rating: 4.9, reviews: 67,
-  },
-  {
-    id: 9, category: "Ceramics", name: "Artisanal Mug & Bowl Set",
-    subtitle: "Wheel-Thrown · Ash Glaze", price: 124,
-    description: "Each piece wheel-thrown, bisque-fired, and dipped in signature ash glaze. No two alike.",
-    details: ["2 mugs + 1 matcha bowl","High-fire stoneware","Food-safe ash glaze","Dishwasher & microwave safe","Kraft gift boxed"],
-    image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80", rating: 4.8, reviews: 189,
-  },
-  {
-    id: 10, category: "Ceramics", name: "Minimalist Bud Vase Trio",
-    subtitle: "Hand-Pinched · Matte Finish", price: 88,
-    description: "Three hand-pinched bud vases in graduating heights in dusty sage matte glaze.",
-    details: ["3 vases: 8cm, 12cm, 16cm","Hand-pinched stoneware","Sage matte glaze","Watertight interior","Linen-wrapped gift set"],
-    badge: "New", image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80", rating: 4.7, reviews: 94,
-  },
-  {
-    id: 11, category: "Ceramics", name: "Executive Desk Planter",
-    subtitle: "Slab-Built · Drainage Hole", price: 72, originalPrice: 90,
-    description: "Slab-built stoneware planter with a matte charcoal exterior and creamy interior.",
-    details: ["15cm diameter planter","Slab-built stoneware","Drainage hole + cork saucer","Charcoal matte exterior","Includes care card"],
-    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80", rating: 4.6, reviews: 78,
-  },
-  {
-    id: 12, category: "Ceramics", name: "Wabi-Sabi Serving Platter",
-    subtitle: "Large Format · Raku Fired", price: 145,
-    description: "Raku-fired with a crackle glaze that captures flame and smoke in each unique piece.",
-    details: ["35cm oval serving platter","Traditional raku firing","Crackle smoke-effect glaze","Food & oven safe","Signed by the ceramicist"],
-    badge: "Artisan", image: "https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?w=600&q=80", rating: 4.9, reviews: 52,
-  },
-  {
-    id: 13, category: "Gift Boxes", name: "The Complete Executive Box",
-    subtitle: "Journal + Tea + Ceramics", price: 229, originalPrice: 246,
-    description: "The full Atelier experience curated into a rigid keepsake box wrapped in botanical tissue.",
-    details: ["All 3 signature collections","Rigid foil-stamped lift-off box","Botanical tissue & wax seal","Personalised note card","Complimentary ribbon dressing"],
-    badge: "Most Popular", image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=600&q=80", rating: 5.0, reviews: 423,
-  },
-  {
-    id: 14, category: "Gift Boxes", name: "Wellness & Calm Gift Set",
-    subtitle: "Tea + Ceramics + Candle", price: 148,
-    description: "A thoughtfully paired wellness collection — herbal teas, ceramic mug, and soy candle.",
-    details: ["Herbal tea blend set","Ceramic mug (wheel-thrown)","Hand-poured soy candle","Linen-wrapped box","Care & ritual guide"],
-    badge: "Gift Ready", image: "https://images.unsplash.com/photo-1512909006721-3d6018887383?w=600&q=80", rating: 4.9, reviews: 317,
-  },
-  {
-    id: 15, category: "Gift Boxes", name: "The Writer's Studio Box",
-    subtitle: "Journal + Pen + Wax Seal Kit", price: 118, originalPrice: 138,
-    description: "Everything the thoughtful writer needs — journal, brass pen, and personalised wax seal set.",
-    details: ["Hand-pressed recycled journal","Solid brass rollerball pen","Custom wax seal + 3 waxes","Ink blotter & writing guide","Embossed presentation box"],
-    image: "https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=600&q=80", rating: 4.8, reviews: 201,
-  },
-  {
-    id: 16, category: "Gift Boxes", name: "Desk Sanctuary Collection",
-    subtitle: "Planter + Vase + Candle", price: 165,
-    description: "Transform any workspace into a sanctuary — planter, bud vase, and room candle.",
-    details: ["Ceramic desk planter","Bud vase (sage glaze)","Room candle (250ml)","Pressed flower seed paper","Rigid gift box, foil-stamped"],
-    badge: "New", image: "https://images.unsplash.com/photo-1600181957619-1a6b1e23f5a9?w=600&q=80", rating: 4.7, reviews: 88,
-  },
-  {
-    id: 17, category: "Extras", name: "Hand-Poured Soy Candle",
-    subtitle: "Cedarwood & Bergamot", price: 42,
-    description: "250ml glass vessel with 100% natural soy wax, pure cotton wick, cedarwood & bergamot.",
-    details: ["250ml natural soy wax","Pure cotton wick","40+ hour burn time","Cedarwood & bergamot","Reusable glass vessel"],
-    image: "https://images.unsplash.com/photo-1602928321679-560bb453f190?w=600&q=80", rating: 4.8, reviews: 256,
-  },
-  {
-    id: 18, category: "Extras", name: "Brass Rollerball Pen",
-    subtitle: "Solid Brass · German Refill", price: 55,
-    description: "Machined from solid brass with a satin-brushed finish that ages beautifully.",
-    details: ["Solid brass barrel","Satin-brushed finish","German rollerball refill","Magnetic cap closure","Velvet pen pouch"],
-    badge: "Luxury", image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=600&q=80", rating: 4.9, reviews: 143,
-  },
-  {
-    id: 19, category: "Extras", name: "Wax Seal Monogram Kit",
-    subtitle: "Custom Initial · 4 Wax Colours", price: 38, originalPrice: 48,
-    description: "Personalised monogram stamp in solid brass with rosewood handle and four sealing wax sticks.",
-    details: ["Custom brass monogram stamp","Rosewood grip handle","4 wax stick colours","Melting spoon included","Velvet-lined gift tin"],
-    image: "https://images.unsplash.com/photo-1567360425618-1594206637d2?w=600&q=80", rating: 4.7, reviews: 97,
-  },
-  {
-    id: 20, category: "Extras", name: "Linen Desk Tray Set",
-    subtitle: "Handwoven · Natural Fibre", price: 58,
-    description: "Handwoven natural linen trays in two sizes for organising any executive desk.",
-    details: ["Set of 2 (A4 + A6 size)","Natural handwoven linen","Leather tab handles","Non-slip base pad","Folds flat for gifting"],
-    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80", rating: 4.6, reviews: 74,
-  },
-];
-
-const categories = ["All", "Journals", "Organic Teas", "Ceramics", "Gift Boxes", "Extras"];
+import { createPortal } from "react-dom";
+import type { OrderProduct } from "./Configurator";
+import { BookOpen, PenLine, KeyRound, CalendarDays, NotebookPen, Flame, Gift, ChevronLeft, ChevronRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 const testimonials = [
   { quote: "Sent these to our top 20 clients after Q4. Three wrote back the same day. That never happens.", author: "Priya S.", role: "VP Partnerships, Meridian Group", avatar: "PS" },
@@ -174,6 +12,241 @@ const testimonials = [
   { quote: "The journals are on every exec's desk now. Organic, intentional, beautiful.", author: "Mara T.", role: "Head of Culture, Verdant Co.", avatar: "MT" },
   { quote: "Our clients keep asking where the teas came from. That's the best compliment a gift can get.", author: "Arjun R.", role: "Director, Apex Consulting", avatar: "AR" },
 ];
+
+// ── Signature Range (photos live in /public/Products and /public/catalogue) ─
+interface Design {
+  name: string;
+  src: string;
+  sku?: string;
+}
+
+interface SignatureItem {
+  id: string;
+  category: string;
+  name: string;
+  description: string;
+  tags: string[];
+  image: string;          // card cover
+  icon: LucideIcon;       // shown on a tinted panel until a photo is added
+  tint: string;
+  photos?: string[];      // extra angles of a single product (opens Quick View)
+  designs?: Design[];     // a range of designs to choose from (opens the design gallery)
+}
+
+// File names contain spaces, so encode them for the URL. encodeURI leaves "+" as is:
+// it is literal in a path, and an encoded %2B is not decoded by every static server.
+const productPhoto = (file: string) => encodeURI(`/Products/${file}`);
+
+// Several photos of one design share a name, so count names rather than photos
+const designCount = (designs: Design[]) => new Set(designs.map(d => d.name)).size;
+
+const twoJarBoxes: Design[] = [
+  { name: "Printed 2 Jar Suitcase Box", src: productPhoto("2 jar gift Box.JPG") },
+  { name: "Printed 2 Jar Suitcase Box", src: productPhoto("2 jar Gift Box 2.JPG") },
+  { sku: "9065", name: "Nandi MGI 2 Jar Box", src: "/catalogue/01_9065_Nandi-MGI-2-Jar-Box.jpg" },
+  { sku: "9065A", name: "White MGI 2 Jar Box", src: "/catalogue/02_9065A_White-MGI-2-Jar-Box.jpg" },
+  { sku: "9065B", name: "Blue Mystic 2 Jar Box", src: "/catalogue/03_9065B_Blue-Mystic-2-Jar-Box.jpg" },
+  { sku: "9065C", name: "Rajasthan 2 Jar Box", src: "/catalogue/04_9065C_Rajasthan-2-Jar-Box.jpg" },
+  { sku: "7201-R", name: "Rajasthani Theme 2 Jar Box", src: "/catalogue/05_7201-R_Rajasthani-Theme-2-Jar-Box.jpg" },
+  { sku: "7201-P", name: "Peacock Theme 2 Jar Box", src: "/catalogue/06_7201-P_Peacock-Theme-2-Jar-Box.jpg" },
+  { sku: "7201-F", name: "Flower Theme 2 Jar Box", src: "/catalogue/07_7201-F_Flower-Theme-2-Jar-Box.jpg" },
+  { sku: "7201-M", name: "Mahal Theme 2 Jar Box", src: "/catalogue/08_7201-M_Mahal-Theme-2-Jar-Box.jpg" },
+  { sku: "7203", name: "Green Suede 2 Jar Box", src: "/catalogue/09_7203_Green-Suede-2-Jar-Box.jpg" },
+  { sku: "7200", name: "White Majestic 2 Jar Box", src: "/catalogue/10_7200_White-Majestic-2-Jar-Box.jpg" },
+  { sku: "7009", name: "Blue Diamond 2 Jar Carry Bag Box", src: "/catalogue/11_7009_Blue-Diamond-2-Jar-Carry-Bag-Box.jpg" },
+  { sku: "9079", name: "Wooden Rotating 2 Jar Tray", src: "/catalogue/12_9079_Wooden-Rotating-2-Jar-Tray.jpg" },
+  { sku: "9501", name: "MGI 2 Tin Jar Bag", src: "/catalogue/52_9501_MGI-2-Tin-Jar-Bag.jpg" },
+  { sku: "9026", name: "2 Jar 2 Chocolate Box", src: "/catalogue/58_9026_2-Jar-2-Chocolate-Box.jpg" },
+  { sku: "9022", name: "Peacock 2 Jar Tin Cavity Box", src: "/catalogue/61_9022_Peacock-2-Jar-Tin-Cavity-Box.jpg" },
+  { sku: "9015A", name: "White 2 Jar Green Theme Box", src: "/catalogue/62_9015A_White-Jar-Green-Theme-Box.jpg" },
+  { sku: "9015", name: "Orange Flower 2 Jar Dome Box", src: "/catalogue/63_9015_Orange-Flower-2-Jar-Dome-Box.jpg" },
+  { sku: "9072", name: "Green Theme 2 Jar Box with Stand", src: "/catalogue/64_9072_Green-Theme-Box-with-Stand.jpg" },
+  { sku: "9010", name: "Floral 2 Jar Cavity Box", src: "/catalogue/67_9010_Floral-2-Jar-Cavity-Box.jpg" },
+];
+
+const threeJarBoxes: Design[] = [
+  { name: "Printed 3 Jar Gift Box", src: productPhoto("3 Jar Gift Box.JPG") },
+  { sku: "9009", name: "Nandi 3 Jar Box", src: "/catalogue/13_9009_Nandi-3-Jar-Box.jpg" },
+  { sku: "9009A", name: "White MGI 3 Jar Box", src: "/catalogue/14_9009A_White-MGI-3-Jar-Box.jpg" },
+  { sku: "9009B", name: "Blue Mystic 3 Jar Box", src: "/catalogue/15_9009B_Blue-Mystic-3-Jar-Box.jpg" },
+  { sku: "9009C", name: "Mahal 3 Jar Long Box", src: "/catalogue/16_9009C_Mahal-3-Jar-Long-Box.jpg" },
+  { sku: "7303", name: "Blue Velvet 3 Jar Box", src: "/catalogue/17_7303_Blue-Velvet-3-Jar-Box.jpg" },
+  { sku: "7304", name: "Red Velvet 3 Jar Box", src: "/catalogue/18_7304_Red-Velvet-3-Jar-Box.jpg" },
+  { sku: "7301", name: "Leatherette 3 Jar Suitcase Box", src: "/catalogue/19_7301_Leatherette-3-Jar-Suitcase-Box.jpg" },
+  { sku: "7302", name: "Orange 3 Jar Sliding Box", src: "/catalogue/20_7302_Orange-3-Jar-Sliding-Box.jpg" },
+  { sku: "9506", name: "MGI 3 Tin Jar Bag", src: "/catalogue/52_9506_MGI-3-Tin-Jar-Bag.jpg" },
+  { sku: "9509", name: "Pink Triangle 3 Tin Box", src: "/catalogue/53_9509_Pink-Triangle-3-Tin-Box.jpg" },
+  { sku: "9011A", name: "3 Round Jar Cavity Box", src: "/catalogue/65_9011A_3-Round-Jar-Cavity-Box.jpg" },
+  { sku: "9011", name: "Pink White 3 Jar Cavity Box", src: "/catalogue/66_9011_Pink-White-3-Jar-Cavity-Box.jpg" },
+];
+
+const fourJarBoxes: Design[] = [
+  { sku: "9003", name: "Nandi 4 Jar Box", src: "/catalogue/21_9003_Nandi-4-Jar-Box.jpg" },
+  { sku: "9003A", name: "White MGI 4 Jar Box", src: "/catalogue/22_9003A_White-MGI-4-Jar-Box.jpg" },
+  { sku: "9003B", name: "Blue Mystic Scodix 4 Jar Box", src: "/catalogue/23_9003B_Blue-Mystic-Scodix-4-Jar-Box.jpg" },
+  { sku: "9003C", name: "Rajasthan Theme 4 Jar Box", src: "/catalogue/24_9003C_Rajasthan-Theme-4-Jar-Box.jpg" },
+  { sku: "7002", name: "Orange Theme 4 Jar Box", src: "/catalogue/25_7002_Orange-Theme-4-Jar-Box.jpg" },
+  { sku: "4002", name: "Mahal Theme 4 Jar Box", src: "/catalogue/26_4002_Mahal-Theme-4-Jar-Box.jpg" },
+  { sku: "7202", name: "Blue Peacock 4 Jar Box", src: "/catalogue/27_7202_Blue-Peacock-4-Jar-Box.jpg" },
+  { sku: "7011", name: "Blue 4 Jar Suitcase Box", src: "/catalogue/28_7011_Blue-4-Jar-Suitcase-Box.jpg" },
+  { sku: "7007", name: "White Gold 4 Jar Box", src: "/catalogue/29_7007_White-Gold-4-Jar-Box.jpg" },
+  { sku: "7601", name: "Laser Cut Velvet 4 Jar Box", src: "/catalogue/30_7601_Laser-Cut-Velvet-4-Jar-Box.jpg" },
+  { sku: "7005", name: "Green Velvet 4 Jar Box", src: "/catalogue/31_7005_Green-Velvet-4-Jar-Box.jpg" },
+  { sku: "7006", name: "Blue Velvet 4 Jar Box", src: "/catalogue/32_7006_Blue-Velvet-4-Jar-Box.jpg" },
+  { sku: "9045", name: "Blue Theme 4 Jar Lift Box", src: "/catalogue/33_9045_Blue-Theme-4-Jar-Lift-Box.jpg" },
+  { sku: "9045A", name: "Mughal Theme 4 Jar Lift Box", src: "/catalogue/34_9045A_Mughal-Theme-4-Jar-Lift-Box.jpg" },
+  { sku: "7015", name: "Round D 4 Jar Box Maroon Pink", src: "/catalogue/35_7015_Round-D-4-Jar-Box-Maroon-Pink.jpg" },
+  { sku: "7016", name: "Round D 4 Jar Box", src: "/catalogue/36_7016_Round-D-4-Jar-Box.jpg" },
+  { sku: "7019", name: "Blue Round 4 Jar Box", src: "/catalogue/37_7019_Blue-Round-4-Jar-Box.jpg" },
+  { sku: "7001", name: "MDF Carry Bag 4 Jar Box", src: "/catalogue/38_7001_MDF-Carry-Bag-4-Jar-Box.jpg" },
+  { sku: "7802", name: "Carry Bag 4 Jar Box", src: "/catalogue/39_7802_Carry-Bag-4-Jar-Box.jpg" },
+  { sku: "7008", name: "Blue Diamond 4 Jar Carry Bag Box", src: "/catalogue/40_7008_Blue-Diamond-4-Jar-Carry-Bag-Box.jpg" },
+  { sku: "7803", name: "Carry Bag 4 Jar Box Design 2", src: "/catalogue/41_7803_Carry-Bag-4-Jar-Box-Design-2.jpg" },
+  { sku: "9091B", name: "Gate Open 4 Jar Box", src: "/catalogue/42_9091B_Gate-Open-4-Jar-Box.jpg" },
+  { sku: "7017", name: "Brown 4 Jar Long Box", src: "/catalogue/43_7017_Brown-4-Jar-Long-Box.jpg" },
+  { sku: "7018", name: "Grey Magnetic File 4 Jar Box", src: "/catalogue/44_7018_Grey-Magnetic-File-4-Jar-Box.jpg" },
+  { sku: "7014", name: "White 4 Jar Kappa Box", src: "/catalogue/45_7014_White-4-Jar-Kappa-Box.jpg" },
+  { sku: "1010A", name: "Pinewood 4 Jar Box", src: "/catalogue/46_1010A_Pinewood-4-Jar-Box.jpg" },
+  { sku: "9511", name: "Pink Triangle 4 Tin Box with Handle", src: "/catalogue/54_9511_Pink-Triangle-4-Tin-Box-with-Handle.jpg" },
+  { sku: "9006", name: "Pink Carving 4 Jar Cavity Box", src: "/catalogue/56_9006_Pink-Carving-4-Jar-Cavity-Box.jpg" },
+  { sku: "9064", name: "Red Pink 4 Jar Cavity Box", src: "/catalogue/57_9064_Red-Pink-4-Jar-Cavity-Box.jpg" },
+  { sku: "9046", name: "Blue 4 Jar Cavity Lift Box", src: "/catalogue/59_9046_Blue-4-Jar-Cavity-Lift-Box.jpg" },
+  { sku: "9005", name: "Purple 4 Jar Cavity Box", src: "/catalogue/60_9005_Purple-4-Jar-Cavity-Box.jpg" },
+  { sku: "1010", name: "Pinewood 4 Jar Box Classic", src: "/catalogue/69_1010_Pinewood-4-Jar-Box-Classic.jpg" },
+];
+
+const corkComboDesigns: Design[] = [
+  { name: "Cork Diary + Cork Pen", src: productPhoto("Combo Of Cork Dairy+Cork Pen.png") },
+  { name: "Denim Cork Diary + Cork Pen", src: productPhoto("Combo of Denim Cork Dairy+Cork Pen.png") },
+];
+
+const candleDesigns: Design[] = [
+  { name: "4 Round Candle Set — Gold Box", src: productPhoto("4 Candle set Circular.png") },
+  { name: "3 Round Candle Set", src: productPhoto("3 Candle set Circular.png") },
+  { name: "6 Round Candle Set", src: productPhoto("6 Candle set Circular.png") },
+  { name: "4 Round Candle Set — Maroon Box", src: productPhoto("4-Circular wax Candle 1.JPG") },
+  { name: "3 Heart Candle Set", src: productPhoto("3-Heart wax Candle 2.JPG") },
+  { name: "4 Heart Candle Set", src: productPhoto("4-Heart Wax Candle 1.JPG") },
+  { name: "Bubble Candle", src: productPhoto("Soya wax candle1.png") },
+];
+
+const diyaDesigns: Design[] = [
+  { name: "Round Pot Diyas", src: productPhoto("Soya wax Circular Diya1.jpg") },
+  { name: "Paisley Diyas", src: productPhoto("Soya wax Diya 2.jpg") },
+  { name: "Terracotta Diyas — Yellow", src: productPhoto("Soya wax diya 3.jpg") },
+  { name: "Terracotta Diyas — Blue", src: productPhoto("Soya wax Diya 4.JPG") },
+  { name: "Hand-Painted Diya", src: productPhoto("Soya wax Diya1.jpg") },
+  { name: "Square Diyas", src: productPhoto("Soya wax Square Diya 1.jpg") },
+  { name: "Square Flower Diya", src: productPhoto("Soya wax square Diya 2.jpg") },
+];
+
+const signatureRange: SignatureItem[] = [
+  {
+    id: "cork-diary", category: "Cork Collection", name: "Cork Diary",
+    description: "A diary bound in natural cork — light, durable and harvested from cork-oak bark without felling a tree.",
+    tags: ["Natural cork", "Custom branding"],
+    image: productPhoto("Cork Dairy 1.png"), icon: BookOpen, tint: "#d8c19c",
+    photos: [productPhoto("Cork Dairy 1.png")],
+  },
+  {
+    id: "cork-diary-fabric", category: "Cork Collection", name: "Cork Diary with Fabric",
+    description: "Natural cork paired with a denim fabric finish for a warmer, textured cover.",
+    tags: ["Cork + denim", "Custom branding"],
+    image: productPhoto("Cork Denim Diary 1.png"), icon: BookOpen, tint: "#cfb89c",
+    photos: [productPhoto("Cork Denim Diary 1.png"), productPhoto("Cork Denim Dairy 1.1.png"), productPhoto("Cork Denim Dairy 1.2.png")],
+  },
+  {
+    id: "cork-pen", category: "Cork Collection", name: "Cork Pen",
+    description: "An everyday pen wrapped in natural cork for a light, comfortable grip.",
+    tags: ["Natural cork", "Custom branding"],
+    image: productPhoto("Cork Pen.png"), icon: PenLine, tint: "#dcc7a6",
+    photos: [productPhoto("Cork Pen.png")],
+  },
+  {
+    id: "cork-combo", category: "Cork Collection", name: "Cork Diary & Pen Combo",
+    description: "A cork diary paired with a matching cork pen — a ready-to-gift desk set.",
+    tags: ["Diary + pen", "Custom branding"],
+    image: corkComboDesigns[0].src, icon: BookOpen, tint: "#d8c19c", designs: corkComboDesigns,
+  },
+  {
+    id: "cork-keyring", category: "Cork Collection", name: "Cork Keyring",
+    description: "A lightweight, water-resistant cork keyring — a small gift that gets used every day.",
+    tags: ["Natural cork", "Custom branding"],
+    image: "/catalogue/cork-keyring.jpg", icon: KeyRound, tint: "#d3bc98",
+  },
+  {
+    id: "paper-pen", category: "Recycled Paper", name: "Paper Pen",
+    description: "A pen with a barrel rolled from recycled paper — a simple swap for a plastic pen.",
+    tags: ["Recycled paper", "Custom branding"],
+    image: productPhoto("Paper Pen.png"), icon: PenLine, tint: "#d0d3bf",
+    photos: [productPhoto("Paper Pen.png")],
+  },
+  {
+    id: "paper-pencil", category: "Recycled Paper", name: "Paper Pencil",
+    description: "Pencils rolled from recycled newspaper instead of wood.",
+    tags: ["Recycled newspaper", "Custom branding"],
+    image: productPhoto("Paper Pencil.png"), icon: PenLine, tint: "#d0d3bf",
+    photos: [productPhoto("Paper Pencil.png")],
+  },
+  {
+    id: "recycled-daily-planner", category: "Recycled Paper", name: "Recycled Daily Planner",
+    description: "A day-by-day planner printed on recycled paper to keep priorities on track.",
+    tags: ["Recycled paper", "Custom branding"],
+    image: "/catalogue/recycled-daily-planner.jpg", icon: CalendarDays, tint: "#c9cdb6",
+  },
+  {
+    id: "recycled-writing-pad", category: "Recycled Paper", name: "Recycled Writing Pad",
+    description: "A writing pad of recycled paper for notes, meetings and to-do lists.",
+    tags: ["Recycled paper", "Custom branding"],
+    image: "/catalogue/recycled-writing-pad.jpg", icon: NotebookPen, tint: "#d0d3bf",
+  },
+  {
+    id: "bamboo-bottle", category: "Bamboo Collection", name: "Bamboo Bottle",
+    description: "A bamboo-finish bottle with a steel cap and a removable tea infuser.",
+    tags: ["Bamboo finish", "Tea infuser"],
+    image: productPhoto("Bamboo Bottle 1.png"), icon: Gift, tint: "#d9cfb4",
+    photos: [productPhoto("Bamboo Bottle 1.png"), productPhoto("Bamboo Bottle 2.png")],
+  },
+  {
+    id: "gift-box-2-jar", category: "Gift Boxes", name: "2 Jar Gift Boxes",
+    description: "Printed, velvet, wooden and tin boxes with two jars — ready for dry fruits, sweets or chocolates.",
+    tags: [`${designCount(twoJarBoxes)} designs`, "Jars included"],
+    image: twoJarBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: twoJarBoxes,
+  },
+  {
+    id: "gift-box-3-jar", category: "Gift Boxes", name: "3 Jar Gift Boxes",
+    description: "Three-jar boxes in velvet, leatherette, printed MDF and tin finishes.",
+    tags: [`${designCount(threeJarBoxes)} designs`, "Jars included"],
+    image: threeJarBoxes[0].src, icon: Gift, tint: "#e3d3c4", designs: threeJarBoxes,
+  },
+  {
+    id: "gift-box-4-jar", category: "Gift Boxes", name: "4 Jar Gift Boxes",
+    description: "Our widest range — lift-open, carry-bag, cavity and pinewood boxes holding four jars.",
+    tags: [`${designCount(fourJarBoxes)} designs`, "Jars included"],
+    image: "/catalogue/21_9003_Nandi-4-Jar-Box.jpg", icon: Gift, tint: "#e3d3c4", designs: fourJarBoxes,
+  },
+  {
+    id: "soy-wax-candles", category: "Candles", name: "Scented Candles",
+    description: "Soya wax candles in round and heart shapes, gift-boxed in sets of 3, 4 and 6.",
+    tags: ["Soya wax", "Gift boxed"],
+    image: candleDesigns[0].src, icon: Flame, tint: "#ead9c0", designs: candleDesigns,
+  },
+  {
+    id: "soy-wax-diyas", category: "Candles", name: "Soya Wax Diyas",
+    description: "Terracotta and hand-painted diyas filled with soya wax — made for Diwali gifting.",
+    tags: ["Soya wax", "Hand-painted"],
+    image: diyaDesigns[0].src, icon: Flame, tint: "#ead9c0", designs: diyaDesigns,
+  },
+];
+
+// Tabs follow the categories that actually have products
+const categories = ["All", ...new Set(signatureRange.map(i => i.category))];
+
+const productImage = (id: string) => signatureRange.find(i => i.id === id)?.image ?? "";
+
+const heroPicks = ["cork-pen", "soy-wax-candles", "bamboo-bottle", "gift-box-2-jar"]
+  .map(id => signatureRange.find(i => i.id === id))
+  .filter((i): i is SignatureItem => !!i);
 
 // ── Scroll-Reveal Hook ─────────────────────────────────────────────────────
 function useScrollReveal<T extends HTMLElement>(threshold = 0.15) {
@@ -211,18 +284,6 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   }, [visible, target]);
   return <span ref={ref}>{count}{suffix}</span>;
 }
-
-// ── Stars ─────────────────────────────────────────────────────────────────
-const Stars = ({ rating }: { rating: number }) => (
-  <div className="flex gap-0.5">
-    {[1,2,3,4,5].map(i => (
-      <svg key={i} width="11" height="11" viewBox="0 0 24 24"
-        fill={i <= Math.round(rating) ? "#c8a96e" : "none"} stroke="#c8a96e" strokeWidth="1.5">
-        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-      </svg>
-    ))}
-  </div>
-);
 
 // ── Magnetic Button ───────────────────────────────────────────────────────
 function MagneticBtn({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
@@ -453,40 +514,38 @@ function RippleBtn({ children, className, onClick }: { children: React.ReactNode
   );
 }
 
-// ── Glitch Text ───────────────────────────────────────────────────────────
-function GlitchBadge({ text }: { text: string }) {
-  const [glitching, setGlitching] = useState(false);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGlitching(true);
-      setTimeout(() => setGlitching(false), 300);
-    }, 4000 + Math.random() * 3000);
-    return () => clearInterval(interval);
-  }, []);
-  return (
-    <span className="relative inline-block" style={{ animation: glitching ? "glitchAnim 0.3s steps(2) both" : "none" }}>
-      {text}
-    </span>
+// ── Body Portal ───────────────────────────────────────────────────────────
+// The route's PageWrapper animates transform/filter, which makes `position: fixed`
+// relative to the page instead of the viewport — so overlays render into <body>.
+function BodyPortal({ children }: { children: React.ReactNode }) {
+  return createPortal(
+    <div style={{ fontFamily: "'Jost', system-ui, sans-serif" }}>{children}</div>,
+    document.body
   );
 }
 
-// ── Product Card ──────────────────────────────────────────────────────────
-function ProductCard({ product, index, onQuickView, onWishlist, onAddToCart, wishlisted }: {
-  product: Product; index: number;
-  onQuickView: (p: Product) => void;
-  onWishlist: (id: number) => void;
-  onAddToCart: (p: Product) => void;
-  wishlisted: boolean;
+// ── Signature Card ────────────────────────────────────────────────────────
+function SignatureCard({ item, index, onOpenGallery, onOrder }: {
+  item: SignatureItem; index: number;
+  onOpenGallery: (item: SignatureItem) => void;
+  onOrder: (item: SignatureItem) => void;
 }) {
   const { ref, visible } = useScrollReveal<HTMLDivElement>(0.1);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
   const [hovered, setHovered] = useState(false);
   const delay = (index % 8) * 80;
+  const Icon = item.icon;
+  // Ranges open the design gallery; single products order directly, with a Quick View of their photos
+  const order = () => (item.designs ? onOpenGallery(item) : onOrder(item));
+  const orderLabel = item.designs ? "View Designs" : "Order Now";
+  const preview = () => (item.designs || item.photos ? onOpenGallery(item) : onOrder(item));
+  const previewLabel = item.designs ? "View Designs" : item.photos ? "Quick View" : "Order Now";
 
   return (
     <TiltCard
       ref={ref}
-      className="bg-white border border-[#e8e4dd] rounded-sm overflow-hidden group"
+      className="bg-white border border-[#e8e4dd] rounded-sm overflow-hidden group flex flex-col"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0) scale(1)" : "translateY(40px) scale(0.95)",
@@ -496,82 +555,65 @@ function ProductCard({ product, index, onQuickView, onWishlist, onAddToCart, wis
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Image */}
-      <div className="relative overflow-hidden bg-[#f5f0e8] h-56">
-        <img src={product.image} alt={product.name} loading="lazy"
-          onLoad={() => setImgLoaded(true)}
-          className="w-full h-full object-cover"
-          style={{
-            transform: hovered ? "scale(1.08)" : "scale(1)",
-            transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease",
-            opacity: imgLoaded ? 1 : 0,
-          }} />
-
-        {/* Shimmer loader */}
-        {!imgLoaded && <div className="absolute inset-0 shimmer" />}
+      {/* Image — falls back to a tinted icon panel until the photo is added */}
+      <div className="relative overflow-hidden h-56"
+        style={{ background: imgFailed ? `linear-gradient(135deg, ${item.tint} 0%, #f5f0e8 100%)` : "#f5f0e8" }}>
+        {imgFailed ? (
+          <div className="absolute inset-0 flex items-center justify-center"
+            style={{ backgroundImage: "radial-gradient(rgba(28,43,30,0.07) 1px, transparent 1px)", backgroundSize: "10px 10px" }}>
+            <Icon size={46} strokeWidth={1} color="#1c2b1e"
+              style={{ opacity: 0.55, transform: hovered ? "scale(1.1) rotate(-4deg)" : "scale(1)", transition: "transform 0.5s cubic-bezier(0.22,1,0.36,1)" }} />
+          </div>
+        ) : (
+          <>
+            <img src={item.image} alt={item.name} loading="lazy"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgFailed(true)}
+              className="w-full h-full object-cover"
+              style={{
+                transform: hovered ? "scale(1.06)" : "scale(1)",
+                transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease",
+                opacity: imgLoaded ? 1 : 0,
+              }} />
+            {!imgLoaded && <div className="absolute inset-0 shimmer" />}
+          </>
+        )}
 
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "linear-gradient(to top, rgba(28,43,30,0.1) 0%, transparent 60%)" }} />
 
-        {product.badge && (
-          <span className="absolute top-3 left-3 font-body text-[9px] tracking-widest uppercase bg-[#1c2b1e] text-white px-2.5 py-1"
-            style={{ animation: visible ? "badgePop 0.4s ease both" : "none", animationDelay: `${delay + 200}ms` }}>
-            <GlitchBadge text={product.badge} />
+        {item.designs && (
+          <span className="absolute bottom-3 right-3 font-body text-[9px] tracking-widest uppercase bg-[#1c2b1e] text-white px-2.5 py-1">
+            {designCount(item.designs)} Designs
           </span>
         )}
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 flex items-center justify-center gap-3"
+        <div className="absolute inset-0 flex items-center justify-center"
           style={{ background: hovered ? "rgba(28,43,30,0.55)" : "rgba(28,43,30,0)", transition: "background 0.4s ease" }}>
-          <button onClick={() => onQuickView(product)}
+          <button onClick={preview}
             className="bg-white text-[#1c2b1e] font-body text-[10px] tracking-widest uppercase px-4 py-2.5 hover:bg-[#c8a96e] hover:text-white"
             style={{
               opacity: hovered ? 1 : 0,
               transform: hovered ? "translateY(0) scale(1)" : "translateY(14px) scale(0.9)",
               transition: "opacity 0.3s ease 0.05s, transform 0.35s cubic-bezier(0.22,1,0.36,1) 0.05s, background 0.2s",
             }}>
-            Quick View
-          </button>
-          <button onClick={() => onWishlist(product.id)}
-            className={`w-9 h-9 flex items-center justify-center text-base ${wishlisted ? "bg-[#b87355] text-white" : "bg-white text-[#1c2b1e] hover:bg-[#b87355] hover:text-white"}`}
-            style={{
-              opacity: hovered ? 1 : 0,
-              transform: hovered ? "translateY(0) scale(1)" : "translateY(14px) scale(0.9)",
-              transition: "opacity 0.3s ease 0.1s, transform 0.35s cubic-bezier(0.22,1,0.36,1) 0.1s, background 0.2s",
-            }}>
-            {wishlisted ? "♥" : "♡"}
+            {previewLabel}
           </button>
         </div>
-
-        {/* Shimmer sweep on hover */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          background: "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%)",
-          transform: hovered ? "translateX(100%)" : "translateX(-100%)",
-          transition: "transform 0.7s ease",
-        }} />
       </div>
 
       {/* Info */}
-      <div className="p-5">
-        <p className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e] mb-1">{product.category}</p>
-        <h3 className="font-display text-[17px] font-light text-[#1c2b1e] leading-snug mb-1">{product.name}</h3>
-        <p className="font-body text-xs text-[#8c8880] mb-3">{product.subtitle}</p>
-        <div className="flex items-center gap-2 mb-4">
-          <Stars rating={product.rating} />
-          <span className="font-body text-[10px] text-[#8c8880]">{product.rating} ({product.reviews})</span>
-        </div>
-        <div className="flex items-baseline justify-between">
-          <div className="flex items-baseline gap-2">
-            {/* <span className="font-display text-xl font-light text-[#1c2b1e]">${product.price}</span>
-            {product.originalPrice && (
-              <span className="font-body text-xs text-[#8c8880] line-through">${product.originalPrice}</span>
-            )} */}
-          </div>
+      <div className="p-5 flex flex-col flex-1">
+        <p className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e] mb-1">{item.category}</p>
+        <h3 className="font-display text-[17px] font-light text-[#1c2b1e] leading-snug mb-1">{item.name}</h3>
+        <p className="font-body text-xs text-[#8c8880] leading-relaxed mb-3">{item.description}</p>
+        <p className="font-body text-[10px] tracking-widest uppercase text-[#c8a96e] mb-4">{item.tags.join(" · ")}</p>
+        <div className="mt-auto flex justify-end">
           <RippleBtn
-            onClick={() => onAddToCart(product)}
+            onClick={order}
             className="font-body text-[10px] tracking-widest uppercase bg-[#1c2b1e] text-white px-3 py-2 hover:bg-[#c8a96e]">
-            Order Now
+            {orderLabel}
           </RippleBtn>
         </div>
       </div>
@@ -579,17 +621,132 @@ function ProductCard({ product, index, onQuickView, onWishlist, onAddToCart, wis
   );
 }
 
+// ── Design Gallery (also the Quick View for single products with photos) ──
+function DesignGallery({ item, onClose, onOrder }: {
+  item: SignatureItem; onClose: () => void; onOrder: (design: Design) => void;
+}) {
+  const designs: Design[] = item.designs ?? (item.photos ?? []).map(src => ({ name: item.name, src }));
+  const [active, setActive] = useState(0);
+  const thumbsRef = useRef<HTMLDivElement>(null);
+  const go = useCallback((dir: number) => {
+    setActive(i => (i + dir + designs.length) % designs.length);
+  }, [designs.length]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") go(1);
+      else if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go, onClose]);
+
+  // Keep the active thumbnail in view
+  useEffect(() => {
+    const strip = thumbsRef.current;
+    const thumb = strip?.children[active] as HTMLElement | undefined;
+    if (strip && thumb) {
+      strip.scrollTo({ left: thumb.offsetLeft - strip.clientWidth / 2 + thumb.clientWidth / 2, behavior: "smooth" });
+    }
+  }, [active]);
+
+  if (designs.length === 0) return null;
+  const current = designs[active];
+
+  return (
+    <BodyPortal>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 md:p-6 bg-black/60 backdrop-blur-sm"
+      style={{ animation: "heroFade 0.25s ease both" }}
+      onClick={onClose}>
+      <div className="scale-in bg-[#faf8f4] max-w-5xl w-full rounded-sm shadow-2xl overflow-hidden flex flex-col max-h-[94vh]"
+        onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 px-5 md:px-7 pt-5 pb-4 border-b border-[#e8e4dd]">
+          <div>
+            <p className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e] mb-1">{item.category}</p>
+            <h3 className="font-display text-2xl md:text-3xl font-light text-[#1c2b1e] leading-tight">{item.name}</h3>
+          </div>
+          <div className="flex items-center gap-4">
+            {designs.length > 1 && (
+              <span className="font-body text-xs text-[#8c8880] whitespace-nowrap">{active + 1} / {designs.length}</span>
+            )}
+            <button onClick={onClose} aria-label="Close gallery"
+              className="text-[#8c8880] hover:text-[#1c2b1e] text-3xl leading-none"
+              style={{ transition: "transform 0.25s ease, color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.transform = "rotate(90deg) scale(1.2)")}
+              onMouseLeave={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1)")}>×</button>
+          </div>
+        </div>
+
+        {/* Main image */}
+        <div className="relative bg-[#ebe6e0] flex items-center justify-center min-h-0 flex-1">
+          <img key={current.src} src={current.src} alt={current.name}
+            className="w-full h-full object-contain max-h-[58vh]"
+            style={{ animation: "heroFade 0.35s ease both" }} />
+          {designs.length > 1 && (
+            <>
+              <button onClick={() => go(-1)} aria-label="Previous design"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
+                <ChevronLeft size={20} strokeWidth={1.5} />
+              </button>
+              <button onClick={() => go(1)} aria-label="Next design"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-[#1c2b1e] flex items-center justify-center shadow-md hover:bg-[#c8a96e] hover:text-white transition-colors">
+                <ChevronRight size={20} strokeWidth={1.5} />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Caption */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 md:px-7 py-4 border-t border-[#e8e4dd]">
+          <div>
+            {item.designs ? (
+              <>
+                <p className="font-display text-xl font-light text-[#1c2b1e] leading-snug">{current.name}</p>
+                {current.sku && <p className="font-body text-[10px] tracking-widest uppercase text-[#8c8880] mt-0.5">SKU {current.sku}</p>}
+              </>
+            ) : (
+              <>
+                <p className="font-body text-sm text-[#555] leading-relaxed max-w-xl">{item.description}</p>
+                <p className="font-body text-[10px] tracking-widest uppercase text-[#c8a96e] mt-1">{item.tags.join(" · ")}</p>
+              </>
+            )}
+          </div>
+          <RippleBtn onClick={() => onOrder(current)}
+            className="font-body text-[10px] tracking-widest uppercase bg-[#1c2b1e] text-white px-6 py-3 hover:bg-[#c8a96e] whitespace-nowrap">
+            {item.designs ? "Order This Design" : "Order Now"}
+          </RippleBtn>
+        </div>
+
+        {/* Thumbnails */}
+        {designs.length > 1 && (
+        <div ref={thumbsRef} className="flex gap-2 overflow-x-auto px-5 md:px-7 pt-1.5 pb-5 relative">
+          {designs.map((d, i) => (
+            <button key={d.src} onClick={() => setActive(i)} aria-label={d.name}
+              className="flex-shrink-0 w-20 h-[62px] overflow-hidden rounded-sm bg-[#ebe6e0]"
+              style={{
+                outline: i === active ? "2px solid #c8a96e" : "1px solid #e8e4dd",
+                outlineOffset: i === active ? "2px" : "0",
+                opacity: i === active ? 1 : 0.6,
+                transition: "opacity 0.2s, outline-color 0.2s",
+              }}>
+              <img src={d.src} alt="" loading="lazy" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+        )}
+      </div>
+    </div>
+    </BodyPortal>
+  );
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────
 export default function ExecutiveGiftPage() {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("All");
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [wishlist, setWishlist] = useState<number[]>([]);
-  const [toastMsg, setToastMsg] = useState<string | null>(null);
-  const [toastKey, setToastKey] = useState(0);
-  const [quickView, setQuickView] = useState<Product | null>(null);
-  const [sortBy, setSortBy] = useState("featured");
+  const [gallery, setGallery] = useState<SignatureItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [navScrolled, setNavScrolled] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
@@ -609,7 +766,9 @@ export default function ExecutiveGiftPage() {
   // Scroll watcher
   useEffect(() => {
     const onScroll = () => {
-      setNavScrolled(window.scrollY > 40);
+      const heroEl = heroRef.current;
+      const heroBottom = heroEl ? heroEl.getBoundingClientRect().bottom : 0;
+      setNavScrolled(heroBottom <= 64);
       setHeroScrollY(window.scrollY);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -618,44 +777,19 @@ export default function ExecutiveGiftPage() {
 
   // Body scroll lock
   useEffect(() => {
-    document.body.style.overflow = quickView ? "hidden" : "";
+    document.body.style.overflow = gallery ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
-  }, [quickView]);
+  }, [gallery]);
 
-  const showToast = (msg: string) => {
-    setToastMsg(msg);
-    setToastKey(k => k + 1);
-    setTimeout(() => setToastMsg(null), 2800);
-  };
+  // Order buttons open the proposal form with this product pre-selected
+  const orderProduct = (product: OrderProduct) => navigate("/configurator", { state: { product } });
 
-  const addToCart = (product: Product) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.id === product.id);
-      if (existing) return prev.map(i => i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i);
-      return [...prev, { ...product, quantity: 1 }];
-    });
-    showToast(`${product.name} added to cart`);
-  };
+  const filtered = signatureRange
+    .filter(i => activeCategory === "All" || i.category === activeCategory)
+    .filter(i => searchQuery === "" ||
+      i.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      i.category.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  const removeFromCart = (id: number) => setCart(prev => prev.filter(i => i.id !== id));
-
-  const toggleWishlist = (id: number) =>
-    setWishlist(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
-
-  const cartTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-  const cartCount = cart.reduce((s, i) => s + i.quantity, 0);
-
-  const filtered = products
-    .filter(p => activeCategory === "All" || p.category === activeCategory)
-    .filter(p => searchQuery === "" ||
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchQuery.toLowerCase()))
-    .sort((a, b) => {
-      if (sortBy === "price-asc") return a.price - b.price;
-      if (sortBy === "price-desc") return b.price - a.price;
-      if (sortBy === "rating") return b.rating - a.rating;
-      return 0;
-    });
 
   const { ref: statsRef, visible: statsVisible } = useScrollReveal<HTMLDivElement>();
   const { ref: bannersRef, visible: bannersVisible } = useScrollReveal<HTMLDivElement>();
@@ -922,197 +1056,12 @@ export default function ExecutiveGiftPage() {
       {/* ══════════ SCROLL PROGRESS BAR ══════════ */}
       <ScrollProgressBar />
 
-      {/* ══════════ TOAST ══════════ */}
-      {toastMsg && (
-        <div key={toastKey} className="toast-in fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] bg-[#1c2b1e] text-white text-sm px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 whitespace-nowrap"
-          style={{ boxShadow: "0 8px 32px rgba(28,43,30,0.4)" }}>
-          <span className="w-5 h-5 rounded-full bg-[#7a9e7e] flex items-center justify-center flex-shrink-0">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-          {toastMsg}
-        </div>
+      {/* ══════════ DESIGN GALLERY ══════════ */}
+      {gallery && (
+        <DesignGallery item={gallery}
+          onClose={() => setGallery(null)}
+          onOrder={d => orderProduct({ name: d.name, category: gallery.category, image: d.src, sku: d.sku })} />
       )}
-
-      {/* ══════════ QUICK VIEW MODAL ══════════ */}
-      {quickView && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
-          style={{ animation: "heroFade 0.25s ease both" }}
-          onClick={() => setQuickView(null)}>
-          <div className="scale-in bg-white max-w-3xl w-full rounded-sm shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
-            onClick={e => e.stopPropagation()}>
-            <div className="md:w-1/2 overflow-hidden bg-[#f5f0e8] flex-shrink-0 h-64 md:h-auto relative">
-              <img src={quickView.image} alt={quickView.name} className="w-full h-full object-cover"
-                style={{ transition: "transform 0.7s ease" }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.07)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")} />
-            </div>
-            <div className="md:w-1/2 p-8 flex flex-col justify-between overflow-y-auto">
-              <div>
-                <div className="flex items-start justify-between mb-2">
-                  <span className="font-body text-[10px] tracking-widest uppercase text-[#7a9e7e]" style={{ animation: "inkBleed 0.5s ease both" }}>{quickView.category}</span>
-                  <button onClick={() => setQuickView(null)}
-                    className="text-[#8c8880] hover:text-[#1c2b1e] text-2xl leading-none ml-4"
-                    style={{ transition: "transform 0.25s ease, color 0.2s" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "rotate(90deg) scale(1.2)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1)")}>×</button>
-                </div>
-                <h3 className="font-display text-2xl font-light text-[#1c2b1e] mb-1" style={{ animation: "heroLineBlur 0.6s ease 0.1s both" }}>{quickView.name}</h3>
-                <p className="font-body text-xs text-[#8c8880] mb-3" style={{ animation: "heroLine 0.5s ease 0.2s both" }}>{quickView.subtitle}</p>
-                <div className="flex items-center gap-2 mb-4" style={{ animation: "heroLine 0.5s ease 0.3s both" }}>
-                  <Stars rating={quickView.rating} />
-                  <span className="font-body text-xs text-[#8c8880]">{quickView.rating} ({quickView.reviews} reviews)</span>
-                </div>
-                <div className="flex items-baseline gap-3 mb-4" style={{ animation: "heroLine 0.5s ease 0.35s both" }}>
-                  <span className="font-display text-3xl font-light price-shimmer">${quickView.price}</span>
-                  {quickView.originalPrice && <span className="font-body text-sm text-[#8c8880] line-through">${quickView.originalPrice}</span>}
-                </div>
-                <p className="font-body text-sm text-[#555] leading-relaxed mb-5" style={{ animation: "heroLine 0.5s ease 0.4s both" }}>{quickView.description}</p>
-                <ul className="space-y-2 mb-6">
-                  {quickView.details.map((d, i) => (
-                    <li key={i} className="flex items-center gap-2 font-body text-xs text-[#555]"
-                      style={{ animation: "heroLine 0.4s ease both", animationDelay: `${0.45 + i * 0.06}s` }}>
-                      <span className="text-[#7a9e7e] flex-shrink-0" style={{ animation: `float ${2.5 + i * 0.3}s ease-in-out infinite` }}>✦</span>{d}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <RippleBtn onClick={() => { addToCart(quickView); setQuickView(null); }}
-                  className="w-full bg-[#1c2b1e] text-white font-body text-xs tracking-widest uppercase py-4 hover:bg-[#2e4a32]">
-                  Add to Cart — ${quickView.price}
-                </RippleBtn>
-                <button onClick={() => toggleWishlist(quickView.id)}
-                  className={`w-full border font-body text-xs tracking-widest uppercase py-3 transition-all duration-300 ${
-                    wishlist.includes(quickView.id) ? "border-[#b87355] text-[#b87355]" : "border-[#e8e4dd] text-[#8c8880] hover:border-[#1c2b1e] hover:text-[#1c2b1e]"
-                  }`}
-                  style={{ transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)" }}>
-                  {wishlist.includes(quickView.id) ? "♥ Wishlisted" : "♡ Add to Wishlist"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ══════════ CART DRAWER ══════════ */}
-      {cartOpen && (
-        <div className="fixed inset-0 z-40 flex" style={{ animation: "heroFade 0.2s ease both" }}>
-          <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={() => setCartOpen(false)} />
-          <div className="slide-right w-full max-w-sm bg-[#faf8f4] h-full shadow-2xl flex flex-col">
-            <div className="flex items-center justify-between px-8 py-6 border-b border-[#e8e4dd]">
-              <div style={{ animation: "heroLine 0.5s ease both" }}>
-                <h2 className="font-display text-2xl font-light text-[#1c2b1e]">Your Cart</h2>
-                <p className="font-body text-xs text-[#8c8880]">{cartCount} {cartCount === 1 ? "item" : "items"}</p>
-              </div>
-              <button onClick={() => setCartOpen(false)}
-                className="text-[#8c8880] hover:text-[#1c2b1e] text-3xl leading-none"
-                style={{ transition: "transform 0.25s ease, color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "rotate(90deg) scale(1.2)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = "rotate(0) scale(1)")}>×</button>
-            </div>
-            <div className="flex-1 overflow-y-auto px-8 py-6 space-y-5">
-              {cart.length === 0 ? (
-                <div className="text-center py-16" style={{ animation: "heroLine 0.5s ease both" }}>
-                  <p className="text-5xl mb-3" style={{ animation: "float 3s ease-in-out infinite" }}>🎁</p>
-                  <p className="font-body text-sm text-[#8c8880]">Your cart is empty</p>
-                </div>
-              ) : cart.map((item, i) => (
-                <div key={item.id} className="flex gap-4 items-start border-b border-[#e8e4dd] pb-5"
-                  style={{ animation: "stackIn 0.4s ease both", animationDelay: `${i * 70}ms` }}>
-                  <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-sm flex-shrink-0"
-                    style={{ transition: "transform 0.3s ease" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.08) rotate(1deg)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1) rotate(0deg)")} />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-body text-sm font-medium text-[#1c2b1e] truncate">{item.name}</p>
-                    <p className="font-body text-xs text-[#8c8880] mt-0.5">Qty: {item.quantity}</p>
-                    <p className="font-display text-lg font-light price-shimmer mt-1">${item.price * item.quantity}</p>
-                  </div>
-                  <button onClick={() => removeFromCart(item.id)}
-                    className="text-[#8c8880] hover:text-red-500 mt-1 text-sm"
-                    style={{ transition: "color 0.2s, transform 0.2s" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.3) rotate(10deg)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1) rotate(0)")}>✕</button>
-                </div>
-              ))}
-            </div>
-            {cart.length > 0 && (
-              <div className="px-8 py-6 border-t border-[#e8e4dd]">
-                <div className="flex justify-between mb-2">
-                  <span className="font-body text-xs tracking-widest uppercase text-[#8c8880]">Subtotal</span>
-                  <span className="font-display text-2xl font-light price-shimmer">${cartTotal}</span>
-                </div>
-                <p className="font-body text-xs text-[#8c8880] mb-5">Free shipping on orders over $150</p>
-                <RippleBtn className="w-full bg-[#1c2b1e] text-white font-body text-xs tracking-widest uppercase py-4 hover:bg-[#2e4a32] mb-3 block">
-                  Checkout
-                </RippleBtn>
-                <button onClick={() => setCartOpen(false)}
-                  className="w-full border border-[#e8e4dd] text-[#8c8880] font-body text-xs tracking-widest uppercase py-3 hover:border-[#1c2b1e] hover:text-[#1c2b1e] transition-colors">
-                  Continue Shopping
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ══════════ NAVBAR ══════════ */}
-      <nav style={{
-        position: "sticky", top: 0, zIndex: 30,
-        background: navScrolled ? "rgba(250,248,244,0.97)" : "rgba(250,248,244,0.8)",
-        backdropFilter: "blur(12px)",
-        borderBottom: navScrolled ? "1px solid #e8e4dd" : "1px solid transparent",
-        boxShadow: navScrolled ? "0 2px 24px rgba(28,43,30,0.06)" : "none",
-        transition: "background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease",
-      }}>
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-          {/* Logo */}
-          <div className="flex-shrink-0 logo-reveal">
-            <span className="font-display text-xl tracking-widest text-[#1c2b1e]">ATELIER</span>
-            <span className="font-body text-xs tracking-[0.3em] text-[#8c8880] ml-2 uppercase hidden sm:inline">Gifted</span>
-          </div>
-          {/* Search */}
-          <div className="flex-1 max-w-xs hidden md:flex items-center border border-[#e8e4dd] bg-white px-4 py-2 gap-2"
-            style={{ animation: "navCascade 0.5s ease 0.9s both", transition: "border-color 0.2s, box-shadow 0.2s" }}
-            onFocus={e => (e.currentTarget.style.boxShadow = "0 0 0 2px rgba(200,169,110,0.25)")}
-            onBlur={e => (e.currentTarget.style.boxShadow = "none")}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            <input type="text" placeholder="Search gifts..." value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="flex-1 font-body text-xs text-[#1c2b1e] bg-transparent outline-none placeholder-[#8c8880]" />
-          </div>
-          {/* Links */}
-          <div className="flex items-center gap-5">
-            <div className="hidden md:flex gap-5 font-body text-xs tracking-widest uppercase text-[#8c8880]">
-              {["Shop", "Reviews"].map((link, i) => (
-                <a key={link} href={link === "Shop" ? "#products" : "#testimonials"}
-                  className="nav-link hover:text-[#1c2b1e] transition-colors"
-                  style={{ animation: `navCascade 0.5s ease ${0.7 + i * 0.1}s both` }}>
-                  {link}
-                </a>
-              ))}
-            </div>
-            <button onClick={() => setCartOpen(true)}
-              className="relative flex items-center gap-2 font-body text-xs tracking-widest uppercase text-[#1c2b1e] hover:text-[#7a9e7e]"
-              style={{ animation: "navCascade 0.5s ease 1.0s both", transition: "color 0.2s, transform 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.07)")}
-              onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <path d="M16 10a4 4 0 01-8 0"/>
-              </svg>
-              <span className="hidden sm:inline">Cart</span>
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-3 bg-[#b87355] text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-medium"
-                  style={{ animation: "badgePop 0.35s cubic-bezier(0.34,1.56,0.64,1) both" }}>
-                  {cartCount}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-      </nav>
 
       {/* ══════════ HERO ══════════ */}
       <section ref={heroRef} className="relative overflow-hidden bg-[#1c2b1e] text-white" style={{ minHeight: "90vh" }}>
@@ -1199,7 +1148,7 @@ export default function ExecutiveGiftPage() {
 
             <p className="font-body text-[#c8c4bb] text-base leading-relaxed max-w-md mb-10 font-light"
               style={{ opacity: heroVisible ? 1 : 0, transform: heroVisible ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.7s ease 0.85s, transform 0.7s ease 0.85s" }}>
-              20 curated pieces — hand-pressed journals, single-origin teas, artisanal ceramics & bespoke gift boxes for executives who value craft over consumption.
+              Cork stationery, recycled paper goods, bamboo drinkware, soya wax candles & diyas and handcrafted jar gift boxes — for teams who value craft over consumption.
             </p>
 
             <div className="flex flex-wrap gap-4"
@@ -1209,7 +1158,7 @@ export default function ExecutiveGiftPage() {
                 style={{ transition: "background 0.3s, color 0.3s, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s" }}
                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px) scale(1.02)"; e.currentTarget.style.background = "#c8a96e"; e.currentTarget.style.color = "white"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(200,169,110,0.5)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.background = "white"; e.currentTarget.style.color = "#1c2b1e"; e.currentTarget.style.boxShadow = "none"; }}>
-                Shop All 20 Products
+                Shop All Products
               </a>
               <a href="#products" onClick={() => setActiveCategory("Gift Boxes")}
                 className="font-body text-xs tracking-widest uppercase border border-white/30 text-white px-8 py-4"
@@ -1223,7 +1172,7 @@ export default function ExecutiveGiftPage() {
 
           {/* Hero image mosaic with 3D depth stagger */}
           <div className="hidden md:grid grid-cols-2 gap-3">
-            {[products[12], products[5], products[1], products[8]].map((p, i) => (
+            {heroPicks.map((p, i) => (
               <div key={p.id}
                 className={`overflow-hidden rounded-sm ${i === 0 ? "col-span-2 h-40" : "h-32"}`}
                 style={{
@@ -1278,13 +1227,53 @@ export default function ExecutiveGiftPage() {
         </div>
       </section>
 
+      {/* ══════════ NAVBAR ══════════ */}
+      <nav style={{
+        position: "sticky", top: "64px", zIndex: 30,
+        background: navScrolled ? "rgba(250,248,244,0.98)" : "rgba(250,248,244,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid #e8e4dd",
+        boxShadow: navScrolled ? "0 2px 24px rgba(28,43,30,0.06)" : "none",
+        transition: "background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease",
+      }}>
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+          {/* Logo */}
+          <div className="flex-shrink-0 logo-reveal">
+            <span className="font-display text-xl tracking-widest text-[#1c2b1e]">ATELIER</span>
+            <span className="font-body text-xs tracking-[0.3em] text-[#8c8880] ml-2 uppercase hidden sm:inline">Gifted</span>
+          </div>
+          {/* Search */}
+          <div className="flex-1 max-w-xs hidden md:flex items-center border border-[#e8e4dd] bg-white px-4 py-2 gap-2"
+            style={{ animation: "navCascade 0.5s ease 0.9s both", transition: "border-color 0.2s, box-shadow 0.2s" }}
+            onFocus={e => (e.currentTarget.style.boxShadow = "0 0 0 2px rgba(200,169,110,0.25)")}
+            onBlur={e => (e.currentTarget.style.boxShadow = "none")}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8880" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search gifts..." value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="flex-1 font-body text-xs text-[#1c2b1e] bg-transparent outline-none placeholder-[#8c8880]" />
+          </div>
+          {/* Links */}
+          <div className="flex items-center gap-5">
+            <div className="hidden md:flex gap-5 font-body text-xs tracking-widest uppercase text-[#8c8880]">
+              {["Shop", "Reviews"].map((link, i) => (
+                <a key={link} href={link === "Shop" ? "#products" : "#testimonials"}
+                  className="nav-link hover:text-[#1c2b1e] transition-colors"
+                  style={{ animation: `navCascade 0.5s ease ${0.7 + i * 0.1}s both` }}>
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* ══════════ CATEGORY BANNERS ══════════ */}
       <section ref={bannersRef} className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-5 gap-4">
         {[
-          { cat: "Journals", img: products[0].image, span: "md:col-span-2" },
-          { cat: "Organic Teas", img: products[4].image, span: "md:col-span-1" },
-          { cat: "Ceramics", img: products[8].image, span: "md:col-span-1" },
-          { cat: "Gift Boxes", img: products[12].image, span: "md:col-span-1" },
+          { cat: "Cork Collection", img: productImage("cork-diary"), span: "md:col-span-2" },
+          { cat: "Recycled Paper", img: productImage("paper-pencil"), span: "md:col-span-1" },
+          { cat: "Candles", img: productImage("soy-wax-diyas"), span: "md:col-span-1" },
+          { cat: "Gift Boxes", img: productImage("gift-box-2-jar"), span: "md:col-span-1" },
         ].map((b, i) => (
           <button key={b.cat}
             onClick={() => { setActiveCategory(b.cat); document.getElementById("products")?.scrollIntoView({ behavior: "smooth" }); }}
@@ -1330,16 +1319,6 @@ export default function ExecutiveGiftPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <select value={sortBy} onChange={e => setSortBy(e.target.value)}
-              className="font-body text-xs text-[#1c2b1e] border border-[#e8e4dd] px-3 py-2 bg-white outline-none"
-              style={{ transition: "border-color 0.2s" }}
-              onFocus={e => (e.currentTarget.style.borderColor = "#c8a96e")}
-              onBlur={e => (e.currentTarget.style.borderColor = "#e8e4dd")}>
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low → High</option>
-              <option value="price-desc">Price: High → Low</option>
-              <option value="rating">Top Rated</option>
-            </select>
             <span className="font-body text-xs text-[#8c8880]">{filtered.length} products</span>
           </div>
         </div>
@@ -1364,12 +1343,10 @@ export default function ExecutiveGiftPage() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filtered.map((product, idx) => (
-              <ProductCard key={product.id} product={product} index={idx}
-                onQuickView={setQuickView}
-                onWishlist={toggleWishlist}
-                onAddToCart={addToCart}
-                wishlisted={wishlist.includes(product.id)} />
+            {filtered.map((item, idx) => (
+              <SignatureCard key={item.id} item={item} index={idx}
+                onOpenGallery={setGallery}
+                onOrder={i => orderProduct({ name: i.name, category: i.category, image: i.image })} />
             ))}
           </div>
         )}

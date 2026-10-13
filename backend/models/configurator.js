@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const configuratorSchema = new mongoose.Schema({
   occasion: String,
+  product: String,
   budget: String,
   quantity: String,
   branding: String,
