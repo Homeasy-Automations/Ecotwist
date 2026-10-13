@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 import { createPortal } from "react-dom";
 import type { OrderProduct } from "./Configurator";
@@ -827,7 +827,11 @@ function DesignGallery({ item, onClose, onOrder }: {
 // ── Main Component ─────────────────────────────────────────────────────────
 export default function ExecutiveGiftPage() {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState("All");
+  const location = useLocation();
+  // A link such as /products?category=Candles opens the page on that tab
+  const linkedCategory = new URLSearchParams(location.search).get("category");
+  const [activeCategory, setActiveCategory] = useState(() =>
+    linkedCategory && categories.includes(linkedCategory) ? linkedCategory : "All");
   const [gallery, setGallery] = useState<SignatureItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [navScrolled, setNavScrolled] = useState(false);
@@ -844,6 +848,17 @@ export default function ExecutiveGiftPage() {
     const t3 = setTimeout(() => { setHeroVisible(true); setCursorVisible(true); }, 400);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
+
+  // ...and scrolls to the product grid once the intro has played, keeping the
+  // tabs clear of the site navbar and this page's sticky bar (64px each)
+  useEffect(() => {
+    if (!linkedCategory) return;
+    const t = setTimeout(() => {
+      const grid = document.getElementById("products");
+      if (grid) window.scrollTo({ top: grid.getBoundingClientRect().top + window.scrollY - 128, behavior: "smooth" });
+    }, 1700);
+    return () => clearTimeout(t);
+  }, [linkedCategory]);
 
   // Scroll watcher
   useEffect(() => {

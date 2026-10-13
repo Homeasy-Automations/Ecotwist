@@ -111,7 +111,7 @@ export const Footer = () => {
               <h5 className="font-bold mb-6 uppercase tracking-widest text-[10px] text-brand-olive">Solutions</h5>
               <ul className="space-y-4 text-sm text-gray-400">
                 <li><Link to="/solutions" className="hover:text-white transition-colors">Custom Bundles</Link></li>
-                <li><Link to="/consult" className="hover:text-white transition-colors">Eco-Consultancy</Link></li>
+                <li><Link to="/contact" className="hover:text-white transition-colors">Eco-Consultancy</Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">White-Label</a></li>
                 <li><Link to="/impact" className="hover:text-white transition-colors">Impact Reports</Link></li>
               </ul>

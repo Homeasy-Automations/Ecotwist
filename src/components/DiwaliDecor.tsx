@@ -247,6 +247,112 @@ export function ToranGreeting({ top = 64, left = "64%" }: { top?: number; left?:
   );
 }
 
+/* ── Akash kandil (hanging star lantern) ────────────────────── */
+
+const KANDIL_COLORS = { rani: ["#DB2777", "#F97316"], marigold: ["#F59E0B", "#DC2626"] };
+
+export function Kandil({ className = "", style, string = 60, width = 56, delay = 0, palette = "rani" }: {
+  className?: string; style?: React.CSSProperties; string?: number; width?: number; delay?: number;
+  palette?: keyof typeof KANDIL_COLORS;
+}) {
+  const id = svgId(useId());
+  const [top, bottom] = KANDIL_COLORS[palette];
+
+  return (
+    <div aria-hidden className={`pointer-events-none ${className}`} style={style}>
+      <div className="dw-sway flex flex-col items-center" style={{ animationDuration: "5.5s", animationDelay: `${-delay}s` }}>
+        <span className="w-px bg-[#E9C46A]/70" style={{ height: string }} />
+        <svg viewBox="0 0 60 112" width={width} className="overflow-visible">
+          <defs>
+            <radialGradient id={`${id}-glow`}>
+              <stop offset="0" stopColor="#FFB347" stopOpacity={0.7} />
+              <stop offset="1" stopColor="#FFB347" stopOpacity={0} />
+            </radialGradient>
+            <linearGradient id={`${id}-body`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={top} />
+              <stop offset="1" stopColor={bottom} />
+            </linearGradient>
+          </defs>
+          <circle className="dw-glow" cx={30} cy={40} r={42} fill={`url(#${id}-glow)`} />
+          <rect x={24} y={0} width={12} height={5} rx={1.5} fill="#E9C46A" />
+          <polygon points="30,5 54,22 54,56 30,73 6,56 6,22" fill={`url(#${id}-body)`} stroke="#E9C46A" strokeWidth={1.6} />
+          <path d="M30 5 V73 M6 22 L54 56 M54 22 L6 56" stroke="#E9C46A" strokeWidth={0.8} opacity={0.6} />
+          <path d="M30 25 L39 41 H21 Z M30 47 L21 31 H39 Z" fill="#FFE8A3" opacity={0.95} />
+          <circle cx={30} cy={36} r={3} fill="#fff" opacity={0.9} />
+          {[-10, -5, 0, 5, 10].map((dx, i) => (
+            <path key={dx} d={`M30 73 Q${30 + dx * 0.6} 88 ${30 + dx} 108`} stroke={i % 2 ? "#E9C46A" : top}
+              strokeWidth={2.2} fill="none" strokeLinecap="round" />
+          ))}
+          <circle cx={30} cy={75} r={2.6} fill="#E9C46A" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ── Falling marigold & rose petals ─────────────────────────── */
+
+// Seeded random numbers, so scattered decorations keep the same places on every render
+export const seeded = (seed: number) => () => {
+  seed = (seed + 0x6d2b79f5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
+const petalRand = seeded(7);
+const PETAL_COLORS = ["#F97316", "#FBBF24", "#DB2777", "#F59E0B"];
+const PETALS = Array.from({ length: 24 }, (_, i) => ({
+  left: petalRand() * 100,
+  size: 8 + petalRand() * 8,
+  duration: 10 + petalRand() * 8,
+  delay: -petalRand() * 18,
+  drift: (petalRand() - 0.5) * 140,
+  rotate: petalRand() * 360,
+  color: PETAL_COLORS[i % PETAL_COLORS.length],
+}));
+
+export function PetalShower({ count = 18, className = "" }: { count?: number; className?: string }) {
+  return (
+    <div aria-hidden className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+      {PETALS.slice(0, count).map((p, i) => (
+        <span
+          key={i}
+          className="dw-petal absolute top-0"
+          style={{
+            left: `${p.left}%`, animationDuration: `${p.duration}s`, animationDelay: `${p.delay}s`,
+            "--dw-drift": `${p.drift}px`,
+          } as React.CSSProperties}
+        >
+          <svg width={p.size} height={p.size * 1.4} viewBox="0 0 10 14" style={{ transform: `rotate(${p.rotate}deg)` }}>
+            <path d="M5 0 C9 4 9 10 5 14 C1 10 1 4 5 0 Z" fill={p.color} opacity={0.85} />
+          </svg>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/* ── Jaali (lattice) pattern ────────────────────────────────── */
+
+/** Gold jaali pattern laid over the dark festive backgrounds. */
+export function Jaali({ opacity = 0.07 }: { opacity?: number }) {
+  const id = svgId(useId());
+  return (
+    <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" style={{ opacity }}>
+      <defs>
+        <pattern id={id} width={56} height={56} patternUnits="userSpaceOnUse">
+          <rect x={16} y={16} width={24} height={24} fill="none" stroke="#E9C46A" strokeWidth={1} />
+          <rect x={16} y={16} width={24} height={24} fill="none" stroke="#E9C46A" strokeWidth={1} transform="rotate(45 28 28)" />
+          <circle cx={28} cy={28} r={4} fill="none" stroke="#E9C46A" strokeWidth={1} />
+          {[[0, 0], [56, 0], [0, 56], [56, 56]].map(([x, y]) => <circle key={`${x}-${y}`} cx={x} cy={y} r={2.5} fill="#E9C46A" />)}
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#${id})`} />
+    </svg>
+  );
+}
+
 /* ── Diyas ──────────────────────────────────────────────────── */
 
 export function Diya({ className = "", delay = 0 }: { className?: string; delay?: number }) {

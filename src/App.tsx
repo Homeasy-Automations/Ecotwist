@@ -6,6 +6,9 @@ import { AnalyticsTracker } from './lib/analytics';
 
 // ── Core pages (default exports) ──────────────────────
 import { Home } from "./pages/Home";
+import DiwaliHome from "./pages/DiwaliHome";
+import { DiwaliFooter } from './components/DiwaliFooter';
+import { showDiwaliHome, showDiwaliFooter } from "./config/homepage";
 import Contact      from './pages/Contact';
 import { Solutions } from "./pages/Solutions";
 import Configurator from './pages/Configurator';
@@ -59,7 +62,8 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
 
         {/* ── Core routes ── */}
-        <Route path="/"             element={<PageWrapper><Home /></PageWrapper>} />
+        {/* "/" shows the Diwali home page or the regular one: switch in src/config/homepage.ts */}
+        <Route path="/"             element={<PageWrapper>{showDiwaliHome() ? <DiwaliHome /> : <Home />}</PageWrapper>} />
         <Route path="/contact"      element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/solutions"    element={<PageWrapper><Solutions /></PageWrapper>} />
         <Route path="/configurator" element={<PageWrapper><Configurator /></PageWrapper>} />
@@ -104,7 +108,8 @@ export default function App() {
         <main className="flex-grow">
           <AnimatedRoutes />
         </main>
-        <Footer />
+        {/* Diwali footer or the regular one: switch in src/config/homepage.ts */}
+        {showDiwaliFooter() ? <DiwaliFooter /> : <Footer />}
       </div>
     </Router>
   );
