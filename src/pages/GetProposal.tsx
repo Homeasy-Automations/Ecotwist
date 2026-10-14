@@ -145,12 +145,15 @@ const stepContent: any = {
   },
 };
 
-const images: any = {
-  1: ['https://images.unsplash.com/photo-1513201099705-a9746e1e201f', 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da'],
-  2: ['https://images.unsplash.com/photo-1454165804606-c3d57bc86b40', 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e'],
-  3: ['https://images.unsplash.com/photo-1521791136064-7986c2920216', 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f'],
-  4: ['https://images.unsplash.com/photo-1556740738-b6a63e27c4df', 'https://images.unsplash.com/photo-1607082349566-187342175e2f'],
-  5: ['https://images.unsplash.com/photo-1556740738-b6a63e27c4df', 'https://images.unsplash.com/photo-1607082349566-187342175e2f'],
+// Regular photos beside each step; an active festival with its own images
+// (src/config/festival.ts) shows those instead
+const unsplash = (id: string) => `https://images.unsplash.com/${id}?q=80&w=900&auto=format&fit=crop`;
+const images: Record<number, [string, string]> = {
+  1: [unsplash('photo-1513201099705-a9746e1e201f'), unsplash('photo-1607082348824-0a96f2a4b9da')],
+  2: [unsplash('photo-1454165804606-c3d57bc86b40'), unsplash('photo-1579621970563-ebec7560ff3e')],
+  3: [unsplash('photo-1521791136064-7986c2920216'), unsplash('photo-1522202176988-66273c2fd55f')],
+  4: [unsplash('photo-1556740738-b6a63e27c4df'), unsplash('photo-1607082349566-187342175e2f')],
+  5: [unsplash('photo-1556740738-b6a63e27c4df'), unsplash('photo-1607082349566-187342175e2f')],
 };
 
 const quotes: any = {
@@ -268,7 +271,7 @@ export const GetProposal = () => {
   const options  = step === 1 && activeFestival
     ? [{ title: activeFestival.title, desc: activeFestival.desc, festival: activeFestival }, ...content.data]
     : content?.data;
-  const [img1, img2] = images[step];
+  const [img1, img2] = activeFestival?.images?.[step as 1 | 2 | 3 | 4 | 5] ?? images[step];
   const quote    = quotes[step];
 
   async function submitProposal(data: any) {
@@ -644,7 +647,7 @@ export const GetProposal = () => {
                 }}>0{step} / Gift</span>
 
                 <img
-                  src={`${img1}?q=80&w=900&auto=format&fit=crop`}
+                  src={img1}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{ filter:'grayscale(15%) contrast(1.04)', transition:'filter .9s ease, transform .8s ease' }}
@@ -670,7 +673,7 @@ export const GetProposal = () => {
                 }}>Editorial</span>
 
                 <img
-                  src={`${img2}?q=80&w=900&auto=format&fit=crop`}
+                  src={img2}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{ filter:'grayscale(15%) contrast(1.04)', transition:'filter .9s ease, transform .8s ease' }}

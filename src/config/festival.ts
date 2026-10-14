@@ -7,6 +7,9 @@
 
    Links to /get-proposal?occasion=festival open the form with the active
    festival already selected.
+
+   A festival with `images` also replaces the two photos beside each step of
+   the form; without them the regular photos show.
 ============================ */
 
 export interface Festival {
@@ -16,7 +19,11 @@ export interface Festival {
   icon: string;
   accent: [string, string]; // gradient for the card's border and badge
   tint: string;             // card background
+  images?: Record<1 | 2 | 3 | 4 | 5, [string, string]>; // photos beside steps 1–5
 }
+
+// Web-sized Diwali artwork lives in /public/diwali-home
+const diwaliPhoto = (file: string) => `/diwali-home/${file}`;
 
 export const FESTIVALS = {
   diwali: {
@@ -26,6 +33,13 @@ export const FESTIVALS = {
     icon: "🪔",
     accent: ["#F59E0B", "#B45309"],
     tint: "#FFF8EB",
+    images: {
+      1: [diwaliPhoto("hero-hamper.webp"), diwaliPhoto("workplace.webp")],              // Occasion
+      2: [diwaliPhoto("proposal-luxury.webp"), diwaliPhoto("hamper-gourmet.webp")],     // Budget
+      3: [diwaliPhoto("proposal-portfolio.webp"), diwaliPhoto("proposal-office.webp")], // Quantity
+      4: [diwaliPhoto("proposal-branding.webp"), diwaliPhoto("proposal-packaging.webp")], // Branding
+      5: [diwaliPhoto("hamper-executive.webp"), diwaliPhoto("hamper-client.webp")],     // Your details
+    },
   },
   holi: {
     title: "Holi Gifting",
