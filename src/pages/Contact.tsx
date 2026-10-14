@@ -23,10 +23,9 @@ interface ContactFormData {
 type ContactFormErrors = Record<FieldId, string>;
 type ContactFormTouched = Record<FieldId, boolean>;
 
-type SubmissionKind = 'consultation' | 'call';
 type SubmissionStatus =
   | { state: 'idle' }
-  | { state: 'loading'; kind: SubmissionKind };
+  | { state: 'loading' };
 
 interface ApiResponse {
   success: boolean;
@@ -407,10 +406,7 @@ const EMPTY_ERRORS: ContactFormErrors = { name: '', company: '', email: '', phon
 const EMPTY_TOUCHED: ContactFormTouched = { name: false, company: false, email: false, phone: false, interest: false, message: false };
 
 /* ── API CALL — local persistence (unchanged) ── */
-async function submitContactForm(
-  data: ContactFormData,
-  kind: SubmissionKind
-): Promise<ApiResponse> {
+async function submitContactForm(data: ContactFormData): Promise<ApiResponse> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000); // 15s safety timeout
@@ -423,7 +419,7 @@ async function submitContactForm(
       signal: controller.signal,
       body: JSON.stringify({
         ...data,
-        type: kind,
+        type: "consultation",
         submittedAt: new Date().toISOString(),
         submissionId: `ECO-${Date.now()}`, // optional but recommended
       }),
@@ -514,15 +510,15 @@ export const Contact = () => {
   };
 
   // Sumedha-style flow: validate → stay silent on failure (inline errors show) → submit → alert
-  const submit = async (kind: SubmissionKind) => {
+  const submit = async () => {
     if (status.state === 'loading') return; // guard against double-submits
 
     const ok = runValidation();
     if (!ok) return;
 
-    setStatus({ state: 'loading', kind });
+    setStatus({ state: 'loading' });
     try {
-      const result = await submitContactForm(formData, kind);
+      const result = await submitContactForm(formData);
       setStatus({ state: 'idle' });
       alert(result.message);
       resetForm();
@@ -535,16 +531,10 @@ export const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    submit('consultation');
-  };
-
-  const handleScheduleCall = () => {
-    submit('call');
+    submit();
   };
 
   const isLoading = status.state === 'loading';
-  const isConsultationLoading = isLoading && status.kind === 'consultation';
-  const isCallLoading = isLoading && status.kind === 'call';
 
   return (
     <div className="bg-brand-off-white overflow-x-hidden">
@@ -759,40 +749,24 @@ export const Contact = () => {
                       />
                     </motion.div>
 
-                    {/* CTA row — submit button restyled to match Sumedha's exactly */}
+                    {/* Submit */}
                     <motion.div
                       initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.45, delay: 1.5 }}
-                      className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6"
+                      className="pt-4"
                     >
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full sm:w-auto px-8 py-4 bg-brand-olive text-white font-semibold rounded-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto px-10 py-4 bg-brand-olive text-white font-semibold rounded-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                       >
-                        {isConsultationLoading ? (
+                        {isLoading ? (
                           <div className="flex items-center justify-center gap-2">
                             <span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span>
                             <span>Submitting...</span>
                           </div>
                         ) : (
-                          "Request Consultation"
-                        )}
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={handleScheduleCall}
-                        disabled={isLoading}
-                        className="px-8 py-4 border border-brand-olive text-brand-olive font-semibold rounded-md cursor-pointer bg-transparent disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        {isCallLoading ? (
-                          <div className="flex items-center gap-2">
-                            <span className="w-4 h-4 rounded-full border-2 border-brand-olive/40 border-t-brand-olive animate-spin"></span>
-                            <span>Scheduling...</span>
-                          </div>
-                        ) : (
-                          "Schedule a Call"
+                          "Submit"
                         )}
                       </button>
                     </motion.div>
