@@ -385,7 +385,7 @@ function MegaMenu({
 
             <motion.div whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400, damping: 22 }}>
               <Link
-                to="/configurator"
+                to="/get-proposal"
                 onClick={onClose}
                 className="inline-flex items-center gap-1.5 text-sm font-bold"
                 style={{ color: '#b5a26a', textDecoration: 'none' }}
@@ -542,7 +542,7 @@ export const Navbar = () => {
               className="hidden sm:block"
             >
               <Link
-                to="/configurator"
+                to="/get-proposal"
                 onClick={handleClose}
                 className="px-6 py-2.5 text-[13px] font-bold uppercase tracking-widest transition-all duration-300"
                 style={{
@@ -684,7 +684,7 @@ export const Navbar = () => {
               ))}
 
               <Link
-                to="/configurator"
+                to="/get-proposal"
                 onClick={handleClose}
                 className="mt-2 px-6 py-3.5 text-center text-xs font-bold uppercase tracking-widest rounded-sm"
                 style={{ background: '#444f36', color: 'white', textDecoration: 'none' }}

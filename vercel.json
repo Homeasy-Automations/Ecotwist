@@ -1,3 +1,4 @@
 {
+  "redirects": [{ "source": "/configurator", "destination": "/get-proposal", "permanent": true }],
   "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }

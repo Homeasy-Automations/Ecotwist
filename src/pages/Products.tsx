@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 import { createPortal } from "react-dom";
-import type { OrderProduct } from "./Configurator";
+import type { OrderProduct } from "./GetProposal";
 import { BookOpen, PenLine, KeyRound, CalendarDays, NotebookPen, Flame, Gift, Package, ShoppingBasket, ChevronLeft, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -879,7 +879,7 @@ export default function ExecutiveGiftPage() {
   }, [gallery]);
 
   // Order buttons open the proposal form with this product pre-selected
-  const orderProduct = (product: OrderProduct) => navigate("/configurator", { state: { product } });
+  const orderProduct = (product: OrderProduct) => navigate("/get-proposal", { state: { product } });
 
   const filtered = signatureRange
     .filter(i => activeCategory === "All" || i.category === activeCategory)
@@ -1532,7 +1532,7 @@ export default function ExecutiveGiftPage() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center"
             style={{ opacity: ctaVisible ? 1 : 0, transform: ctaVisible ? "translateY(0)" : "translateY(16px)", transition: "opacity 0.6s ease 0.45s, transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.45s" }}>
-            <RippleBtn onClick={() => navigate("/configurator")}
+            <RippleBtn onClick={() => navigate("/get-proposal")}
               className="font-body text-xs tracking-widest uppercase bg-[#c8a96e] text-[#1c2b1e] px-10 py-4 hover:bg-[#b89558] font-medium">
               Request a Proposal
             </RippleBtn>

@@ -997,7 +997,7 @@ export default function EmployeeWellness() {
             <motion.button
               whileHover={{ scale:1.06, y:-3, boxShadow:'0 18px 40px rgba(45,67,55,0.35)' }}
               whileTap={{ scale:0.96 }}
-              onClick={()=>window.location.href='/configurator'}
+              onClick={()=>window.location.href='/get-proposal'}
               transition={{ type:'spring', stiffness:300, damping:18 }}
               className="text-white font-bold uppercase tracking-[0.2em] text-xs px-14 py-6 rounded-full shadow-xl"
               style={{ background:'#2d4337', border:'none', cursor:'pointer', fontFamily:'inherit' }}>

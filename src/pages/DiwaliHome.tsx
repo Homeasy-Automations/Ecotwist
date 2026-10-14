@@ -282,7 +282,7 @@ function Hero() {
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/configurator?occasion=festival"
+              to="/get-proposal?occasion=festival"
               className="inline-flex items-center justify-center rounded-full border border-[#E9C46A]/60 px-8 py-4 font-medium text-[#F6D27A] transition-colors hover:bg-white/5"
             >
               Get Proposal
@@ -577,7 +577,7 @@ function Workplace() {
 
           <motion.div variants={fadeUp} className="mt-8">
             <Link
-              to="/configurator?occasion=festival"
+              to="/get-proposal?occasion=festival"
               className="group inline-flex items-center gap-3 rounded-full bg-[#5c1027] px-8 py-4 font-medium text-white transition-colors hover:bg-[#2a0a1c]"
             >
               Plan your Diwali gifting
@@ -669,7 +669,7 @@ function Process() {
 
       <div className="mt-14 text-center">
         <Link
-          to="/configurator?occasion=festival"
+          to="/get-proposal?occasion=festival"
           className="group inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#E9C46A] px-8 py-4 font-semibold text-[#2a0a1c] shadow-[0_12px_40px_-14px_rgba(245,158,11,.8)]"
         >
           Start your brief
@@ -730,7 +730,7 @@ function FinalCta() {
             Download Diwali Catalogue
           </a>
           <Link
-            to="/configurator?occasion=festival"
+            to="/get-proposal?occasion=festival"
             className="inline-flex items-center gap-3 rounded-full border border-[#E9C46A]/60 px-8 py-4 font-medium text-[#F6D27A] transition-colors hover:bg-white/5"
           >
             Get Proposal

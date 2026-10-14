@@ -1274,7 +1274,7 @@ export default function AwardRecognition() {
             <motion.button
               whileHover={{ scale: 1.06, y: -3, boxShadow: '0 18px 40px rgba(196,162,58,0.35)' }}
               whileTap={{ scale: 0.96 }} transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-              onClick={() => window.location.href = '/configurator'}
+              onClick={() => window.location.href = '/get-proposal'}
               className="text-white font-bold uppercase tracking-[0.2em] text-xs px-14 py-6 rounded-full shadow-xl"
               style={{ background: ACCENT, border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
               Get Started

@@ -1387,7 +1387,7 @@ export default function EventsConferences() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={ctaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }} transition={{ duration: 0.6, delay: 0.28 }} className="flex flex-col sm:flex-row justify-center gap-6">
             <motion.button
               whileHover={{ scale: 1.06, y: -3, boxShadow: '0 18px 40px rgba(68,79,54,0.3)' }}
-              onClick={() => (window.location.href = '/configurator')}
+              onClick={() => (window.location.href = '/get-proposal')}
               whileTap={{ scale: 0.96 }}
               transition={{ type: 'spring', stiffness: 300, damping: 18 }}
               className="text-white font-bold uppercase tracking-[0.2em] text-xs px-14 py-6 shadow-xl rounded-lg"

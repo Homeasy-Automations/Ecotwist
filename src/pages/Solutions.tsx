@@ -844,7 +844,7 @@ const cards = occasionData.map((item) => ({
           <motion.div
             initial={{ y: 22, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            onClick={() => window.location.href = '/configurator'}
+            onClick={() => window.location.href = '/get-proposal'}
             viewport={{ once: false }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >

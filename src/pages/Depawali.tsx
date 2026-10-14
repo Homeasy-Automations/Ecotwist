@@ -2362,7 +2362,7 @@ export default function DiwaliGifting() {
                 whileTap={{
                   scale: .97,
                 }}
-                onClick={() => navigate("/configurator")}
+                onClick={() => navigate("/get-proposal")}
 
                 className="bg-brand-gold text-brand-charcoal px-8 py-4 rounded-full font-semibold flex items-center gap-3"
 

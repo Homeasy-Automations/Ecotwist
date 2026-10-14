@@ -942,7 +942,7 @@ export const Home = () => {
             </motion.button>
             <motion.button
               whileHover={{ y: -3 }}
-              onClick={() => window.location.href = '/configurator'}
+              onClick={() => window.location.href = '/get-proposal'}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               className="text-brand-charcoal uppercase tracking-[0.2em] text-xs font-bold border-b-2 border-brand-charcoal/20 hover:border-brand-olive transition-all pb-1 self-center"
             >

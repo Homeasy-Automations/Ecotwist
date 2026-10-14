@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { AnalyticsTracker } from './lib/analytics';
@@ -11,7 +11,7 @@ import { DiwaliFooter } from './components/DiwaliFooter';
 import { showDiwaliHome, showDiwaliFooter } from "./config/homepage";
 import Contact      from './pages/Contact';
 import { Solutions } from "./pages/Solutions";
-import Configurator from './pages/Configurator';
+import GetProposal  from './pages/GetProposal';
 import Impact       from './pages/Impact';
 import  ThankYou  from './pages/ThankYou';
 
@@ -66,7 +66,9 @@ const AnimatedRoutes = () => {
         <Route path="/"             element={<PageWrapper>{showDiwaliHome() ? <DiwaliHome /> : <Home />}</PageWrapper>} />
         <Route path="/contact"      element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/solutions"    element={<PageWrapper><Solutions /></PageWrapper>} />
-        <Route path="/configurator" element={<PageWrapper><Configurator /></PageWrapper>} />
+        <Route path="/get-proposal" element={<PageWrapper><GetProposal /></PageWrapper>} />
+        {/* Old address of the proposal form: forward it, keeping any ?occasion=… */}
+        <Route path="/configurator" element={<Navigate to={{ pathname: '/get-proposal', search: location.search }} state={location.state} replace />} />
         <Route path="/impact"       element={<PageWrapper><Impact /></PageWrapper>} />
         <Route path="/product"      element={<PageWrapper><ProductList /></PageWrapper>} />
         <Route path="/thanks"      element={<PageWrapper><ThankYou /></PageWrapper>} /> 

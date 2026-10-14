@@ -18,7 +18,7 @@ function getRouteMetadata(route) {
   if (route === '/') {
     return { priority: '1.0', changefreq: 'weekly' };
   }
-  if (['/solutions', '/products', '/configurator'].includes(route)) {
+  if (['/solutions', '/products', '/get-proposal'].includes(route)) {
     return { priority: '0.9', changefreq: 'weekly' };
   }
   if (route.startsWith('/occasions/')) {
@@ -51,7 +51,8 @@ function extractRoutesFromApp() {
   let match;
 
   // Non-indexable or private paths to exclude
-  const excludedPaths = new Set(['/thanks', '*', '/*']);
+  // '/configurator' is the old address of /get-proposal and only redirects
+  const excludedPaths = new Set(['/thanks', '/configurator', '*', '/*']);
 
   while ((match = routeRegex.exec(content)) !== null) {
     const rawPath = match[1].trim();

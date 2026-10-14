@@ -184,7 +184,7 @@ const productStepContent = {
 };
 
 
-export const Configurator = () => {
+export const GetProposal = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -197,7 +197,7 @@ export const Configurator = () => {
   React.useEffect(() => { window.scrollTo(0, 0); }, []);
   const [contentKey, setContentKey] = React.useState(0);   // drives re-mount of content only
 
-  // /configurator?occasion=festival opens with the festival option (src/config/festival.ts) selected
+  // /get-proposal?occasion=festival opens with the festival option (src/config/festival.ts) selected
   const festivalLinked = !!activeFestival && new URLSearchParams(location.search).get('occasion') === 'festival';
   const [selected, setSelected]   = React.useState<Record<number,string>>({
     1: festivalLinked ? activeFestival!.title : 'Employee Appreciation', 2: '₹100 - ₹500', 3: '50 - 100', 4: 'Logo Print',
@@ -271,7 +271,7 @@ export const Configurator = () => {
   const [img1, img2] = images[step];
   const quote    = quotes[step];
 
-  async function submitConfigurator(data: any) {
+  async function submitProposal(data: any) {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/configurator`,
       {
@@ -598,7 +598,7 @@ export const Configurator = () => {
                       };
 
                       try {
-                        const result = await submitConfigurator(configurator);
+                        const result = await submitProposal(configurator);
 
                         if (result.success) {
                           navigate("/thanks", {
@@ -702,4 +702,4 @@ export const Configurator = () => {
   );
 };
 
-export default Configurator;
+export default GetProposal;

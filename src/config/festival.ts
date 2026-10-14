@@ -1,11 +1,11 @@
 /* ============================
-   Festival option on the Get Proposal page (/configurator)
+   Festival option on the Get Proposal page (/get-proposal)
 
    ACTIVE_FESTIVAL picks the festival shown as the highlighted first option in
    step 1 (Occasion). Change it for the next festival, or set it to null to
    hide the option. Edit a preset (or add one) to change its wording.
 
-   Links to /configurator?occasion=festival open the form with the active
+   Links to /get-proposal?occasion=festival open the form with the active
    festival already selected.
 ============================ */
 

@@ -1604,7 +1604,7 @@ export default function EmployeeOnboarding() {
             transition={{ duration: 0.62, delay: 0.30 }}
             className="flex flex-col sm:flex-row justify-center items-center gap-7">
 
-            <MagneticButton onClick={() => window.location.href = '/configurator'}
+            <MagneticButton onClick={() => window.location.href = '/get-proposal'}
               className="bg-brand-dark-olive text-white px-14 py-6 rounded-sm uppercase tracking-[0.2em] text-xs font-bold shadow-xl">
               Get Started
             </MagneticButton>
