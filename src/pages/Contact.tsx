@@ -670,19 +670,21 @@ export const Contact = () => {
             className="lg:col-span-7 relative mt-12 lg:mt-0"
             style={{ perspective: '1400px' }}
           >
-            {/* Float — same as Hero image */}
-            <motion.div style={{ y: floatY, rotateZ: floatRotZ, rotateX: 1, transformStyle: 'preserve-3d', willChange: 'transform' }}>
+            {/* Float — same as Hero image.
+                Click-through: when the card below tilts, half of it dips behind this
+                layer in 3D, which would otherwise swallow clicks on the form. */}
+            <motion.div style={{ y: floatY, rotateZ: floatRotZ, rotateX: 1, transformStyle: 'preserve-3d', willChange: 'transform', pointerEvents: 'none' }}>
 
-              {/* Sweep-reveal mask — identical to Hero image */}
+              {/* Sweep-reveal mask — identical to Hero image (decorative, so clicks pass through) */}
               <motion.div
                 initial={{ scaleX: 1 }} animate={{ scaleX: 0 }}
                 transition={{ duration: 0.9, delay: 0.55, ease: [0.76, 0, 0.24, 1] }}
-                style={{ position: 'absolute', inset: 0, backgroundColor: '#b5a26a', transformOrigin: 'right', zIndex: 30, borderRadius: 2 }}
+                style={{ position: 'absolute', inset: 0, backgroundColor: '#b5a26a', transformOrigin: 'right', zIndex: 30, borderRadius: 2, pointerEvents: 'none' }}
               />
 
-              {/* 3D tilt + live glare */}
+              {/* 3D tilt + live glare (the form card itself takes clicks again) */}
               <motion.div ref={tiltRef} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}
-                style={{ rotateX: springX, rotateY: springY, transformStyle: 'preserve-3d', willChange: 'transform' }}
+                style={{ rotateX: springX, rotateY: springY, transformStyle: 'preserve-3d', willChange: 'transform', pointerEvents: 'auto' }}
                 className="bg-white rounded-sm shadow-2xl border border-gray-100 overflow-visible relative"
               >
                 <motion.div className="absolute inset-0 pointer-events-none z-10" style={{ background: glareStyle }} />
