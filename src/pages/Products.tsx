@@ -33,8 +33,8 @@ interface SignatureItem {
   designs?: Design[];     // a range of designs to choose from (opens the design gallery)
 }
 
-// File names contain spaces, so encode them for the URL. encodeURI leaves "+" as is:
-// it is literal in a path, and an encoded %2B is not decoded by every static server.
+// File names contain spaces, so encode them for the URL. Keep "+" out of file names:
+// the live site (Vercel) reads it as a space, while the dev server doesn't decode %2B.
 const productPhoto = (file: string) => encodeURI(`/Products/${file}`);
 const cataloguePhoto = (file: string) => encodeURI(`/catalogue/${file}`);
 
@@ -161,8 +161,8 @@ const emptyGiftBoxes: Design[] = [
 ];
 
 const corkComboDesigns: Design[] = [
-  { name: "Cork Diary + Cork Pen", src: productPhoto("Products/Cork Diary + Cork Pen.png") },
-  { name: "Denim Cork Diary + Cork Pen", src: productPhoto("Products/Combo of Denim Cork Dairy+Cork Pen.png") },
+  { name: "Cork Diary + Cork Pen", src: productPhoto("Cork Diary and Cork Pen.png") },
+  { name: "Denim Cork Diary + Cork Pen", src: productPhoto("Denim Cork Diary and Cork Pen.png") },
 ];
 
 const candleDesigns: Design[] = [
