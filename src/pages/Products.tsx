@@ -161,8 +161,8 @@ const emptyGiftBoxes: Design[] = [
 ];
 
 const corkComboDesigns: Design[] = [
-  { name: "Cork Diary + Cork Pen", src: productPhoto("Combo Of Cork Dairy+Cork Pen.png") },
-  { name: "Denim Cork Diary + Cork Pen", src: productPhoto("Combo of Denim Cork Dairy+Cork Pen.png") },
+  { name: "Cork Diary + Cork Pen", src: productPhoto("Products/Cork Diary + Cork Pen.png") },
+  { name: "Denim Cork Diary + Cork Pen", src: productPhoto("Products/Combo of Denim Cork Dairy+Cork Pen.png") },
 ];
 
 const candleDesigns: Design[] = [
